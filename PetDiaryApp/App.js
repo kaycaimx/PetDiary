@@ -9,7 +9,7 @@ import AddLogScreen from "./screens/AddLogScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  console.log(database);
+  //console.log(database);
   return (
     <NavigationContainer>
       <Stack.Navigator>

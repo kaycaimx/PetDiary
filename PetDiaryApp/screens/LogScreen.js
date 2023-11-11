@@ -1,16 +1,16 @@
-import { Button, View, Text } from "react-native";
+import { Button, Text, SafeAreaView } from "react-native";
 import React from "react";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import PetScreen from "./PetScreen";
 
-const LogScreen = ({ navigation }) => {
-  function pressHandler() {
-    navigation.navigate("Add Log");
-  }
+const TopTab = createMaterialTopTabNavigator();
 
+const LogScreen = () => {
   return (
-    <View>
-      <Text>LogScreen</Text>
-      <Button title="Test" onPress={pressHandler} />
-    </View>
+    <TopTab.Navigator>
+      <TopTab.Screen name="Pet 1" component={PetScreen} />
+      <TopTab.Screen name="Pet 2" component={PetScreen} />
+    </TopTab.Navigator>
   );
 };
 

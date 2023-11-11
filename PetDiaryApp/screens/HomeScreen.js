@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Log" component={LogScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Spot" component={SpotScreen} />
