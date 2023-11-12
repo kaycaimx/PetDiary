@@ -1,8 +1,10 @@
 import { StyleSheet } from "react-native";
 
 const colors = {
-  bottomTabIconFocused: "#e32f45",
-  bottomTabIconUnfocused: "#748c94",
+  backgroundColor: "#F1f5ee",
+  defaultTextColor: "#19204b",
+  bottomTabIconFocused: "#19204b",
+  bottomTabIconUnfocused: "#abaeb6",
 };
 
 const styles = StyleSheet.create({
@@ -12,7 +14,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.backgroundColor,
     alignItems: "center",
   },
 });
