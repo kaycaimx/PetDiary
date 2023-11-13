@@ -5,6 +5,7 @@ import { styles } from "../styles";
 
 const DropdownMenu = ({ pickerMenu, placeHolder, selectHandler }) => {
   const [open, setOpen] = useState(false);
+  const [pickedValue, setPickedValue] = useState("");
 
   return (
     <>
@@ -14,6 +15,8 @@ const DropdownMenu = ({ pickerMenu, placeHolder, selectHandler }) => {
         open={open}
         items={pickerMenu}
         setOpen={setOpen}
+        value={pickedValue}
+        setValue={setPickedValue}
         searchable={true}
         placeholder={placeHolder}
         placeholderStyle={styles.dropdownPlaceholder}
