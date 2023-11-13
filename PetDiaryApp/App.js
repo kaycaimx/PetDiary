@@ -5,6 +5,7 @@ import { database } from "./firebase/firebaseSetup";
 
 import HomeScreen from "./screens/HomeScreen";
 import AddLogScreen from "./screens/AddLogScreen";
+import { colors } from "./styles";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +13,11 @@ export default function App() {
   //console.log(database);
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: colors.backgroundColor },
+        }}
+      >
         <Stack.Screen
           name="Home"
           component={HomeScreen}

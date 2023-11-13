@@ -1,8 +1,9 @@
 import { Button, Text, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import DropdownMenu from "../components/DropdownMenu";
 
 import { activitiesMenu } from "../constants";
+import { styles } from "../styles";
 
 const PetScreen = ({ navigation }) => {
   function pressHandler() {
@@ -14,7 +15,7 @@ const PetScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Text>Pet Screen</Text>
       <DropdownMenu
         pickerMenu={activitiesMenu}
