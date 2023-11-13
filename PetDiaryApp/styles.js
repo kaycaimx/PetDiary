@@ -1,11 +1,14 @@
 import { StyleSheet } from "react-native";
 
 const colors = {
+  avatarBorderColor: "#19204b",
   backgroundColor: "#e9efea",
-  defaultTextColor: "#19204b",
   bottomTabIconFocused: "#19204b",
   bottomTabIconUnfocused: "#abaeb6",
+  defaultTextColor: "#19204b",
   dropdownPlaceholder: "gray",
+  iconDefault: "#323b70",
+  iconPressed: "#caedd0",
   textInputBackgroundColor: "white",
   alertColor: "red",
   buttonBackground: "#004C99",
@@ -34,27 +37,44 @@ const styles = StyleSheet.create({
   dropdownText: {
     color: colors.defaultTextColor,
   },
-
+  homeScreenHeader: {
+    height: 80,
+    backgroundColor: colors.backgroundColor,
+  },
+  iconDefault: {
+    backgroundColor: colors.backgroundColor,
+    marginTop: 10,
+    marginRight: 20,
+    marginLeft: 20,
+  },
+  iconPressed: {
+    backgroundColor: colors.iconPressed,
+    opacity: 0.5,
+  },
   petAvatar: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     borderRadius: 25,
+    borderWidth: 2,
+    borderColor: colors.defaultTextColor,
   },
   petAvatarUnfocused: {
     opacity: 0.5,
+    borderWidth: 0,
   },
   topTabBar: {
     backgroundColor: colors.backgroundColor,
-    paddingTop: 40,
   },
 
   topTabBarLabel: {
     fontSize: 12,
     fontWeight: "bold",
-    paddingTop: 5,
+    paddingTop: 12,
+    paddingLeft: 10,
   },
   topTabBarIndicator: {
-    backgroundColor: colors.defaultTextColor},
+    backgroundColor: colors.defaultTextColor,
+  },
   view: {
     margin: 15,
     marginTop: 30,
@@ -70,9 +90,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
   },
-  buttonContainer: { 
-    flexDirection: "row", 
-    marginTop: 15, 
+  buttonContainer: {
+    flexDirection: "row",
+    marginTop: 15,
     justifyContent: "center",
   },
   button: {

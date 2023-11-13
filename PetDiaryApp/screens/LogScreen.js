@@ -1,4 +1,4 @@
-import { Button, Image, Text, SafeAreaView } from "react-native";
+import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -25,10 +25,17 @@ const LogScreen = () => {
       avatarURI:
         "https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png",
     },
+    {
+      name: "Shellder",
+      id: 3,
+      avatarURI:
+        "https://assets.pokemon.com/assets/cms2/img/pokedex/full/090.png",
+    },
   ];
 
   return (
     <TopTab.Navigator
+      initialLayout={{ width: Dimensions.get("window").width }}
       screenOptions={({ route }) => ({
         tabBarStyle: styles.topTabBar,
         tabBarLabel: ({ focused }) => (
@@ -46,14 +53,7 @@ const LogScreen = () => {
           </Text>
         ),
         tabBarIndicatorStyle: styles.topTabBarIndicator,
-        tabBarGap: 20,
-        headerRight: () => (
-          <Button
-            onPress={() => alert("This is a button!")}
-            title="Info"
-            color={colors.defaultTextColor}
-          />
-        ),
+        tabBarScrollEnabled: true,
       })}
     >
       {samplePets.map((pet) => (

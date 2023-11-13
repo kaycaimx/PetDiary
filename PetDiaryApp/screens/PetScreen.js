@@ -16,7 +16,6 @@ const PetScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Pet Screen</Text>
       <DropdownMenu
         pickerMenu={activitiesMenu}
         placeHolder="🔍Search for activities"
