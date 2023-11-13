@@ -15,7 +15,7 @@ const AddLogScreen = ({ navigation }) => {
   const [location, setLocation] = useState(false);
 
   function selectTypeHanlder(type) {
-    console.log(type);
+    console.log(type["label"]);
     setType(type);
   }
 
@@ -24,7 +24,7 @@ const AddLogScreen = ({ navigation }) => {
       Alert.alert("Invalid input", "Please enter your input.");
     } else {
       const log = {
-        type: type,
+        type: type["label"],
         content: content,
         // photo: photo,
         // location: location,
@@ -37,7 +37,7 @@ const AddLogScreen = ({ navigation }) => {
   const handleCancel = () => {
     // Use navigation.goBack() to return to the previous screen
     navigation.goBack();
-  }
+  };
 
   return (
     <SafeAreaView style={styles.view}>

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const colors = {
   avatarBorderColor: "#19204b",
@@ -9,6 +9,7 @@ const colors = {
   dropdownPlaceholder: "gray",
   iconDefault: "#323b70",
   iconPressed: "#caedd0",
+  logShadow: "#babfbb",
   textInputBackgroundColor: "white",
   alertColor: "red",
   buttonBackground: "#004C99",
@@ -50,6 +51,47 @@ const styles = StyleSheet.create({
   iconPressed: {
     backgroundColor: colors.iconPressed,
     opacity: 0.5,
+  },
+  logEntryWrapperDefault: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    backgroundColor: colors.backgroundColor,
+    shadowColor: colors.logShadow,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 2,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+      },
+      android: {
+        shadowOffset: {
+          width: 2,
+          height: 2,
+        },
+        elevation: 2,
+      },
+    }),
+  },
+  logEntryWrapperPressed: {
+    opacity: 0.5,
+  },
+  logEntryType: {
+    fontSize: 18,
+    color: colors.defaultTextColor,
+  },
+  logEntryTime: {
+    fontStyle: "italic",
+    color: colors.defaultTextColor,
+  },
+  logListWrapper: {
+    width: "90%",
+    marginTop: 20,
+    alignContent: "center",
+    justifyContent: "center",
   },
   petAvatar: {
     height: 40,
