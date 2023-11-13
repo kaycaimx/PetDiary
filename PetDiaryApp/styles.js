@@ -3,6 +3,7 @@ import { Platform, StyleSheet } from "react-native";
 const colors = {
   avatarBorderColor: "#19204b",
   backgroundColor: "#e9efea",
+  bottomTabBackground: "#d1d7d2",
   bottomTabIconFocused: "#19204b",
   bottomTabIconUnfocused: "#abaeb6",
   defaultTextColor: "#19204b",
@@ -17,9 +18,30 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
+  bigAddButton: {
+    // from https://github.com/react-navigation/react-navigation/issues/5126
+    position: "absolute",
+    bottom: -10, // space from bottombar
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bottomTabBar: {
+    backgroundColor: colors.bottomTabBackground,
+    borderTopWidth: 1,
+    position: "relative",
+  },
   bottomTabBarLabel: {
     fontSize: 11,
     fontWeight: "bold",
+  },
+  addButtonContainer: {
+    backgroundColor: "red",
+    position: "absolute",
+    borderRadius: 50,
+    bottom: -20,
   },
   container: {
     flex: 1,
@@ -29,7 +51,7 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     width: "100%",
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 30,
     height: 50,
   },
   dropdownPlaceholder: {
@@ -39,12 +61,16 @@ const styles = StyleSheet.create({
     color: colors.defaultTextColor,
   },
   homeScreenHeader: {
-    height: 80,
+    height: 90,
     backgroundColor: colors.backgroundColor,
+  },
+  homeScreenHeaderTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.defaultTextColor,
   },
   iconDefault: {
     backgroundColor: colors.backgroundColor,
-    marginTop: 10,
     marginRight: 20,
     marginLeft: 20,
   },
@@ -81,6 +107,7 @@ const styles = StyleSheet.create({
   },
   logEntryType: {
     fontSize: 18,
+    fontWeight: "500",
     color: colors.defaultTextColor,
   },
   logEntryTime: {

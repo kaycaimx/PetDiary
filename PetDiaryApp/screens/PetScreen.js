@@ -59,7 +59,6 @@ const PetScreen = ({ navigation, route }) => {
           isSearching={true}
           selectHandler={selectHanlder}
         />
-        <Button title="Add Log" onPress={pressHandler} />
         <FlatList
           data={logList}
           renderItem={({ item }) => (

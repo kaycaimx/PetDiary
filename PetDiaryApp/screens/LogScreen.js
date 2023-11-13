@@ -56,26 +56,29 @@ const LogScreen = () => {
         tabBarScrollEnabled: true,
       })}
     >
-      {samplePets.map((pet) => (
-        <TopTab.Screen
-          name={pet.name}
-          key={pet.id}
-          component={PetScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return <PetAvatar focused={focused} avatarURI={pet.avatarURI} />;
-            },
-          }}
-        />
-      ))}
-      {/* <TopTab.Screen
+      {samplePets &&
+        samplePets.map((pet) => (
+          <TopTab.Screen
+            name={pet.name}
+            key={pet.id}
+            component={PetScreen}
+            options={{
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <PetAvatar focused={focused} avatarURI={pet.avatarURI} />
+                );
+              },
+            }}
+          />
+        ))}
+      <TopTab.Screen
         name={"Add pet"}
         component={AddPetScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="pluscircleo"
-              size={24}
+              size={26}
               color={
                 focused
                   ? colors.bottomTabIconFocused
@@ -84,7 +87,7 @@ const LogScreen = () => {
             />
           ),
         }}
-      /> */}
+      />
     </TopTab.Navigator>
   );
 };
