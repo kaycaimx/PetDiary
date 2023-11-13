@@ -6,6 +6,10 @@ const colors = {
   bottomTabIconFocused: "#19204b",
   bottomTabIconUnfocused: "#abaeb6",
   dropdownPlaceholder: "gray",
+  textInputBackgroundColor: "white",
+  alertColor: "red",
+  buttonBackground: "#004C99",
+  buttonText: "white",
 };
 
 const styles = StyleSheet.create({
@@ -30,6 +34,7 @@ const styles = StyleSheet.create({
   dropdownText: {
     color: colors.defaultTextColor,
   },
+
   petAvatar: {
     height: 30,
     width: 30,
@@ -49,7 +54,40 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   topTabBarIndicator: {
-    backgroundColor: colors.defaultTextColor,
+    backgroundColor: colors.defaultTextColor},
+  view: {
+    margin: 15,
+    marginTop: 30,
+  },
+  alert: {
+    color: colors.alertColor,
+  },
+  textInput: {
+    height: 200,
+    borderColor: colors.textInputBorderColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+  buttonContainer: { 
+    flexDirection: "row", 
+    marginTop: 15, 
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: colors.buttonBackground,
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    width: 100,
+  },
+  buttonText: {
+    color: colors.buttonText,
+    textAlign: "center",
+  },
+  buttonPressed: {
+    opacity: 0.6,
   },
 });
 
