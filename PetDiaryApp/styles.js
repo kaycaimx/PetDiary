@@ -10,6 +10,8 @@ const colors = {
   alertColor: "red",
   buttonBackground: "#004C99",
   buttonText: "white",
+  EntryListBackgroundColor: "white",
+  EntryListTextColor: "#004C99",
 };
 
 const styles = StyleSheet.create({
@@ -105,6 +107,9 @@ const styles = StyleSheet.create({
     color: colors.EntryListTextColor,
     padding: 10,
     fontSize: 18,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    fontFamily: "Courier New", 
   },
   EntryListLogPressed: {
     backgroundColor: "#aaa",
@@ -115,9 +120,11 @@ const styles = StyleSheet.create({
     padding: 5,
     marginRight: 10,
     margin: 5,
+    flex: 1,
   },
   EntryListAdditionalText: {
     color: "black",
+    fontSize: 16,
   },
 });
 
