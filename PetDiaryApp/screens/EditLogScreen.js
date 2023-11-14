@@ -101,6 +101,7 @@ const EditLogScreen = ({ route, navigation }) => {
       <DropdownMenu
         pickerMenu={activitiesMenu}
         placeHolder={type}
+        value={type}
         selectHandler={selectTypeHanlder}
       />
       <CustomTextInput
