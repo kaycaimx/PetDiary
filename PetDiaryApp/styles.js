@@ -16,6 +16,8 @@ const colors = {
   alertColor: "red",
   buttonBackground: "#004C99",
   buttonText: "white",
+  EntryListBackgroundColor: "white",
+  EntryListTextColor: "#004C99",
 };
 
 const styles = StyleSheet.create({
@@ -204,6 +206,41 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.6,
+  },
+  iconButton: {
+    alignItems: "flex-end",
+    padding: 10,
+    marginHorizontal: 10,
+  },
+  EntryListContainer: {
+    flexDirection: "row",
+    backgroundColor: colors.EntryListBackgroundColor,
+    marginBottom: 20,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  EntryListText: {
+    color: colors.EntryListTextColor,
+    padding: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    fontFamily: "Courier New", 
+  },
+  EntryListLogPressed: {
+    backgroundColor: "#aaa",
+    opacity: 0.5,
+  },
+  EntryListAdditionalArea: {
+    backgroundColor: "white",
+    padding: 5,
+    marginRight: 10,
+    margin: 5,
+    flex: 1,
+  },
+  EntryListAdditionalText: {
+    color: "black",
+    fontSize: 16,
   },
 });
 

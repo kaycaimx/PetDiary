@@ -1,3 +1,4 @@
+
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { database } from "../firebase/firebaseSetup";
@@ -42,7 +43,7 @@ const PetScreen = ({ navigation, route }) => {
   }, [searchType]);
 
   function pressHandler() {
-    navigation.navigate("Add Log");
+    navigation.navigate("Edit Log", { logs: pressedLog });
   }
 
   function selectHanlder(search) {
