@@ -2,8 +2,12 @@ import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { AntDesign } from "@expo/vector-icons";
+import {
+  getFocusedRouteNameFromRoute,
+  useRoute,
+} from "@react-navigation/native";
 
+import AddPetIcon from "../components/AddPetIcon";
 import AddPetScreen from "./AddPetScreen";
 import PetScreen from "./PetScreen";
 import PetAvatar from "../components/PetAvatar";
@@ -12,6 +16,10 @@ import { colors, styles } from "../styles";
 const TopTab = createMaterialTopTabNavigator();
 
 const LogScreen = () => {
+  // const currentRoute = useRoute();
+  // const routeName = getFocusedRouteNameFromRoute(currentRoute);
+  // console.log(routeName);
+
   const samplePets = [
     {
       name: "Pikachu",
@@ -75,17 +83,8 @@ const LogScreen = () => {
         name={"Add pet"}
         component={AddPetScreen}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <AntDesign
-              name="pluscircleo"
-              size={26}
-              color={
-                focused
-                  ? colors.bottomTabIconFocused
-                  : colors.bottomTabIconUnfocused
-              }
-            />
-          ),
+          tabBarLabel: () => <Text></Text>,
+          tabBarIcon: ({ focused }) => <AddPetIcon focused={focused} />,
         }}
       />
     </TopTab.Navigator>

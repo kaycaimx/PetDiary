@@ -1,6 +1,7 @@
 import { Button, View, Text } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -88,6 +89,9 @@ const HomeScreen = ({ navigation }) => {
       })}
     >
       <Tab.Screen name="Log" component={LogScreen} options={headerWithIcons} />
+      {/* <Tab.Screen name="Add Log">
+        {(props) => <AddLog {...props} options={headerWithBack} />}
+      </Tab.Screen> */}
       <Tab.Screen name="Add Log" component={AddLog} options={headerWithBack} />
       <Tab.Screen
         name="Spot"
