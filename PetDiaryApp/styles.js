@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   addPetInput: {
-    width: "100%",
+    width: "80%",
     backgroundColor: colors.inputBoxBackground,
     borderColor: colors.defaultTextColor,
     borderWidth: 1,

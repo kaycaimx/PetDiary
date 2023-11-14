@@ -24,3 +24,12 @@ export async function deleteLogFromDB(id) {
     console.log(err);
   }
 }
+
+export async function writePetToDB(pet) {
+  try {
+    const docRef = await addDoc(collection(database, "pets"), pet);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (err) {
+    console.log(err);
+  }
+}

@@ -15,7 +15,9 @@ import PressableButton from "../components/PressableButton";
 import PressableIcon from "../components/PressableIcon";
 import { colors, styles } from "../styles";
 
-const AddPetScreen = () => {
+import { writePetToDB } from "../firebase/firebasehelper";
+
+const AddPetScreen = ({ navigation }) => {
   const [petName, setPetName] = useState("");
 
   const genderRadioButtons = useMemo(
@@ -69,7 +71,11 @@ const AddPetScreen = () => {
   };
 
   function handleCancel() {
-    console.log("cancel");
+    setPetName("");
+    setPetGender();
+    setPetSpayed();
+    setPetBirthday(new Date());
+    navigation.navigate("Profile");
   }
 
   function validateInput() {
@@ -90,7 +96,8 @@ const AddPetScreen = () => {
       petBirthday: petBirthday,
       petSpayed: petSpayed === "yes" ? true : false,
     };
-    console.log(newPet);
+    writePetToDB(newPet);
+    handleCancel();
   }
 
   return (
@@ -112,7 +119,7 @@ const AddPetScreen = () => {
         <Text style={styles.addPetLabel}>Pet Birthday*</Text>
         <View style={styles.datePickerWrapper}>
           <TextInput
-            style={[styles.addPetInput, { width: "80%" }]}
+            style={styles.addPetInput}
             editable={false}
             placeholder="Select a date "
             value={dateSelected ? petBirthday.toLocaleDateString() : ""}
