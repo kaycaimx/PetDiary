@@ -14,7 +14,7 @@ const colors = {
   logShadow: "#babfbb",
   textInputBackgroundColor: "white",
   alertColor: "red",
-  buttonBackground: "#004C99",
+  buttonBackground: "#19204b",
   buttonText: "white",
   EntryListBackgroundColor: "white",
   EntryListTextColor: "#004C99",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     color: colors.alertColor,
   },
   textInput: {
-    height: 200,
+    height: 100,
     borderColor: colors.textInputBorderColor,
     borderWidth: 1,
     borderRadius: 5,
@@ -190,8 +190,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    marginTop: 15,
-    justifyContent: "center",
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    justifyContent: "space-between",
   },
   button: {
     backgroundColor: colors.buttonBackground,
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontStyle: "italic",
-    fontFamily: "Courier New", 
+    fontFamily: "Courier New",
   },
   EntryListLogPressed: {
     backgroundColor: "#aaa",
