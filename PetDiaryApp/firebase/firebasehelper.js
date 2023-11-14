@@ -1,14 +1,16 @@
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 import { auth } from "./firebaseSetup";
 
 export async function writeLogToDB(log) {
   try {
-    // console.log(auth.currentUser.uid);
+
+    //console.log(auth.currentUser.uid);
     // Add a new document with a generated id.
     const docRef = await addDoc(collection(database, "logs"), {
       ...log,
-      // user: auth.currentUser.uid,
+      createdAt: serverTimestamp(),
+      //user: auth.currentUser.uid,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
@@ -19,6 +21,15 @@ export async function writeLogToDB(log) {
 export async function deleteLogFromDB(id) {
   try {
     await deleteDoc(doc(database, "logs", id));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function writePetToDB(pet) {
+  try {
+    const docRef = await addDoc(collection(database, "pets"), pet);
+    console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log(err);
   }

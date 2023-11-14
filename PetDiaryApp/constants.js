@@ -14,6 +14,7 @@ const activitiesMenu = [
   { label: "Other", value: "other" },
 ];
 
+const activitesEmoji = [{ label: "Food", value: "🥩" }];
 const businessesMenu = [
   { label: "Dog Walkers", value: "dogWalkers" },
   { label: "Pet Groomers", value: "petGroomers" },

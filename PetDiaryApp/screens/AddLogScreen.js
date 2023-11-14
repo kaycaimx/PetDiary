@@ -15,7 +15,7 @@ const AddLogScreen = ({ navigation }) => {
   const [location, setLocation] = useState(false);
 
   function selectTypeHanlder(type) {
-    console.log(type);
+    console.log(type["label"]);
     setType(type);
   }
 
@@ -37,7 +37,7 @@ const AddLogScreen = ({ navigation }) => {
   const handleCancel = () => {
     // Use navigation.goBack() to return to the previous screen
     navigation.goBack();
-  }
+  };
 
   return (
     <SafeAreaView style={styles.view}>

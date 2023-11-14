@@ -1,58 +1,73 @@
-import { Button, Text } from "react-native";
+
+import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { database } from "../firebase/firebaseSetup";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import DropdownMenu from "../components/DropdownMenu";
-import EntriesList from "../components/EntriesList";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from '../firebase/firebaseSetup';
+import LogEntry from "../components/LogEntry";
 
 import { activitiesMenu } from "../constants";
 import { styles } from "../styles";
 
-const PetScreen = ({ navigation }) => {
-  const [logs, setLogs] = useState([]);
+const PetScreen = ({ navigation, route }) => {
+  //console.log(route.name);
 
-  function addPressHandler() {
-    navigation.navigate("Add Log");
-  }
-
-  function selectHanlder(item) {
-    console.log(item);
-  }
+  const [logList, setLogList] = useState([]);
+  const [searchType, setSearchType] = useState("");
 
   useEffect(() => {
-    const logsRef = collection(database, "logs");
-
-    const unsubscribe = onSnapshot(logsRef, (snapshot) => {
-      const logData = [];
-      snapshot.forEach((doc) => {
-        logData.push({ id: doc.id, ...doc.data() });
+    let q;
+    if (!searchType || searchType === "All") {
+      q = query(collection(database, "logs"), orderBy("createdAt", "desc"));
+    } else {
+      q = query(
+        collection(database, "logs"),
+        where("type", "==", searchType),
+        orderBy("createdAt", "desc")
+      );
+    }
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const logs = [];
+      querySnapshot.forEach((doc) => {
+        logs.push({ ...doc.data(), id: doc.id });
       });
-      setLogs(logData);
+      setLogList(logs);
     });
+    return () => unsubscribe();
+  }, [searchType]);
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  function LogPressHandler(pressedLog) {
-    // we should navigate to edit screen and show log details
+  function pressHandler() {
     navigation.navigate("Edit Log", { logs: pressedLog });
   }
 
+  function selectHanlder(search) {
+    console.log(search["label"]);
+    setSearchType(search["label"]);
+  }
+
   return (
-    <GestureHandlerRootView style={styles.view}>
-      <Text>Pet Screen</Text>
-      <DropdownMenu
-        pickerMenu={activitiesMenu}
-        placeHolder="🔍Search for activities"
-        isSearching={true}
-        selectHandler={selectHanlder}
-      />
-      <Button title="Add Activity" onPress={addPressHandler} />
-      <EntriesList data={logs} pressHandler={LogPressHandler} />
-    </GestureHandlerRootView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logListWrapper}>
+        <DropdownMenu
+          pickerMenu={[{ label: "All", value: "all" }, ...activitiesMenu]}
+          placeHolder="🔍Search for activities"
+          isSearching={true}
+          selectHandler={selectHanlder}
+        />
+        <FlatList
+          data={logList}
+          renderItem={({ item }) => (
+            <LogEntry navigation={navigation} entry={item} />
+          )}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,9 +1,13 @@
-import { Button, Image, Text, SafeAreaView } from "react-native";
+import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { AntDesign } from "@expo/vector-icons";
+import {
+  getFocusedRouteNameFromRoute,
+  useRoute,
+} from "@react-navigation/native";
 
+import AddPetIcon from "../components/AddPetIcon";
 import AddPetScreen from "./AddPetScreen";
 import PetScreen from "./PetScreen";
 import PetAvatar from "../components/PetAvatar";
@@ -12,6 +16,10 @@ import { colors, styles } from "../styles";
 const TopTab = createMaterialTopTabNavigator();
 
 const LogScreen = () => {
+  // const currentRoute = useRoute();
+  // const routeName = getFocusedRouteNameFromRoute(currentRoute);
+  // console.log(routeName);
+
   const samplePets = [
     {
       name: "Pikachu",
@@ -25,10 +33,17 @@ const LogScreen = () => {
       avatarURI:
         "https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png",
     },
+    {
+      name: "Shellder",
+      id: 3,
+      avatarURI:
+        "https://assets.pokemon.com/assets/cms2/img/pokedex/full/090.png",
+    },
   ];
 
   return (
     <TopTab.Navigator
+      initialLayout={{ width: Dimensions.get("window").width }}
       screenOptions={({ route }) => ({
         tabBarStyle: styles.topTabBar,
         tabBarLabel: ({ focused }) => (
@@ -46,45 +61,32 @@ const LogScreen = () => {
           </Text>
         ),
         tabBarIndicatorStyle: styles.topTabBarIndicator,
-        tabBarGap: 20,
-        headerRight: () => (
-          <Button
-            onPress={() => alert("This is a button!")}
-            title="Info"
-            color={colors.defaultTextColor}
-          />
-        ),
+        tabBarScrollEnabled: true,
       })}
     >
-      {samplePets.map((pet) => (
-        <TopTab.Screen
-          name={pet.name}
-          key={pet.id}
-          component={PetScreen}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return <PetAvatar focused={focused} avatarURI={pet.avatarURI} />;
-            },
-          }}
-        />
-      ))}
-      {/* <TopTab.Screen
+      {samplePets &&
+        samplePets.map((pet) => (
+          <TopTab.Screen
+            name={pet.name}
+            key={pet.id}
+            component={PetScreen}
+            options={{
+              tabBarIcon: ({ focused }) => {
+                return (
+                  <PetAvatar focused={focused} avatarURI={pet.avatarURI} />
+                );
+              },
+            }}
+          />
+        ))}
+      <TopTab.Screen
         name={"Add pet"}
         component={AddPetScreen}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <AntDesign
-              name="pluscircleo"
-              size={24}
-              color={
-                focused
-                  ? colors.bottomTabIconFocused
-                  : colors.bottomTabIconUnfocused
-              }
-            />
-          ),
+          tabBarLabel: () => <Text></Text>,
+          tabBarIcon: ({ focused }) => <AddPetIcon focused={focused} />,
         }}
-      /> */}
+      />
     </TopTab.Navigator>
   );
 };
