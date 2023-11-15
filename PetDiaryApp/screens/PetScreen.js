@@ -1,4 +1,3 @@
-
 import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { database } from "../firebase/firebaseSetup";
@@ -41,10 +40,6 @@ const PetScreen = ({ navigation, route }) => {
     });
     return () => unsubscribe();
   }, [searchType]);
-
-  function pressHandler() {
-    navigation.navigate("Edit Log", { logs: pressedLog });
-  }
 
   function selectHanlder(search) {
     console.log(search["label"]);

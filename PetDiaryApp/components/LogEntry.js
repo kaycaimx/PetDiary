@@ -15,7 +15,7 @@ const LogEntry = ({ navigation, entry }) => {
   }
 
   function logPressHandler() {
-    navigation.navigate("Add Log");
+    navigation.navigate("Edit Log", { logToEdit: entry });
   }
 
   return (

@@ -1,4 +1,11 @@
-import { View, Text, SafeAreaView, Alert } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
@@ -30,28 +37,38 @@ const AddLogScreen = ({ navigation }) => {
         // location: location,
       };
       writeLogToDB(log);
-      navigation.goBack();
+      handleCancel();
     }
   };
 
   const handleCancel = () => {
     // Use navigation.goBack() to return to the previous screen
+    setType("");
+    setContent("");
     navigation.goBack();
   };
 
+  const DismissKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+
   return (
-    <SafeAreaView style={styles.view}>
+    <KeyboardAvoidingView style={styles.view} behavior="padding">
       <Text style={styles.alert}>* required</Text>
       <DropdownMenu
         pickerMenu={activitiesMenu}
         placeHolder="🔍 Select activity type"
         selectHandler={selectTypeHanlder}
       />
+
       <CustomTextInput
         placeholder="Add details ..."
         value={content}
         onChangeText={(text) => setContent(text)}
       />
+
       <Text>Add photo</Text>
       <Text>📍 Add location</Text>
       <View style={styles.buttonContainer}>
@@ -70,7 +87,7 @@ const AddLogScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

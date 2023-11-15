@@ -1,9 +1,9 @@
-import { View, Text, Alert, SafeAreaView } from "react-native";
+import { View, Text, Alert, KeyboardAvoidingView } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
 import DropdownMenu from "../components/DropdownMenu";
-import { styles } from "../styles";
+import { colors, styles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { database } from "../firebase/firebaseSetup";
 
@@ -11,11 +11,11 @@ import { activitiesMenu } from "../constants";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
 
 const EditLogScreen = ({ route, navigation }) => {
-  const { logs } = route.params;
-  const [type, setType] = useState(logs.type);
-  const [content, setContent] = useState(logs.content);
-  const [photo, setPhoto] = useState(logs.photo);
-  const [location, setLocation] = useState(logs.location);
+  const { logToEdit } = route.params;
+  const [type, setType] = useState(logToEdit.type);
+  const [content, setContent] = useState(logToEdit.content);
+  const [photo, setPhoto] = useState();
+  const [location, setLocation] = useState();
 
   function selectTypeHanlder(type) {
     console.log(type);
@@ -41,8 +41,7 @@ const EditLogScreen = ({ route, navigation }) => {
           text: "Yes",
           onPress: async () => {
             try {
-              const logRef = doc(database, "logs", logs.id);
-              navigation.goBack();
+              const logRef = doc(database, "logs", logToEdit.id);
               await updateDoc(logRef, log);
               navigation.goBack();
             } catch (err) {
@@ -65,7 +64,7 @@ const EditLogScreen = ({ route, navigation }) => {
         onPress: async () => {
           try {
             // Perform the deletion action
-            const logRef = doc(database, "logs", logs.id);
+            const logRef = doc(database, "logs", logToEdit.id);
             await deleteDoc(logRef);
             navigation.goBack();
           } catch (err) {
@@ -89,14 +88,18 @@ const EditLogScreen = ({ route, navigation }) => {
           defaultStyle={styles.iconButton}
           pressedStyle={styles.buttonPressed}
         >
-          <Ionicons name="trash" size={24} color="#004C99" />
+          <Ionicons
+            name="trash-bin"
+            size={24}
+            color={colors.defaultTextColor}
+          />
         </PressableButton>
       ),
     });
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.view}>
+    <KeyboardAvoidingView style={styles.view}>
       <Text style={styles.alert}>* required</Text>
       <DropdownMenu
         pickerMenu={activitiesMenu}
@@ -127,7 +130,7 @@ const EditLogScreen = ({ route, navigation }) => {
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
