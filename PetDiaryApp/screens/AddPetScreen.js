@@ -151,7 +151,7 @@ const AddPetScreen = ({ navigation }) => {
         <Text style={styles.addPetLabel}>Pet Photo</Text>
         <Text>📷Placeholder for camera</Text>
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton
           pressedFunction={handleCancel}
           defaultStyle={styles.button}
