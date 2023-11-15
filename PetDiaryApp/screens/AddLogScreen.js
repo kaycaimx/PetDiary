@@ -9,22 +9,19 @@ import {
 import React, { useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
-import DropdownMenu from "../components/DropdownMenu";
 import { writeLogToDB } from "../firebase/firebasehelper";
 import { styles } from "../styles";
 
 import { activitiesMenu } from "../constants";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const AddLogScreen = ({ navigation }) => {
   const [type, setType] = useState("");
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(false);
   const [location, setLocation] = useState(false);
-
-  function selectTypeHanlder(type) {
-    console.log(type["label"]);
-    setType(type);
-  }
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState(activitiesMenu);
 
   const handleSaveLog = () => {
     if (!type || !content) {
@@ -57,10 +54,19 @@ const AddLogScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={styles.view} behavior="padding">
       <Text style={styles.alert}>* required</Text>
-      <DropdownMenu
-        pickerMenu={activitiesMenu}
-        placeHolder="🔍 Select activity type"
-        selectHandler={selectTypeHanlder}
+      <DropDownPicker
+        containerStyle={styles.dropdownContainer}
+        textStyle={styles.dropdownText}
+        open={open}
+        items={items}
+        setOpen={setOpen}
+        value={type}
+        setValue={setType}
+        searchable={true}
+        placeholder="🔍 Select activity type"
+        placeholderStyle={styles.dropdownPlaceholder}
+        setItems={setItems}
+        multiple={false}
       />
 
       <CustomTextInput
