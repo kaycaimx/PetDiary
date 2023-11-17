@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   KeyboardAvoidingView,
+  Platform,
   Text,
   TextInput,
   View,
@@ -55,9 +56,12 @@ const AddPetScreen = ({ navigation }) => {
   const [petGender, setPetGender] = useState();
   const [petSpayed, setPetSpayed] = useState();
 
-  const [petBirthday, setPetBirthday] = useState(new Date());
-  const [dateSelected, setDateSelected] = useState(false);
+  const [petBirthday, setPetBirthday] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // due to a bug in react-native-datetimepicker, we need to use a separate
+  // state variable for the android date picker
+  const [androidBirthdate, setAndroidBirthdate] = useState("");
 
   function showDatePickerHandler() {
     setShowDatePicker(true);
@@ -66,19 +70,42 @@ const AddPetScreen = ({ navigation }) => {
   const onChange = (event, selectedDate) => {
     const chosenDate = selectedDate;
     setPetBirthday(chosenDate);
-    setDateSelected(true);
     setShowDatePicker(false);
   };
 
-  function handleCancel() {
+  function handleAndroidBirthdateChange() {
+    console.log(androidBirthdate);
+    const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
+    if (!birthdayRegex.test(androidBirthdate)) {
+      Alert.alert("Please enter a valid date in YYYY-MM-DD format");
+      return;
+    }
+    setPetBirthday(new Date(androidBirthdate));
+  }
+
+  function clearAllInputs() {
     setPetName("");
     setPetGender();
     setPetSpayed();
-    setPetBirthday(new Date());
-    navigation.navigate("Profile");
+    setPetBirthday(null);
+  }
+
+  function handleCancel() {
+    clearAllInputs();
+    navigation.goBack();
   }
 
   function validateInput() {
+    if (Platform.OS === "android") {
+      const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
+      if (!birthdayRegex.test(androidBirthdate)) {
+        Alert.alert("Please enter a valid date in YYYY-MM-DD format");
+        return false;
+      } else {
+        setPetBirthday(new Date(androidBirthdate));
+        console.log(petBirthday);
+      }
+    }
     if (!petName || !petGender || !petBirthday || !petSpayed) {
       Alert.alert("Please fill out all required fields");
       return false;
@@ -93,11 +120,12 @@ const AddPetScreen = ({ navigation }) => {
     const newPet = {
       petName: petName,
       petGender: petGender,
-      petBirthday: petBirthday,
+      petBirthday: petBirthday.toLocaleDateString(),
       petSpayed: petSpayed === "yes" ? true : false,
     };
     writePetToDB(newPet);
-    handleCancel();
+    clearAllInputs();
+    navigation.navigate("Profile");
   }
 
   return (
@@ -117,28 +145,39 @@ const AddPetScreen = ({ navigation }) => {
           layout="row"
         />
         <Text style={styles.addPetLabel}>Pet Birthday*</Text>
-        <View style={styles.datePickerWrapper}>
-          <TextInput
-            style={styles.addPetInput}
-            editable={false}
-            placeholder="Select a date "
-            value={dateSelected ? petBirthday.toLocaleDateString() : ""}
-          />
-          <PressableIcon pressHandler={showDatePickerHandler}>
-            <Ionicons
-              name="calendar-sharp"
-              size={24}
-              color={colors.defaultTextColor}
+        {Platform.OS === "ios" && (
+          <View style={styles.datePickerWrapper}>
+            <TextInput
+              style={styles.addPetInput}
+              editable={false}
+              placeholder="Select a date "
+              value={petBirthday ? petBirthday.toLocaleDateString() : ""}
             />
-          </PressableIcon>
-        </View>
+
+            <PressableIcon pressHandler={showDatePickerHandler}>
+              <Ionicons
+                name="calendar-sharp"
+                size={24}
+                color={colors.defaultTextColor}
+              />
+            </PressableIcon>
+          </View>
+        )}
 
         {showDatePicker && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={petBirthday}
+            value={new Date()}
             mode={"date"}
             onChange={onChange}
+          />
+        )}
+
+        {Platform.OS === "android" && (
+          <TextInput
+            style={styles.addPetInput}
+            placeholder="YYYY-MM-DD"
+            onChangeText={setAndroidBirthdate}
           />
         )}
         <Text style={styles.addPetLabel}>Neutered/Spayed*</Text>
