@@ -9,6 +9,7 @@ import { database } from "../firebase/firebaseSetup";
 
 import { activitiesMenu } from "../constants";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const EditLogScreen = ({ route, navigation }) => {
   const { logToEdit } = route.params;
@@ -16,6 +17,8 @@ const EditLogScreen = ({ route, navigation }) => {
   const [content, setContent] = useState(logToEdit.content);
   const [photo, setPhoto] = useState();
   const [location, setLocation] = useState();
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState(activitiesMenu);
 
   function selectTypeHanlder(type) {
     console.log(type);
@@ -27,7 +30,7 @@ const EditLogScreen = ({ route, navigation }) => {
       Alert.alert("Invalid input", "Please enter your input.");
     } else {
       const log = {
-        type: type["label"],
+        type: type,
         content: content,
         // photo: photo,
         // location: location,
@@ -101,11 +104,23 @@ const EditLogScreen = ({ route, navigation }) => {
   return (
     <KeyboardAvoidingView style={styles.view}>
       <Text style={styles.alert}>* required</Text>
-      <DropdownMenu
+      {/* <DropdownMenu
         pickerMenu={activitiesMenu}
         placeHolder={type}
         value={type}
         selectHandler={selectTypeHanlder}
+      /> */}
+      <DropDownPicker
+        containerStyle={styles.dropdownContainer}
+        textStyle={styles.dropdownText}
+        open={open}
+        items={items}
+        setOpen={setOpen}
+        value={type}
+        setValue={setType}
+        searchable={true}
+        setItems={setItems}
+        multiple={false}
       />
       <CustomTextInput
         placeholder="Add details ..."
