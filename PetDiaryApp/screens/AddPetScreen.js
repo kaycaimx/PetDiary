@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   KeyboardAvoidingView,
+  Platform,
   Text,
   TextInput,
   View,
@@ -19,6 +20,11 @@ import { writePetToDB } from "../firebase/firebasehelper";
 
 const AddPetScreen = ({ navigation }) => {
   const [petName, setPetName] = useState("");
+  const [petGender, setPetGender] = useState();
+  const [petSpayed, setPetSpayed] = useState();
+  const [petBirthday, setPetBirthday] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [petAvatar, setPetAvatar] = useState(null);
 
   const genderRadioButtons = useMemo(
     () => [
@@ -52,12 +58,9 @@ const AddPetScreen = ({ navigation }) => {
     []
   );
 
-  const [petGender, setPetGender] = useState();
-  const [petSpayed, setPetSpayed] = useState();
-
-  const [petBirthday, setPetBirthday] = useState(new Date());
-  const [dateSelected, setDateSelected] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  // due to a bug in react-native-datetimepicker, we need to use a separate
+  // state variable for the android date picker
+  const [androidBirthdate, setAndroidBirthdate] = useState("");
 
   function showDatePickerHandler() {
     setShowDatePicker(true);
@@ -66,19 +69,54 @@ const AddPetScreen = ({ navigation }) => {
   const onChange = (event, selectedDate) => {
     const chosenDate = selectedDate;
     setPetBirthday(chosenDate);
-    setDateSelected(true);
     setShowDatePicker(false);
   };
 
-  function handleCancel() {
+  function handleAndroidBirthdateChange() {
+    console.log(androidBirthdate);
+    const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
+    if (!birthdayRegex.test(androidBirthdate)) {
+      Alert.alert("Please enter a valid date in YYYY-MM-DD format");
+      return;
+    }
+    setPetBirthday(new Date(androidBirthdate));
+  }
+
+  function generateRandomAvatar() {
+    const pokedex = [
+      "001",
+      "004",
+      "007",
+      "025",
+      "035",
+      "039",
+      "054",
+      "094",
+      "090",
+    ];
+    let avatarURI = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${
+      pokedex[Math.floor(Math.random() * pokedex.length)]
+    }.png`;
+    setPetAvatar(avatarURI);
+  }
+
+  function clearAllInputs() {
     setPetName("");
     setPetGender();
     setPetSpayed();
-    setPetBirthday(new Date());
-    navigation.navigate("Profile");
+    setPetBirthday(null);
+    setPetAvatar(null);
+  }
+
+  function handleCancel() {
+    clearAllInputs();
+    navigation.goBack();
   }
 
   function validateInput() {
+    if (Platform.OS === "android" && !petBirthday) {
+      handleAndroidBirthdateChange();
+    }
     if (!petName || !petGender || !petBirthday || !petSpayed) {
       Alert.alert("Please fill out all required fields");
       return false;
@@ -93,11 +131,16 @@ const AddPetScreen = ({ navigation }) => {
     const newPet = {
       petName: petName,
       petGender: petGender,
-      petBirthday: petBirthday,
+      petBirthday: petBirthday.toLocaleDateString(),
       petSpayed: petSpayed === "yes" ? true : false,
+      // if petAvatar is null, use the default avatar pikachu
+      petAvatar: petAvatar
+        ? petAvatar
+        : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
     };
     writePetToDB(newPet);
-    handleCancel();
+    clearAllInputs();
+    navigation.navigate("Profile");
   }
 
   return (
@@ -109,39 +152,51 @@ const AddPetScreen = ({ navigation }) => {
           value={petName}
           onChangeText={(text) => setPetName(text)}
         />
-        <Text style={styles.addPetLabel}>Pet Gender*</Text>
+        <Text style={styles.addPetLabel}>Pet Gender *</Text>
         <RadioGroup
           radioButtons={genderRadioButtons}
           onPress={setPetGender}
           selectedId={petGender}
           layout="row"
         />
-        <Text style={styles.addPetLabel}>Pet Birthday*</Text>
-        <View style={styles.datePickerWrapper}>
-          <TextInput
-            style={styles.addPetInput}
-            editable={false}
-            placeholder="Select a date "
-            value={dateSelected ? petBirthday.toLocaleDateString() : ""}
-          />
-          <PressableIcon pressHandler={showDatePickerHandler}>
-            <Ionicons
-              name="calendar-sharp"
-              size={24}
-              color={colors.defaultTextColor}
+        <Text style={styles.addPetLabel}>Pet Birthday *</Text>
+        {Platform.OS === "ios" && (
+          <View style={styles.datePickerWrapper}>
+            <TextInput
+              style={styles.addPetInput}
+              editable={false}
+              placeholder="Select a date "
+              value={petBirthday ? petBirthday.toLocaleDateString() : ""}
             />
-          </PressableIcon>
-        </View>
+
+            <PressableIcon pressHandler={showDatePickerHandler}>
+              <Ionicons
+                name="calendar-sharp"
+                size={24}
+                color={colors.defaultTextColor}
+              />
+            </PressableIcon>
+          </View>
+        )}
 
         {showDatePicker && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={petBirthday}
+            value={new Date()}
             mode={"date"}
             onChange={onChange}
           />
         )}
-        <Text style={styles.addPetLabel}>Neutered/Spayed*</Text>
+
+        {Platform.OS === "android" && (
+          <TextInput
+            style={styles.addPetInput}
+            placeholder="YYYY-MM-DD"
+            onChangeText={setAndroidBirthdate}
+            onSubmitEditing={handleAndroidBirthdateChange}
+          />
+        )}
+        <Text style={styles.addPetLabel}>Neutered/Spayed *</Text>
         <RadioGroup
           radioButtons={spayedRadioButtons}
           onPress={setPetSpayed}
@@ -149,7 +204,10 @@ const AddPetScreen = ({ navigation }) => {
           layout="row"
         />
         <Text style={styles.addPetLabel}>Pet Photo</Text>
-        <Text>📷Placeholder for camera</Text>
+        <Text>
+          📷Placeholder for camera, press button below to generate random photo
+        </Text>
+        <Button title="Upload photo" onPress={generateRandomAvatar} />
       </View>
       <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton

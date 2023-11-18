@@ -15,7 +15,7 @@ import { activitiesMenu } from "../constants";
 import { styles } from "../styles";
 
 const PetScreen = ({ navigation, route }) => {
-  //console.log(route.name);
+  // console.log(route);
 
   const [logList, setLogList] = useState([]);
   const [searchType, setSearchType] = useState("");

@@ -9,7 +9,13 @@ const LogEntry = ({ navigation, entry }) => {
 
   function convertTimestamp(timestamp) {
     if (timestamp && timestamp.toDate) {
-      return timestamp.toDate().toLocaleString();
+      return timestamp.toDate().toLocaleString([], {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
     return "Error to show time";
   }

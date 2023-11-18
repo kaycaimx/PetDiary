@@ -15,7 +15,6 @@ const Tab = createBottomTabNavigator();
 
 const HomeScreen = ({ navigation }) => {
   function navigateToProfile() {
-    console.log("navigate to profile");
     navigation.navigate("Profile");
   }
 

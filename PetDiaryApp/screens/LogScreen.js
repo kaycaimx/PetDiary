@@ -1,11 +1,9 @@
 import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import {
-  getFocusedRouteNameFromRoute,
-  useRoute,
-} from "@react-navigation/native";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { database } from "../firebase/firebaseSetup";
 
 import AddPetIcon from "../components/AddPetIcon";
 import AddPetScreen from "./AddPetScreen";
@@ -20,26 +18,25 @@ const LogScreen = () => {
   // const routeName = getFocusedRouteNameFromRoute(currentRoute);
   // console.log(routeName);
 
-  const samplePets = [
-    {
-      name: "Pikachu",
-      id: 1,
-      avatarURI:
-        "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
-    },
-    {
-      name: "Gengar",
-      id: 2,
-      avatarURI:
-        "https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png",
-    },
-    {
-      name: "Shellder",
-      id: 3,
-      avatarURI:
-        "https://assets.pokemon.com/assets/cms2/img/pokedex/full/090.png",
-    },
-  ];
+  const [myPets, setMyPets] = useState([]);
+
+  useEffect(() => {
+    // At Iteration 1, we are not using firebase authentication yet, so we are
+    // hardcoding the user to "testUser".
+    const q = collection(database, "PetDiary", "testUser", "pets");
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        let pets = [];
+        querySnapshot.forEach((doc) => {
+          pets.push({ ...doc.data(), id: doc.id });
+        });
+        setMyPets(pets);
+      } else {
+        setMyPets([]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <TopTab.Navigator
@@ -64,16 +61,16 @@ const LogScreen = () => {
         tabBarScrollEnabled: true,
       })}
     >
-      {samplePets &&
-        samplePets.map((pet) => (
+      {myPets &&
+        myPets.map((pet) => (
           <TopTab.Screen
-            name={pet.name}
+            name={pet.petName}
             key={pet.id}
             component={PetScreen}
             options={{
               tabBarIcon: ({ focused }) => {
                 return (
-                  <PetAvatar focused={focused} avatarURI={pet.avatarURI} />
+                  <PetAvatar focused={focused} avatarURI={pet.petAvatar} />
                 );
               },
             }}

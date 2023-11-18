@@ -21,25 +21,6 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
-  bigAddButton: {
-    // from https://github.com/react-navigation/react-navigation/issues/5126
-    position: "absolute",
-    bottom: -10, // space from bottombar
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  bottomTabBar: {
-    backgroundColor: colors.bottomTabBackground,
-    borderTopWidth: 1,
-    position: "relative",
-  },
-  bottomTabBarLabel: {
-    fontSize: 11,
-    fontWeight: "bold",
-  },
   addButtonContainer: {
     backgroundColor: "red",
     position: "absolute",
@@ -67,6 +48,25 @@ const styles = StyleSheet.create({
     height: 30,
     paddingHorizontal: 5,
     marginBottom: 10,
+  },
+  bigAddButton: {
+    // from https://github.com/react-navigation/react-navigation/issues/5126
+    position: "absolute",
+    bottom: -10, // space from bottombar
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bottomTabBar: {
+    backgroundColor: colors.bottomTabBackground,
+    borderTopWidth: 1,
+    position: "relative",
+  },
+  bottomTabBarLabel: {
+    fontSize: 11,
+    fontWeight: "bold",
   },
   container: {
     flex: 1,
@@ -159,6 +159,42 @@ const styles = StyleSheet.create({
   petAvatarUnfocused: {
     opacity: 0.5,
     borderWidth: 0,
+  },
+  petProfileName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: colors.defaultTextColor,
+  },
+  petProfileScrollView: {
+    width: "100%",
+    alignContent: "center",
+    marginTop: 10,
+  },
+  petProfileWrapper: {
+    alignSelf: "center",
+    width: "60%",
+    backgroundColor: colors.bottomTabBackground,
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 6,
+    shadowColor: colors.logShadow,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+      },
+      android: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        elevation: 4,
+      },
+    }),
   },
   topTabBar: {
     backgroundColor: colors.backgroundColor,
