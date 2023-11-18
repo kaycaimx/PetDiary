@@ -17,9 +17,11 @@ Welcome to use Pet Diary! This is a user-friendly mobile app designed for adults
 - [Running the App](#running-the-app)
 - [Current State](#current-state)
   - [Iteration 1](#iteration-1-as-of-nov-19-2023)
+  - [Member Contribution](#member-contribution)
+  - [Next Iteration](#next-iteration)
 - [Database Structure](#database-structure)
 
-##<a name="getting-started"></a>Getting Started
+## Getting Started
 
 ### Prerequisites
 

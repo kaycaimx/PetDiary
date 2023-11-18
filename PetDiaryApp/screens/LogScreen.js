@@ -2,7 +2,7 @@ import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
 import React, { useEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 
 import AddPetIcon from "../components/AddPetIcon";
