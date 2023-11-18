@@ -50,7 +50,7 @@ const AddLogScreen = ({ navigation }) => {
       Alert.alert("Invalid input", "Please enter your input.");
     } else {
       const log = {
-        type: type["label"],
+        type: type,
         content: content,
         // photo: photo,
         // location: location,
