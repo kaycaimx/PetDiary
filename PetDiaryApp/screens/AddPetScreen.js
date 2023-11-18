@@ -152,14 +152,14 @@ const AddPetScreen = ({ navigation }) => {
           value={petName}
           onChangeText={(text) => setPetName(text)}
         />
-        <Text style={styles.addPetLabel}>Pet Gender*</Text>
+        <Text style={styles.addPetLabel}>Pet Gender *</Text>
         <RadioGroup
           radioButtons={genderRadioButtons}
           onPress={setPetGender}
           selectedId={petGender}
           layout="row"
         />
-        <Text style={styles.addPetLabel}>Pet Birthday*</Text>
+        <Text style={styles.addPetLabel}>Pet Birthday *</Text>
         {Platform.OS === "ios" && (
           <View style={styles.datePickerWrapper}>
             <TextInput
@@ -196,7 +196,7 @@ const AddPetScreen = ({ navigation }) => {
             onSubmitEditing={handleAndroidBirthdateChange}
           />
         )}
-        <Text style={styles.addPetLabel}>Neutered/Spayed*</Text>
+        <Text style={styles.addPetLabel}>Neutered/Spayed *</Text>
         <RadioGroup
           radioButtons={spayedRadioButtons}
           onPress={setPetSpayed}

@@ -23,7 +23,6 @@ const LogScreen = () => {
   useEffect(() => {
     // At Iteration 1, we are not using firebase authentication yet, so we are
     // hardcoding the user to "testUser".
-
     const q = collection(database, "PetDiary", "testUser", "pets");
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
