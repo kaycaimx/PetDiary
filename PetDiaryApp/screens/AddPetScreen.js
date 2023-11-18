@@ -20,6 +20,11 @@ import { writePetToDB } from "../firebase/firebasehelper";
 
 const AddPetScreen = ({ navigation }) => {
   const [petName, setPetName] = useState("");
+  const [petGender, setPetGender] = useState();
+  const [petSpayed, setPetSpayed] = useState();
+  const [petBirthday, setPetBirthday] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [petAvatar, setPetAvatar] = useState(null);
 
   const genderRadioButtons = useMemo(
     () => [
@@ -53,12 +58,6 @@ const AddPetScreen = ({ navigation }) => {
     []
   );
 
-  const [petGender, setPetGender] = useState();
-  const [petSpayed, setPetSpayed] = useState();
-
-  const [petBirthday, setPetBirthday] = useState(null);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
   // due to a bug in react-native-datetimepicker, we need to use a separate
   // state variable for the android date picker
   const [androidBirthdate, setAndroidBirthdate] = useState("");
@@ -83,11 +82,30 @@ const AddPetScreen = ({ navigation }) => {
     setPetBirthday(new Date(androidBirthdate));
   }
 
+  function generateRandomAvatar() {
+    const pokedex = [
+      "001",
+      "004",
+      "007",
+      "025",
+      "035",
+      "039",
+      "054",
+      "094",
+      "090",
+    ];
+    let avatarURI = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${
+      pokedex[Math.floor(Math.random() * pokedex.length)]
+    }.png`;
+    setPetAvatar(avatarURI);
+  }
+
   function clearAllInputs() {
     setPetName("");
     setPetGender();
     setPetSpayed();
     setPetBirthday(null);
+    setPetAvatar(null);
   }
 
   function handleCancel() {
@@ -96,15 +114,8 @@ const AddPetScreen = ({ navigation }) => {
   }
 
   function validateInput() {
-    if (Platform.OS === "android") {
-      const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
-      if (!birthdayRegex.test(androidBirthdate)) {
-        Alert.alert("Please enter a valid date in YYYY-MM-DD format");
-        return false;
-      } else {
-        setPetBirthday(new Date(androidBirthdate));
-        console.log(petBirthday);
-      }
+    if (Platform.OS === "android" && !petBirthday) {
+      handleAndroidBirthdateChange();
     }
     if (!petName || !petGender || !petBirthday || !petSpayed) {
       Alert.alert("Please fill out all required fields");
@@ -122,6 +133,10 @@ const AddPetScreen = ({ navigation }) => {
       petGender: petGender,
       petBirthday: petBirthday.toLocaleDateString(),
       petSpayed: petSpayed === "yes" ? true : false,
+      // if petAvatar is null, use the default avatar pikachu
+      petAvatar: petAvatar
+        ? petAvatar
+        : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
     };
     writePetToDB(newPet);
     clearAllInputs();
@@ -178,6 +193,7 @@ const AddPetScreen = ({ navigation }) => {
             style={styles.addPetInput}
             placeholder="YYYY-MM-DD"
             onChangeText={setAndroidBirthdate}
+            onSubmitEditing={handleAndroidBirthdateChange}
           />
         )}
         <Text style={styles.addPetLabel}>Neutered/Spayed*</Text>
@@ -188,7 +204,10 @@ const AddPetScreen = ({ navigation }) => {
           layout="row"
         />
         <Text style={styles.addPetLabel}>Pet Photo</Text>
-        <Text>📷Placeholder for camera</Text>
+        <Text>
+          📷Placeholder for camera, press button below to generate random photo
+        </Text>
+        <Button title="Upload photo" onPress={generateRandomAvatar} />
       </View>
       <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton
