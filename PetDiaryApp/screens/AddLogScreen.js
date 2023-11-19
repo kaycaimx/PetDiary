@@ -64,7 +64,7 @@ const AddLogScreen = ({ navigation }) => {
     // Use navigation.goBack() to return to the previous screen
     setType("");
     setContent("");
-    navigation.goBack();
+    navigation.navigate("Log");
   };
 
   const DismissKeyboard = ({ children }) => (

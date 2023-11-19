@@ -1,12 +1,13 @@
-import { FlatList, View, Text, SafeAreaView } from "react-native";
+import { FlatList, Pressable, View, Text, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
 
-import { styles } from "../styles";
+import { colors, styles } from "../styles";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 import PetProfile from "../components/PetProfile";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {
@@ -27,6 +28,10 @@ const ProfileScreen = () => {
     return () => unsubscribe();
   }, []);
 
+  function pressHandler() {
+    navigation.navigate("Add Log");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>My Pets: </Text>
@@ -45,6 +50,24 @@ const ProfileScreen = () => {
           keyExtractor={(item) => item.id}
         />
       </View>
+      <Pressable
+        onPress={pressHandler}
+        style={({ pressed }) => {
+          return [
+            styles.profileToLogPressable,
+            pressed && styles.profileToLogPressed,
+          ];
+        }}
+      >
+        <AntDesign
+          name="pluscircle"
+          size={30}
+          color={colors.defaultTextColor}
+        />
+        <Text style={styles.profileToLogPressableText}>
+          Let's start adding log for your pets!
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
