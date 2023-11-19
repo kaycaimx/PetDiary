@@ -79,8 +79,15 @@ const AddPetScreen = ({ navigation }) => {
       Alert.alert("Please enter a valid date in YYYY-MM-DD format");
       return;
     }
-    setPetBirthday(new Date(androidBirthdate));
+    if (!Date.parse(androidBirthdate)) {
+      Alert.alert(`${androidBirthdate} is not a valid date`);
+      return;
+    }
+    const day = Date.parse(androidBirthdate);
+    setPetBirthday(new Date(day));
   }
+
+  console.log("testing:", Date.parse("2022-14-1"));
 
   function generateRandomAvatar() {
     const pokedex = [
