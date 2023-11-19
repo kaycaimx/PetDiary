@@ -19,6 +19,7 @@ Welcome to use Pet Diary! This is a user-friendly mobile app designed for adults
   - [Iteration 1](#iteration-1-as-of-nov-19-2023)
   - [Member Contribution](#member-contribution)
   - [Next Iteration](#next-iteration)
+- [User Guide](#user-guide)
 - [Database Structure](#database-structure)
 
 ## Getting Started
@@ -88,17 +89,18 @@ npm expo start
 ### Iteration 1 (as of Nov 19, 2023)
 
 - Functionalities implemented:
+
   - User can add a pet
   - User can read logs and filter logs by searching activity type
   - User can add, edit and delete a log
-- Navigators implemented:
+
+- 3 Navigators implemented:
   - native stack (App.js): among HomeScreen, ProfileScreen, and EditLogScreen
   - bottom tab (HomeScreen.js): among LogScreen, AddLogScreen, and SpotScreen
   - material top tab (LogScreen.js): among PetScreen, and AddPetScreen
 - CRUD implemented:
   - Full CRUD of log data to Firestore database
   - Create operations of pet data to Firestore database
-- Issues:
 
 ### Member contribution
 
@@ -112,7 +114,47 @@ The next iteration 2 will focus on:
 
 - External API use
 - Camera use
-- Authentication(?)
+- Location use
+- Implement the pet selection in AddLogScreen so that each log will belong to the specific pet and only shown on that pet's PetScreen
+
+## User Guide
+
+When users first enter the app, they will see a welcome screen like below. Press the "Add Pet" icon or swipe to the "Add Pet" tab will navigate users to the AddPetScreen.
+
+![welcome screen](./PetDiaryApp/assets/screenshots/welcome.png)
+
+Users can add their pets in the AddPetScreen, due to a bug in the react-native-community datetimepicker package, currently users can select the pet's birth date by pressing the calender icon in iOS version, but can only manually enter the birth date in Android version. The screenshots below from left to right are iOS, Android, and alert of invalid format in Android, respectively.
+
+![ios-date](./PetDiaryApp/assets/screenshots/ios-date.PNG)
+![android-date](./PetDiaryApp/assets/screenshots/android-date.png)
+![android-invallid-alert](./PetDiaryApp/assets/screenshots/android-invalid-date.png)
+
+Once a pet is added, users will be navigated to ProfileScreen where they can see a summary of their pets' profile. By pressing the add button below, users can start add logs for their pets.
+
+![profile](./PetDiaryApp/assets/screenshots/profile.png)
+
+In the AddLogScreen, users will select activity type, enter details, add photos and locations (currently in placeholder), and save the log by pressing "Save". Once added, the log will appear in the LogScreen. Users can add more logs by pressing the big add button in the middle of bottom tab.
+
+![add-log](./PetDiaryApp/assets/screenshots/add_log.PNG)
+![log-screen](./PetDiaryApp/assets/screenshots/log.PNG)
+
+By pressing a specific log in the LogScreen, users can edit or delete that log.
+
+![edit-log](./PetDiaryApp/assets/screenshots/edit_log.PNG)
+![delete-log](./PetDiaryApp/assets/screenshots/delete_log.PNG)
+
+Users can also add more pets by pressing the "Add Pet" on the top tab or swipe to the "Add Pet" tab.
+![add-more-pets](./PetDiaryApp/assets/screenshots/add_more_pet.PNG)
+![profile-with-two-pets](./PetDiaryApp/assets/screenshots/profile_2pets.PNG)
+
+Users can also filter and search for activities of a certain type by selecting the type in the search bar of the LogScreen.
+
+![search-all](./PetDiaryApp/assets/screenshots/all_logs.PNG)
+![search-a-type](./PetDiaryApp/assets/screenshots/search_logs.PNG)
+
+Pressing the Spot icon in the bottom tab will navigate users to the SpotScreen which connects to external API and will be further implemented in Iteration 2.
+
+![spot-screen](./PetDiaryApp/assets/screenshots/navigate_spot.PNG)
 
 ## Database Structure
 
