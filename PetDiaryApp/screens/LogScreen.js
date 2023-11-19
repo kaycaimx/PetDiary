@@ -9,6 +9,7 @@ import AddPetIcon from "../components/AddPetIcon";
 import AddPetScreen from "./AddPetScreen";
 import PetScreen from "./PetScreen";
 import PetAvatar from "../components/PetAvatar";
+import PlaceHolder from "../components/PlaceHolder";
 import { colors, styles } from "../styles";
 
 const TopTab = createMaterialTopTabNavigator();
@@ -61,7 +62,14 @@ const LogScreen = () => {
         tabBarScrollEnabled: true,
       })}
     >
-      {myPets &&
+      {myPets.length === 0 && (
+        <TopTab.Screen
+          name={"Placeholder"}
+          component={PlaceHolder}
+          options={{ tabBarLabel: () => <Text></Text> }}
+        />
+      )}
+      {myPets.length !== 0 &&
         myPets.map((pet) => (
           <TopTab.Screen
             name={pet.petName}

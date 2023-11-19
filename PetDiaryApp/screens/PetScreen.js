@@ -42,7 +42,7 @@ const PetScreen = ({ navigation, route }) => {
   }, [searchType]);
 
   function selectHanlder(search) {
-    console.log(search["label"]);
+    //console.log(search["label"]);
     setSearchType(search["label"]);
   }
 

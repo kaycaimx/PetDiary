@@ -196,6 +196,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  placeholderText: {
+    fontSize: 20,
+    color: colors.defaultTextColor,
+    fontStyle: "italic",
+    textAlign: "center",
+    padding: 40,
+  },
   profileToLogPressable: {
     flexDirection: "row",
     alignItems: "center",
