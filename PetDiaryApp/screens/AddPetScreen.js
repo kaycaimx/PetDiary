@@ -110,7 +110,7 @@ const AddPetScreen = ({ navigation }) => {
 
   function handleCancel() {
     clearAllInputs();
-    navigation.goBack();
+    navigation.navigate("Home");
   }
 
   function validateInput() {

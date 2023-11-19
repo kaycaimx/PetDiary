@@ -196,10 +196,22 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  profileToLogPressable: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  profileToLogPressableText: {
+    color: colors.defaultTextColor,
+    fontSize: 16,
+    fontStyle: "italic",
+    paddingLeft: 5,
+  },
+  profileToLogPressed: {
+    opacity: 0.5,
+  },
   topTabBar: {
     backgroundColor: colors.backgroundColor,
   },
-
   topTabBarLabel: {
     fontSize: 12,
     fontWeight: "bold",
