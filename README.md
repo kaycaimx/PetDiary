@@ -129,7 +129,7 @@ Users can add their pets in the AddPetScreen, due to a bug in the react-native-c
 ![android-date](./PetDiaryApp/assets/screenshots/android-date.png)
 ![android-invallid-alert](./PetDiaryApp/assets/screenshots/android-invalid-date.png)
 
-Once a pet is added, users will be navigated to ProfileScreen where they can see a summary of their pets' profile. By pressing the add button below, users can start add logs for their pets.
+Once a pet is added, users will be navigated to ProfileScreen where they can see a summary of their pets' profile. By pressing the add button below, users can start adding logs for their pets.
 
 ![profile](./PetDiaryApp/assets/screenshots/profile.png)
 
