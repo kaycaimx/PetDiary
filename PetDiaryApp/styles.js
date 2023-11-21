@@ -299,6 +299,34 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 16,
   },
+  Title: {
+    fontWeight: "bold",
+    fontFamily: "Courier New",
+    fontSize: 22,
+    marginTop: 10,
+    marginBottom: 10,
+    color: "#323b70",
+  },
+  yelpItem: {
+    margin: 5,
+    backgroundColor: colors.backgroundColor,
+    alignItems: "center",
+  },
+  yelpItemLabel: {
+    color: 'blue', 
+    textDecorationLine: 'underline',
+    fontSize: 16,
+  },
+  searchBar: {
+    width: "80%",
+    backgroundColor: colors.inputBoxBackground,
+    borderColor: colors.defaultTextColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 30,
+    paddingHorizontal: 5,
+    marginBottom: 10,
+  },
 });
 
 export { colors, styles };
