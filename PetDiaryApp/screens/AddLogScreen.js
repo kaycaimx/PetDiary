@@ -19,7 +19,21 @@ import { activitiesMenu } from "../constants";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const AddLogScreen = ({ navigation }) => {
+  const returnForNoPets = () => {
+    if (myPets.length === 0) {
+      Alert.alert("You don't have any pet", "Please add a pet first.");
+      navigation.navigate("Add pet");
+    }
+  };
+
   const [myPets, setMyPets] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      returnForNoPets();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     // At Iteration 1, we are not using firebase authentication yet, so we are
@@ -35,8 +49,6 @@ const AddLogScreen = ({ navigation }) => {
         //console.log(pets);
       } else {
         setMyPets([]);
-        Alert.alert("You don't have any pet", "Please add a pet first.");
-        navigation.navigate("Home");
       }
     });
     return () => unsubscribe();
@@ -50,6 +62,7 @@ const AddLogScreen = ({ navigation }) => {
   const [items, setItems] = useState(activitiesMenu);
 
   const handleSaveLog = () => {
+    returnForNoPets();
     if (!type || !content) {
       Alert.alert("Invalid input", "Please enter your input.");
     } else {
