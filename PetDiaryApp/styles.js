@@ -27,6 +27,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     bottom: -20,
   },
+  addLogCheckbox: {
+    marginRight: 10,
+  },
+  addLogCheckboxWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   addPetWrapper: {
     marginTop: 10,
     width: "90%",
@@ -313,8 +321,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   yelpItemLabel: {
-    color: 'blue', 
-    textDecorationLine: 'underline',
+    color: "blue",
+    textDecorationLine: "underline",
     fontSize: 16,
   },
   searchBar: {

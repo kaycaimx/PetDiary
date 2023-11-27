@@ -9,8 +9,9 @@ import {
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
+import Checkbox from "expo-checkbox";
 import { writeLogToDB } from "../firebase/firebasehelper";
-import { styles } from "../styles";
+import { colors, styles } from "../styles";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 
@@ -28,11 +29,14 @@ const AddLogScreen = ({ navigation }) => {
       if (!querySnapshot.empty) {
         let pets = [];
         querySnapshot.forEach((doc) => {
-          pets.push({ ...doc.data(), id: doc.id });
+          pets.push({ ...doc.data(), id: doc.id, isChecked: true });
         });
         setMyPets(pets);
+        //console.log(pets);
       } else {
         setMyPets([]);
+        Alert.alert("You don't have any pet", "Please add a pet first.");
+        navigation.navigate("Home");
       }
     });
     return () => unsubscribe();
@@ -55,7 +59,13 @@ const AddLogScreen = ({ navigation }) => {
         // photo: photo,
         // location: location,
       };
-      writeLogToDB(log);
+      let pets = [...myPets];
+      while (pets.length > 0) {
+        let pet = pets.pop();
+        if (pet.isChecked) {
+          writeLogToDB(pet.id, log);
+        }
+      }
       handleCancel();
     }
   };
@@ -73,10 +83,31 @@ const AddLogScreen = ({ navigation }) => {
     </TouchableWithoutFeedback>
   );
 
+  const handleCheckbox = (id) => {
+    let pets = [...myPets];
+    let pet = pets.find((pet) => pet.id === id);
+    pet.isChecked = !pet.isChecked;
+    setMyPets(pets);
+    console.log(pets);
+  };
+
   return (
     <KeyboardAvoidingView style={styles.view} behavior="padding">
-      <Text>Select pets: </Text>
-      {myPets && myPets.map((pet) => <Text key={pet.id}>{pet.petName}</Text>)}
+      <Text style={styles.addPetLabel}>Select pets: </Text>
+      {myPets &&
+        myPets.map((pet) => (
+          <View style={styles.addLogCheckboxWrapper}>
+            <Checkbox
+              style={styles.addLogCheckbox}
+              key={"checkbox" + pet.id}
+              value={pet.isChecked}
+              onValueChange={() => handleCheckbox(pet.id)}
+            />
+            <Text style={{ color: colors.defaultTextColor }} key={pet.id}>
+              {pet.petName}
+            </Text>
+          </View>
+        ))}
       <Text style={styles.alert}>* required</Text>
       <DropDownPicker
         containerStyle={styles.dropdownContainer}

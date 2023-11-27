@@ -1,11 +1,12 @@
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
-export async function writeLogToDB(log) {
+export async function writeLogToDB(petID, log) {
   try {
     //console.log(auth.currentUser.uid);
     // Add a new document with a generated id.
-    const docRef = await addDoc(collection(database, "logs"), {
+    const petDocRef = doc(database, "PetDiary", "testUser", "pets", petID);
+    const docRef = await addDoc(collection(petDocRef, "logs"), {
       ...log,
       createdAt: serverTimestamp(),
       //user: auth.currentUser.uid,
