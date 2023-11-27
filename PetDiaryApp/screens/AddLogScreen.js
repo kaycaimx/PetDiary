@@ -29,13 +29,6 @@ const AddLogScreen = ({ navigation }) => {
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      returnForNoPets();
-    });
-    return unsubscribe;
-  }, [navigation]);
-
-  useEffect(() => {
     // At Iteration 1, we are not using firebase authentication yet, so we are
     // hardcoding the user to "testUser".
     const q = collection(database, "PetDiary", "testUser", "pets");
@@ -49,10 +42,18 @@ const AddLogScreen = ({ navigation }) => {
         //console.log(pets);
       } else {
         setMyPets([]);
+        returnForNoPets();
       }
     });
     return () => unsubscribe();
   }, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", () => {
+  //     returnForNoPets();
+  //   });
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const [type, setType] = useState("");
   const [content, setContent] = useState("");
