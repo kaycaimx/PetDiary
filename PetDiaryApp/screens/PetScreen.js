@@ -2,6 +2,7 @@ import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { database } from "../firebase/firebaseSetup";
 import {
+  doc,
   collection,
   onSnapshot,
   orderBy,
@@ -15,19 +16,20 @@ import { activitiesMenu } from "../constants";
 import { styles } from "../styles";
 
 const PetScreen = ({ navigation, route }) => {
-  console.log(route);
-  // const petID = route.key.split("-")[1];
-  // console.log(petID);
+  const petDoc = route.name;
   const [logList, setLogList] = useState([]);
   const [searchType, setSearchType] = useState("");
 
   useEffect(() => {
     let q;
     if (!searchType || searchType === "All") {
-      q = query(collection(database, "logs"), orderBy("createdAt", "desc"));
+      q = query(
+        collection(database, "PetDiary", "testUser", "pets", petDoc, "logs"),
+        orderBy("createdAt", "desc")
+      );
     } else {
       q = query(
-        collection(database, "logs"),
+        collection(database, "PetDiary", "testUser", "pets", petDoc, "logs"),
         where("type", "==", searchType),
         orderBy("createdAt", "desc")
       );

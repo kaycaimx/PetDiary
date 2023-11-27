@@ -9,9 +9,9 @@ import {
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
-import Checkbox from "expo-checkbox";
+import NameCheckbox from "../components/NameCheckbox";
 import { writeLogToDB } from "../firebase/firebasehelper";
-import { colors, styles } from "../styles";
+import { styles } from "../styles";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 
@@ -96,17 +96,13 @@ const AddLogScreen = ({ navigation }) => {
       <Text style={styles.addPetLabel}>Select pets: </Text>
       {myPets &&
         myPets.map((pet) => (
-          <View style={styles.addLogCheckboxWrapper}>
-            <Checkbox
-              style={styles.addLogCheckbox}
-              key={"checkbox" + pet.id}
-              value={pet.isChecked}
-              onValueChange={() => handleCheckbox(pet.id)}
-            />
-            <Text style={{ color: colors.defaultTextColor }} key={pet.id}>
-              {pet.petName}
-            </Text>
-          </View>
+          <NameCheckbox
+            key={pet.id}
+            petName={pet.petName}
+            petID={pet.id}
+            isChecked={pet.isChecked}
+            checkHandler={handleCheckbox}
+          />
         ))}
       <Text style={styles.alert}>* required</Text>
       <DropDownPicker
