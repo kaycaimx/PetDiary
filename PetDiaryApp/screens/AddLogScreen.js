@@ -39,7 +39,6 @@ const AddLogScreen = ({ navigation }) => {
           pets.push({ ...doc.data(), id: doc.id, isChecked: true });
         });
         setMyPets(pets);
-        //console.log(pets);
       } else {
         setMyPets([]);
         returnForNoPets();
@@ -63,7 +62,14 @@ const AddLogScreen = ({ navigation }) => {
   const [items, setItems] = useState(activitiesMenu);
 
   const handleSaveLog = () => {
-    returnForNoPets();
+    let pets = [...myPets];
+    if (pets.length === 0) {
+      Alert.alert(
+        "You haven't selected any pet",
+        "Please select one or more pets to add log or please add a pet."
+      );
+      return;
+    }
     if (!type || !content) {
       Alert.alert("Invalid input", "Please enter your input.");
     } else {
@@ -73,14 +79,6 @@ const AddLogScreen = ({ navigation }) => {
         // photo: photo,
         // location: location,
       };
-      let pets = [...myPets];
-      if (pets.length === 0) {
-        Alert.alert(
-          "You haven't selected any pet",
-          "Please select one or more pets to add log."
-        );
-        return;
-      }
       while (pets.length > 0) {
         let pet = pets.pop();
         if (pet.isChecked) {
@@ -109,7 +107,6 @@ const AddLogScreen = ({ navigation }) => {
     let pet = pets.find((pet) => pet.id === id);
     pet.isChecked = !pet.isChecked;
     setMyPets(pets);
-    console.log(pets);
   };
 
   return (

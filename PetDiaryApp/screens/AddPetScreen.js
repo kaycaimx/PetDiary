@@ -1,6 +1,5 @@
 import {
   Alert,
-  Button,
   KeyboardAvoidingView,
   Platform,
   Text,
@@ -9,13 +8,17 @@ import {
 } from "react-native";
 import React, { useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 
 import PressableButton from "../components/PressableButton";
 import PressableIcon from "../components/PressableIcon";
 import { colors, styles } from "../styles";
 
+import { storage } from "../firebase/firebaseSetup";
+import { uploadBytesResumable, ref } from "firebase/storage";
 import { writePetToDB } from "../firebase/firebasehelper";
 
 const AddPetScreen = ({ navigation }) => {
@@ -25,6 +28,13 @@ const AddPetScreen = ({ navigation }) => {
   const [petBirthday, setPetBirthday] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [petAvatar, setPetAvatar] = useState(null);
+  const [preview, setPreview] = useState(
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
+  ); // for testing purposes only, remove later
+  const [cameraStatus, requestCameraPermission] =
+    ImagePicker.useCameraPermissions();
+  const [mediaStatus, requestMediaPermission] =
+    ImagePicker.useMediaLibraryPermissions();
 
   const genderRadioButtons = useMemo(
     () => [
@@ -73,7 +83,7 @@ const AddPetScreen = ({ navigation }) => {
   };
 
   function handleAndroidBirthdateChange() {
-    console.log(androidBirthdate);
+    //console.log(androidBirthdate);
     const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
     if (!birthdayRegex.test(androidBirthdate)) {
       Alert.alert("Please enter a valid date in YYYY-MM-DD format");
@@ -87,22 +97,73 @@ const AddPetScreen = ({ navigation }) => {
     setPetBirthday(new Date(day));
   }
 
-  function generateRandomAvatar() {
-    const pokedex = [
-      "001",
-      "004",
-      "007",
-      "025",
-      "035",
-      "039",
-      "054",
-      "094",
-      "090",
-    ];
-    let avatarURI = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${
-      pokedex[Math.floor(Math.random() * pokedex.length)]
-    }.png`;
-    setPetAvatar(avatarURI);
+  async function verifyCameraPermission() {
+    if (cameraStatus.granted) {
+      return true;
+    }
+    const response = await requestCameraPermission();
+    return response.granted;
+  }
+
+  async function verifyMediaPermission() {
+    if (mediaStatus.granted) {
+      return true;
+    }
+    const response = await requestMediaPermission();
+    return response.granted;
+  }
+
+  async function takePhoto() {
+    try {
+      const permissionGranted = await verifyCameraPermission();
+      if (!permissionGranted) {
+        Alert.alert("Please enable camera permissions in settings.");
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.canceled) {
+        uploadImageToFirebase(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log("Take photo error:", error);
+    }
+  }
+
+  async function selectFromAlbum() {
+    try {
+      const permissionGranted = await verifyMediaPermission();
+      if (!permissionGranted) {
+        Alert.alert("Please enable access to your photo album in settings.");
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.canceled) {
+        uploadImageToFirebase(result.assets[0].uri);
+      }
+    } catch (error) {
+      console.log("Select from album error:", error);
+    }
+  }
+
+  async function uploadImageToFirebase(imageURI) {
+    try {
+      const response = await fetch(imageURI);
+      const blob = await response.blob();
+      const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
+      const storageRef = await ref(storage, `images/${imageName}`);
+      const uploadTask = await uploadBytesResumable(storageRef, blob);
+      setPetAvatar(uploadTask.metadata.fullPath);
+    } catch (error) {
+      console.log("Upload photo to Firebase error:", error);
+    }
   }
 
   function clearAllInputs() {
@@ -138,10 +199,7 @@ const AddPetScreen = ({ navigation }) => {
       petGender: petGender,
       petBirthday: petBirthday.toLocaleDateString(),
       petSpayed: petSpayed === "yes" ? true : false,
-      // if petAvatar is null, use the default avatar pikachu
-      petAvatar: petAvatar
-        ? petAvatar
-        : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
+      petAvatar: petAvatar,
     };
     writePetToDB(newPet);
     clearAllInputs();
@@ -209,10 +267,28 @@ const AddPetScreen = ({ navigation }) => {
           layout="row"
         />
         <Text style={styles.addPetLabel}>Pet Photo</Text>
-        <Text>
-          📷Placeholder for camera, press button below to generate random photo
-        </Text>
-        <Button title="Upload photo" onPress={generateRandomAvatar} />
+        <View style={styles.addPetCameraWrapper}>
+          <View>
+            <PressableIcon pressHandler={takePhoto}>
+              <Ionicons
+                name="camera"
+                size={28}
+                color={colors.defaultTextColor}
+              />
+              <Text style={styles.addPetCameraLabel}>Take a photo</Text>
+            </PressableIcon>
+          </View>
+          <View>
+            <PressableIcon pressHandler={selectFromAlbum}>
+              <MaterialIcons
+                name="photo-library"
+                size={28}
+                color={colors.defaultTextColor}
+              />
+              <Text style={styles.addPetCameraLabel}>Upload from album</Text>
+            </PressableIcon>
+          </View>
+        </View>
       </View>
       <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton

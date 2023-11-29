@@ -15,10 +15,6 @@ import { colors, styles } from "../styles";
 const TopTab = createMaterialTopTabNavigator();
 
 const LogScreen = () => {
-  // const currentRoute = useRoute();
-  // const routeName = getFocusedRouteNameFromRoute(currentRoute);
-  // console.log(routeName);
-
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {
@@ -32,7 +28,6 @@ const LogScreen = () => {
           pets.push({ ...doc.data(), id: doc.id });
         });
         setMyPets(pets);
-        console.log(pets);
       } else {
         setMyPets([]);
       }

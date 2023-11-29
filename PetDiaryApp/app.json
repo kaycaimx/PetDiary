@@ -25,6 +25,20 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pet Diary accesses your photos to let you use them to record your pet's daily events."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Pet Diary accesses your camera to let you take photos to record your pet's daily events."
+        }
+      ]
+    ]
   }
 }

@@ -1,11 +1,28 @@
 import { Image, View, Text } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { colors, styles } from "../styles";
+import { getAvatarFromDB } from "../firebase/firebasehelper";
 
-const PetProfile = ({ avatar, name, birthday, gender, spayed }) => {
+const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
   const spayedText = spayed === true ? "Spayed" : "Not Spayed";
   const genderIcon = gender === "male" ? "♂️" : "♀️";
+  const pikachuAvatar =
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png";
+  const [avatar, setAvatar] = useState(null);
+
+  useEffect(() => {
+    async function downloadAvatar() {
+      if (avatarUri) {
+        const response = await getAvatarFromDB(avatarUri);
+        setAvatar(response);
+      } else {
+        // if petAvatar is null, use the default avatar pikachu
+        setAvatar(pikachuAvatar);
+      }
+    }
+    downloadAvatar();
+  }, []);
 
   return (
     <View style={styles.petProfileWrapper}>
