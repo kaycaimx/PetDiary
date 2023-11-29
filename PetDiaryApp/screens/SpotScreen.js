@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Linking,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { yelpAPIKey } from "@env";
