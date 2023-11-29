@@ -10,19 +10,27 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { yelpAPIKey } from "@env";
+import * as Location from "expo-location";
+import { EvilIcons } from "@expo/vector-icons";
 
-import { styles } from "../styles";
+import { styles, colors } from "../styles";
+import PressableButton from "../components/PressableButton";
 
 const SpotScreen = ({ navigation }) => {
   const [petServices, setPetServices] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("pets");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [status, requestPermission] = Location.useForegroundPermissions();
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     // Function to fetch nearby pet services using the Yelp API
     const fetchNearbyPetServices = async () => {
       try {
         const response = await fetch(
-          `https://api.yelp.com/v3/businesses/search?term=${searchTerm}&latitude=49.282730&longitude=-123.120735`,
+          `https://api.yelp.com/v3/businesses/search?term=${searchTerm || "pets"}&latitude=${
+            userLocation?.latitude || 49.28273
+          }&longitude=${userLocation?.longitude || -123.120735}`,
           {
             headers: {
               Authorization: `Bearer ${yelpAPIKey}`,
@@ -44,6 +52,31 @@ const SpotScreen = ({ navigation }) => {
     // Call the function to fetch nearby pet services when the component mounts
     fetchNearbyPetServices();
   }, [searchTerm]); // Include searchTerm in the dependency array
+
+  const verifyPermission = async () => {
+    if (status.granted) {
+      return true;
+    }
+    const response = await requestPermission();
+    return response.granted;
+  };
+
+  async function locateUserHandler() {
+    try {
+      const hasPermission = await verifyPermission();
+      if (!hasPermission) {
+        Alert.alert("We need to get access to your location");
+      }
+      const locationObject = await Location.getCurrentPositionAsync();
+
+      setUserLocation({
+        latitude: locationObject.coords.latitude,
+        longitude: locationObject.coords.longitude,
+      });
+    } catch (err) {
+      console.log("locate user ", err);
+    }
+  }
 
   const renderPetServiceItem = ({ item }) => (
     <View style={styles.yelpItem}>
@@ -68,7 +101,21 @@ const SpotScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.Title}>Explore Nearby Pet Services</Text>
+      <Text style={styles.Title}>Nearby Pet Services</Text>
+      <PressableButton
+        pressedFunction={locateUserHandler}
+        defaultStyle={styles.iconButton}
+        pressedStyle={styles.buttonPressed}
+      >
+        <View style={[styles.buttonContainer, {marginTop: 0}]}>
+          <EvilIcons
+            name="location"
+            size={26}
+            color={colors.defaultTextColor}
+          />
+          <Text>Explore Current Location</Text>
+        </View>
+      </PressableButton>
       <TextInput
         style={styles.searchBar}
         placeholder="🔍 Search for Pet Services"
