@@ -2,8 +2,7 @@ import { Image, View, Text } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { colors, styles } from "../styles";
-import { storage } from "../firebase/firebaseSetup";
-import { ref, getDownloadURL } from "firebase/storage";
+import { getAvatarFromDB } from "../firebase/firebasehelper";
 
 const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
   const spayedText = spayed === true ? "Spayed" : "Not Spayed";
@@ -14,16 +13,15 @@ const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
 
   useEffect(() => {
     async function downloadAvatar() {
-      const avatarRef = ref(storage, avatarUri);
-      const avatarURL = await getDownloadURL(avatarRef);
-      setAvatar(avatarURL);
+      if (avatarUri) {
+        const response = await getAvatarFromDB(avatarUri);
+        setAvatar(response);
+      } else {
+        // if petAvatar is null, use the default avatar pikachu
+        setAvatar(pikachuAvatar);
+      }
     }
-    // if petAvatar is null, use the default avatar pikachu
-    if (avatarUri) {
-      downloadAvatar();
-    } else {
-      setAvatar(pikachuAvatar);
-    }
+    downloadAvatar();
   }, []);
 
   return (

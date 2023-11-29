@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { styles } from "../styles";
 import { storage } from "../firebase/firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
+import { getAvatarFromDB } from "../firebase/firebasehelper";
 
 const PetAvatar = ({ focused, avatarURI }) => {
   const pikachuAvatar =
@@ -12,16 +13,15 @@ const PetAvatar = ({ focused, avatarURI }) => {
 
   useEffect(() => {
     async function downloadAvatar() {
-      const avatarRef = ref(storage, avatarURI);
-      const avatarURL = await getDownloadURL(avatarRef);
-      setAvatar(avatarURL);
+      if (avatarURI) {
+        const response = await getAvatarFromDB(avatarURI);
+        setAvatar(response);
+      } else {
+        // if petAvatar is null, use the default avatar pikachu
+        setAvatar(pikachuAvatar);
+      }
     }
-    // if petAvatar is null, use the default avatar pikachu
-    if (avatarURI) {
-      downloadAvatar();
-    } else {
-      setAvatar(pikachuAvatar);
-    }
+    downloadAvatar();
   }, []);
 
   return (

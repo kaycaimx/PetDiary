@@ -1,5 +1,7 @@
 import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { database } from "./firebaseSetup";
+import { storage } from "./firebaseSetup";
+import { ref, getDownloadURL } from "firebase/storage";
 
 export async function writeLogToDB(petID, log) {
   try {
@@ -40,5 +42,15 @@ export async function writePetToDB(pet) {
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
     console.log(err);
+  }
+}
+
+export async function getAvatarFromDB(avatarURI) {
+  try {
+    const avatarRef = ref(storage, avatarURI);
+    const avatarURL = await getDownloadURL(avatarRef);
+    return avatarURL;
+  } catch (err) {
+    console.log("Error downloading the pet avatar image: ", err);
   }
 }
