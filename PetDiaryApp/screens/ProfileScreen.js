@@ -40,7 +40,7 @@ const ProfileScreen = ({ navigation }) => {
           data={myPets}
           renderItem={({ item }) => (
             <PetProfile
-              avatar={item.petAvatar}
+              avatarUri={item.petAvatar}
               name={item.petName}
               birthday={item.petBirthday}
               gender={item.petGender}

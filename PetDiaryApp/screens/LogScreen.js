@@ -15,10 +15,6 @@ import { colors, styles } from "../styles";
 const TopTab = createMaterialTopTabNavigator();
 
 const LogScreen = () => {
-  // const currentRoute = useRoute();
-  // const routeName = getFocusedRouteNameFromRoute(currentRoute);
-  // console.log(routeName);
-
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {

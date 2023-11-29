@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   KeyboardAvoidingView,
+  Image,
   Platform,
   Text,
   TextInput,
@@ -11,11 +12,14 @@ import React, { useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 
 import PressableButton from "../components/PressableButton";
 import PressableIcon from "../components/PressableIcon";
 import { colors, styles } from "../styles";
 
+import { storage } from "../firebase/firebaseSetup";
+import { uploadBytesResumable, ref } from "firebase/storage";
 import { writePetToDB } from "../firebase/firebasehelper";
 
 const AddPetScreen = ({ navigation }) => {
@@ -25,6 +29,13 @@ const AddPetScreen = ({ navigation }) => {
   const [petBirthday, setPetBirthday] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [petAvatar, setPetAvatar] = useState(null);
+  const [preview, setPreview] = useState(
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
+  ); // for testing purposes only, remove later
+  const [cameraStatus, requestCameraPermission] =
+    ImagePicker.useCameraPermissions();
+  const [mediaStatus, requestMediaPermission] =
+    ImagePicker.useMediaLibraryPermissions();
 
   const genderRadioButtons = useMemo(
     () => [
@@ -87,6 +98,52 @@ const AddPetScreen = ({ navigation }) => {
     setPetBirthday(new Date(day));
   }
 
+  async function verifyCameraPermission() {
+    if (cameraStatus.granted) {
+      return true;
+    }
+    const response = await requestCameraPermission();
+    return response.granted;
+  }
+
+  async function verifyMediaPermission() {
+    if (mediaStatus.granted) {
+      return true;
+    }
+    const response = await requestMediaPermission();
+    return response.granted;
+  }
+
+  async function takePhoto() {
+    try {
+      const permissionGranted = await verifyCameraPermission();
+      if (!permissionGranted) {
+        Alert.alert("Please enable camera permissions in settings.");
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+      if (result) {
+        console.log(result);
+        // setPetAvatar(result.uri);
+        setPreview(result.assets[0].uri);
+        // upload image to firebase
+        const imageURI = result.assets[0].uri;
+        const response = await fetch(imageURI);
+        const blob = await response.blob();
+        const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
+        const storageRef = await ref(storage, `images/${imageName}`);
+        const uploadTask = await uploadBytesResumable(storageRef, blob);
+        setPetAvatar(uploadTask.metadata.fullPath);
+      }
+    } catch (error) {
+      console.log("Take photo error:", error);
+    }
+  }
+
   function generateRandomAvatar() {
     const pokedex = [
       "001",
@@ -138,10 +195,7 @@ const AddPetScreen = ({ navigation }) => {
       petGender: petGender,
       petBirthday: petBirthday.toLocaleDateString(),
       petSpayed: petSpayed === "yes" ? true : false,
-      // if petAvatar is null, use the default avatar pikachu
-      petAvatar: petAvatar
-        ? petAvatar
-        : "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
+      petAvatar: petAvatar,
     };
     writePetToDB(newPet);
     clearAllInputs();
@@ -212,7 +266,9 @@ const AddPetScreen = ({ navigation }) => {
         <Text>
           📷Placeholder for camera, press button below to generate random photo
         </Text>
-        <Button title="Upload photo" onPress={generateRandomAvatar} />
+        <Button title="Take photo" onPress={takePhoto} />
+        <Text>Preview:</Text>
+        <Image source={{ uri: preview }} style={{ width: 100, height: 100 }} />
       </View>
       <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton
