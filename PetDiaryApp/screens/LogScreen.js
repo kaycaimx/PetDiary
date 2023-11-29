@@ -28,7 +28,6 @@ const LogScreen = () => {
           pets.push({ ...doc.data(), id: doc.id });
         });
         setMyPets(pets);
-        console.log(pets);
       } else {
         setMyPets([]);
       }

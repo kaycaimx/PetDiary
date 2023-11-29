@@ -83,7 +83,7 @@ const AddPetScreen = ({ navigation }) => {
   };
 
   function handleAndroidBirthdateChange() {
-    console.log(androidBirthdate);
+    //console.log(androidBirthdate);
     const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
     if (!birthdayRegex.test(androidBirthdate)) {
       Alert.alert("Please enter a valid date in YYYY-MM-DD format");
@@ -162,7 +162,7 @@ const AddPetScreen = ({ navigation }) => {
       const uploadTask = await uploadBytesResumable(storageRef, blob);
       setPetAvatar(uploadTask.metadata.fullPath);
     } catch (error) {
-      console.log("Upload photo error:", error);
+      console.log("Upload photo to Firebase error:", error);
     }
   }
 

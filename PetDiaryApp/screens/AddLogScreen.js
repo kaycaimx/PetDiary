@@ -79,7 +79,6 @@ const AddLogScreen = ({ navigation }) => {
         // photo: photo,
         // location: location,
       };
-
       while (pets.length > 0) {
         let pet = pets.pop();
         if (pet.isChecked) {
