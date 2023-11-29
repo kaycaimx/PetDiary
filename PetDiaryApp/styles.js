@@ -57,6 +57,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginBottom: 10,
   },
+  addPetCameraLabel: {
+    fontSize: 12,
+    color: colors.defaultTextColor,
+    textAlign: "center",
+  },
+  addPetCameraWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "70%",
+    marginBottom: 10,
+  },
   bigAddButton: {
     // from https://github.com/react-navigation/react-navigation/issues/5126
     position: "absolute",

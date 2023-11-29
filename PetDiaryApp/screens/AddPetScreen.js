@@ -1,8 +1,6 @@
 import {
   Alert,
-  Button,
   KeyboardAvoidingView,
-  Image,
   Platform,
   Text,
   TextInput,
@@ -10,6 +8,7 @@ import {
 } from "react-native";
 import React, { useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
@@ -123,10 +122,10 @@ const AddPetScreen = ({ navigation }) => {
       }
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4, 4],
+        aspect: [4, 3],
         quality: 1,
       });
-      if (result) {
+      if (!result.canceled) {
         console.log(result);
         // setPetAvatar(result.uri);
         setPreview(result.assets[0].uri);
@@ -144,22 +143,32 @@ const AddPetScreen = ({ navigation }) => {
     }
   }
 
-  function generateRandomAvatar() {
-    const pokedex = [
-      "001",
-      "004",
-      "007",
-      "025",
-      "035",
-      "039",
-      "054",
-      "094",
-      "090",
-    ];
-    let avatarURI = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${
-      pokedex[Math.floor(Math.random() * pokedex.length)]
-    }.png`;
-    setPetAvatar(avatarURI);
+  async function uploadPhoto() {
+    try {
+      const permissionGranted = await verifyMediaPermission();
+      if (!permissionGranted) {
+        Alert.alert("Please enable access to your photo album in settings.");
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.canceled) {
+        console.log(result.assets[0].uri);
+        // upload image to firebase
+        const imageURI = result.assets[0].uri;
+        const response = await fetch(imageURI);
+        const blob = await response.blob();
+        const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
+        const storageRef = await ref(storage, `images/${imageName}`);
+        const uploadTask = await uploadBytesResumable(storageRef, blob);
+        setPetAvatar(uploadTask.metadata.fullPath);
+      }
+    } catch (error) {
+      console.log("Upload photo error:", error);
+    }
   }
 
   function clearAllInputs() {
@@ -263,12 +272,28 @@ const AddPetScreen = ({ navigation }) => {
           layout="row"
         />
         <Text style={styles.addPetLabel}>Pet Photo</Text>
-        <Text>
-          📷Placeholder for camera, press button below to generate random photo
-        </Text>
-        <Button title="Take photo" onPress={takePhoto} />
-        <Text>Preview:</Text>
-        <Image source={{ uri: preview }} style={{ width: 100, height: 100 }} />
+        <View style={styles.addPetCameraWrapper}>
+          <View>
+            <PressableIcon pressHandler={takePhoto}>
+              <Ionicons
+                name="camera"
+                size={26}
+                color={colors.defaultTextColor}
+              />
+            </PressableIcon>
+            <Text style={styles.addPetCameraLabel}>Take a photo</Text>
+          </View>
+          <View>
+            <PressableIcon pressHandler={uploadPhoto}>
+              <MaterialIcons
+                name="photo-library"
+                size={26}
+                color={colors.defaultTextColor}
+              />
+            </PressableIcon>
+            <Text style={styles.addPetCameraLabel}>Upload from album</Text>
+          </View>
+        </View>
       </View>
       <View style={[styles.buttonContainer, { width: "90%" }]}>
         <PressableButton
