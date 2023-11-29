@@ -74,6 +74,13 @@ const AddLogScreen = ({ navigation }) => {
         // location: location,
       };
       let pets = [...myPets];
+      if (pets.length === 0) {
+        Alert.alert(
+          "You haven't selected any pet",
+          "Please select one or more pets to add log."
+        );
+        return;
+      }
       while (pets.length > 0) {
         let pet = pets.pop();
         if (pet.isChecked) {
