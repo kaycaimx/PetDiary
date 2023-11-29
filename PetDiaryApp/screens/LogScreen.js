@@ -32,6 +32,7 @@ const LogScreen = () => {
           pets.push({ ...doc.data(), id: doc.id });
         });
         setMyPets(pets);
+        console.log(pets);
       } else {
         setMyPets([]);
       }
@@ -72,10 +73,15 @@ const LogScreen = () => {
       {myPets.length !== 0 &&
         myPets.map((pet) => (
           <TopTab.Screen
-            name={pet.petName}
+            name={pet.id}
             key={pet.id}
             component={PetScreen}
             options={{
+              tabBarLabel: () => (
+                <Text style={{ marginTop: 12, textAlign: "center" }}>
+                  {pet.petName}
+                </Text>
+              ),
               tabBarIcon: ({ focused }) => {
                 return (
                   <PetAvatar focused={focused} avatarURI={pet.petAvatar} />

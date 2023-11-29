@@ -87,8 +87,6 @@ const AddPetScreen = ({ navigation }) => {
     setPetBirthday(new Date(day));
   }
 
-  console.log("testing:", Date.parse("2022-14-1"));
-
   function generateRandomAvatar() {
     const pokedex = [
       "001",
