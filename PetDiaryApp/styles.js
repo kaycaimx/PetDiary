@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
   addPetCameraLabel: {
     fontSize: 12,
     color: colors.defaultTextColor,
-    textAlign: "center",
+    textAlign: "left",
   },
   addPetCameraWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "70%",
+    width: "80%",
     marginBottom: 10,
   },
   bigAddButton: {

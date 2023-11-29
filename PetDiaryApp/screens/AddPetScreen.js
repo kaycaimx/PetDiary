@@ -126,24 +126,14 @@ const AddPetScreen = ({ navigation }) => {
         quality: 1,
       });
       if (!result.canceled) {
-        console.log(result);
-        // setPetAvatar(result.uri);
-        setPreview(result.assets[0].uri);
-        // upload image to firebase
-        const imageURI = result.assets[0].uri;
-        const response = await fetch(imageURI);
-        const blob = await response.blob();
-        const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
-        const storageRef = await ref(storage, `images/${imageName}`);
-        const uploadTask = await uploadBytesResumable(storageRef, blob);
-        setPetAvatar(uploadTask.metadata.fullPath);
+        uploadImageToFirebase(result.assets[0].uri);
       }
     } catch (error) {
       console.log("Take photo error:", error);
     }
   }
 
-  async function uploadPhoto() {
+  async function selectFromAlbum() {
     try {
       const permissionGranted = await verifyMediaPermission();
       if (!permissionGranted) {
@@ -156,16 +146,21 @@ const AddPetScreen = ({ navigation }) => {
         quality: 1,
       });
       if (!result.canceled) {
-        console.log(result.assets[0].uri);
-        // upload image to firebase
-        const imageURI = result.assets[0].uri;
-        const response = await fetch(imageURI);
-        const blob = await response.blob();
-        const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
-        const storageRef = await ref(storage, `images/${imageName}`);
-        const uploadTask = await uploadBytesResumable(storageRef, blob);
-        setPetAvatar(uploadTask.metadata.fullPath);
+        uploadImageToFirebase(result.assets[0].uri);
       }
+    } catch (error) {
+      console.log("Select from album error:", error);
+    }
+  }
+
+  async function uploadImageToFirebase(imageURI) {
+    try {
+      const response = await fetch(imageURI);
+      const blob = await response.blob();
+      const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
+      const storageRef = await ref(storage, `images/${imageName}`);
+      const uploadTask = await uploadBytesResumable(storageRef, blob);
+      setPetAvatar(uploadTask.metadata.fullPath);
     } catch (error) {
       console.log("Upload photo error:", error);
     }
@@ -277,21 +272,21 @@ const AddPetScreen = ({ navigation }) => {
             <PressableIcon pressHandler={takePhoto}>
               <Ionicons
                 name="camera"
-                size={26}
+                size={28}
                 color={colors.defaultTextColor}
               />
+              <Text style={styles.addPetCameraLabel}>Take a photo</Text>
             </PressableIcon>
-            <Text style={styles.addPetCameraLabel}>Take a photo</Text>
           </View>
           <View>
-            <PressableIcon pressHandler={uploadPhoto}>
+            <PressableIcon pressHandler={selectFromAlbum}>
               <MaterialIcons
                 name="photo-library"
-                size={26}
+                size={28}
                 color={colors.defaultTextColor}
               />
+              <Text style={styles.addPetCameraLabel}>Upload from album</Text>
             </PressableIcon>
-            <Text style={styles.addPetCameraLabel}>Upload from album</Text>
           </View>
         </View>
       </View>

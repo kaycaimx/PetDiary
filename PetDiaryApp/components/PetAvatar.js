@@ -2,8 +2,6 @@ import { Image } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { styles } from "../styles";
-import { storage } from "../firebase/firebaseSetup";
-import { ref, getDownloadURL } from "firebase/storage";
 import { getAvatarFromDB } from "../firebase/firebasehelper";
 
 const PetAvatar = ({ focused, avatarURI }) => {

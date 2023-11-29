@@ -29,9 +29,11 @@ const SpotScreen = ({ navigation }) => {
     const fetchNearbyPetServices = async () => {
       try {
         const response = await fetch(
-          `https://api.yelp.com/v3/businesses/search?term=${searchTerm || "pets"}&latitude=${
-            userLocation?.latitude || 49.28273
-          }&longitude=${userLocation?.longitude || -123.120735}`,
+          `https://api.yelp.com/v3/businesses/search?term=${
+            searchTerm || "pets"
+          }&latitude=${userLocation?.latitude || 49.28273}&longitude=${
+            userLocation?.longitude || -123.120735
+          }`,
           {
             headers: {
               Authorization: `Bearer ${yelpAPIKey}`,
@@ -108,7 +110,7 @@ const SpotScreen = ({ navigation }) => {
         defaultStyle={styles.iconButton}
         pressedStyle={styles.buttonPressed}
       >
-        <View style={[styles.buttonContainer, {marginTop: 0}]}>
+        <View style={[styles.buttonContainer, { marginTop: 0 }]}>
           <EvilIcons
             name="location"
             size={26}
