@@ -76,6 +76,8 @@ const SpotScreen = ({ navigation }) => {
         latitude: locationObject.coords.latitude,
         longitude: locationObject.coords.longitude,
       });
+      console.log(userLocation.latitude);
+      console.log(userLocation.longitude);
     } catch (err) {
       console.log("locate user ", err);
     }
@@ -125,11 +127,13 @@ const SpotScreen = ({ navigation }) => {
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />
-      <FlatList
-        data={petServices}
-        keyExtractor={(item) => item.id}
-        renderItem={renderPetServiceItem}
-      />
+      {userLocation && (
+        <FlatList
+          data={petServices}
+          keyExtractor={(item) => item.id}
+          renderItem={renderPetServiceItem}
+        />
+      )}
     </SafeAreaView>
   );
 };
