@@ -314,10 +314,9 @@ const AddPetScreen = ({ navigation }) => {
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
           disabled={
-            ((isTakingPhoto || isSelectingFromAlbum) && petAvatar) ||
-            (!isTakingPhoto && !isSelectingFromAlbum && !petAvatar)
-              ? false
-              : true
+            isTakingPhoto || isSelectingFromAlbum
+              ? petAvatar === null
+              : petAvatar !== null
           }
         >
           <Text style={styles.buttonText}>Save</Text>
