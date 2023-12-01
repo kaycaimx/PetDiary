@@ -90,6 +90,7 @@ const EditLogScreen = ({ route, navigation }) => {
           pressedFunction={handleDeleteLog}
           defaultStyle={styles.iconButton}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Ionicons
             name="trash-bin"
@@ -134,6 +135,7 @@ const EditLogScreen = ({ route, navigation }) => {
           pressedFunction={handleCancel}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </PressableButton>
@@ -141,6 +143,7 @@ const EditLogScreen = ({ route, navigation }) => {
           pressedFunction={handleUpdateLog}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>

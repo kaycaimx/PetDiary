@@ -151,6 +151,7 @@ const AddLogScreen = ({ navigation }) => {
           pressedFunction={handleCancel}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </PressableButton>
@@ -158,6 +159,7 @@ const AddLogScreen = ({ navigation }) => {
           pressedFunction={handleSaveLog}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>

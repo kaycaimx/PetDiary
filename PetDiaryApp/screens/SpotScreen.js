@@ -111,6 +111,7 @@ const SpotScreen = ({ navigation }) => {
         pressedFunction={locateUserHandler}
         defaultStyle={styles.iconButton}
         pressedStyle={styles.buttonPressed}
+        disabled={false}
       >
         <View style={[styles.buttonContainer, { marginTop: 0 }]}>
           <EvilIcons
