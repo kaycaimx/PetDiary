@@ -180,6 +180,8 @@ const AddPetScreen = ({ navigation }) => {
     setPetSpayed();
     setPetBirthday(null);
     setPetAvatar(null);
+    setIsTakingPhoto(false);
+    setIsSelectingFromAlbum(false);
   }
 
   function handleCancel() {
