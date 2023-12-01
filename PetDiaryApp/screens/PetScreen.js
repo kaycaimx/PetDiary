@@ -37,7 +37,7 @@ const PetScreen = ({ navigation, route }) => {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const logs = [];
       querySnapshot.forEach((doc) => {
-        logs.push({ ...doc.data(), id: doc.id });
+        logs.push({ ...doc.data(), id: doc.id, petDoc: petDoc });
       });
       setLogList(logs);
     });

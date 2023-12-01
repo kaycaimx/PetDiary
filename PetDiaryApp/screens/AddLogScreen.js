@@ -144,8 +144,8 @@ const AddLogScreen = ({ navigation }) => {
         onChangeText={(text) => setContent(text)}
       />
 
-      <Text>📷 Add photo</Text>
-      <Text>📍 Add location</Text>
+      <Text>📷 Add photo placeholder</Text>
+      {/* <Text>📍 Add location</Text> */}
       <View style={styles.buttonContainer}>
         <PressableButton
           pressedFunction={handleCancel}
