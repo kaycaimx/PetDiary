@@ -4,8 +4,7 @@ import { FlatList } from "react-native-gesture-handler";
 import PressableButton from "./PressableButton";
 import { colors, styles } from "../styles";
 
-const EntriesList = ({ data, pressHandler}) => {
-
+const EntriesList = ({ data, pressHandler }) => {
   return (
     <FlatList
       data={data}
@@ -17,12 +16,11 @@ const EntriesList = ({ data, pressHandler}) => {
             android_ripple={{ color: "#f00" }}
             defaultStyle={styles.EntryListContainer}
             pressedStyle={styles.EntryListLogPressed}
+            disabled={false}
           >
             <Text style={styles.EntryListText}>{item.type}</Text>
             <View style={styles.EntryListAdditionalArea}>
-              <Text>
-                {item.content}
-              </Text>
+              <Text>{item.content}</Text>
             </View>
           </PressableButton>
         </View>

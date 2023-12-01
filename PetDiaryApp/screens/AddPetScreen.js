@@ -28,9 +28,15 @@ const AddPetScreen = ({ navigation }) => {
   const [petBirthday, setPetBirthday] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [petAvatar, setPetAvatar] = useState(null);
-  const [preview, setPreview] = useState(
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
-  ); // for testing purposes only, remove later
+
+  // Use separate state variables for taking photo and selecting from album to fix the latency issue
+  // If user takes a photo or selects a photo from album, and does not cancel the action,
+  // the Save button will be disabled until the photo is uploaded to Firebase and path is saved to petAvatar
+  // Otherwise, if the user does not take a photo or select a photo from album, and the petAvatar is null,
+  // the Save button will not be disabled => logic in lines 314-319
+  const [isTakingPhoto, setIsTakingPhoto] = useState(false);
+  const [isSelectingFromAlbum, setIsSelectingFromAlbum] = useState(false);
+
   const [cameraStatus, requestCameraPermission] =
     ImagePicker.useCameraPermissions();
   const [mediaStatus, requestMediaPermission] =
@@ -126,6 +132,7 @@ const AddPetScreen = ({ navigation }) => {
         quality: 1,
       });
       if (!result.canceled) {
+        setIsTakingPhoto(true);
         uploadImageToFirebase(result.assets[0].uri);
       }
     } catch (error) {
@@ -146,6 +153,7 @@ const AddPetScreen = ({ navigation }) => {
         quality: 1,
       });
       if (!result.canceled) {
+        setIsSelectingFromAlbum(true);
         uploadImageToFirebase(result.assets[0].uri);
       }
     } catch (error) {
@@ -172,6 +180,8 @@ const AddPetScreen = ({ navigation }) => {
     setPetSpayed();
     setPetBirthday(null);
     setPetAvatar(null);
+    setIsTakingPhoto(false);
+    setIsSelectingFromAlbum(false);
   }
 
   function handleCancel() {
@@ -295,6 +305,7 @@ const AddPetScreen = ({ navigation }) => {
           pressedFunction={handleCancel}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={false}
         >
           <Text style={styles.buttonText}>Cancel</Text>
         </PressableButton>
@@ -302,6 +313,12 @@ const AddPetScreen = ({ navigation }) => {
           pressedFunction={handleSavePet}
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
+          disabled={
+            ((isTakingPhoto || isSelectingFromAlbum) && petAvatar) ||
+            (!isTakingPhoto && !isSelectingFromAlbum && !petAvatar)
+              ? false
+              : true
+          }
         >
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>

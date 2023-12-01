@@ -6,14 +6,20 @@ export default function PressableButton({
   pressedFunction,
   pressedStyle,
   defaultStyle,
+  disabled,
 }) {
   return (
     <View>
       <Pressable
         onPress={pressedFunction}
         style={({ pressed }) => {
-          return [defaultStyle, pressed && pressedStyle];
+          return [
+            defaultStyle,
+            pressed && pressedStyle,
+            disabled && { opacity: 0.5 },
+          ];
         }}
+        disabled={disabled}
       >
         {children}
       </Pressable>
