@@ -301,7 +301,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontStyle: "italic",
-    fontFamily: "Courier New",
   },
   EntryListLogPressed: {
     backgroundColor: "#aaa",
@@ -320,7 +319,6 @@ const styles = StyleSheet.create({
   },
   Title: {
     fontWeight: "bold",
-    fontFamily: "Courier New",
     fontSize: 22,
     marginTop: 10,
     marginBottom: 10,

@@ -16,6 +16,7 @@ Welcome to use Pet Diary! This is a user-friendly mobile app designed for adults
   - [Installation](#installation)
 - [Running the App](#running-the-app)
 - [Current State](#current-state)
+  - [Iteration 2 updates](#iteration-2-updates-as-of-dec-1-2023)
   - [Iteration 1](#iteration-1-as-of-nov-19-2023)
   - [Member Contribution](#member-contribution)
   - [Next Iteration](#next-iteration)
@@ -43,7 +44,7 @@ Copy the configuration object.
 
 ### Create a .env file
 
-Create a new file named `.env` in the root folder and paste the following, replacing the placeholder values with your Firebase credentials:
+Create a new file named `.env` in the root folder and paste the following, replacing the placeholder values with your Firebase credentials. You will also need a Yelp API key to connect with Yelp API.
 
 ```javascript
 // PetDiaryApp/.env
@@ -54,6 +55,7 @@ projectId = "YOUR_PROJECT_ID";
 storageBucket = "YOUR_STORAGE_BUCKET";
 messagingSenderId = "YOUR_MESSAGING_SENDER_ID";
 appId = "YOUR_APP_ID";
+yelpAPIKey = "YOUR_YELP_API_KEY";
 ```
 
 ### Installation
@@ -86,6 +88,19 @@ npm expo start
 
 ## Current State
 
+### Iteration 2 updates (as of Dec 1, 2023)
+
+- Camera use
+  - User can take a photo or select a photo from album to set as the head icon/avatar for their pets in the app
+- External API use
+  - User can see nearby pet-related business provide by Yelp with name, rating and hyperlinks to Yelp app page
+- Location use
+  - The abovementioned functionality uses user's current location
+- Other updates:
+  - User now can select which pet to add logs, and each pet's screen will only that pet's own logs
+- Issues:
+  - Currently in the first render of SpotScreen a type error will appear because userLocation is null and cannot read latitude or longtitute of null, we will fix this in the next iteration
+
 ### Iteration 1 (as of Nov 19, 2023)
 
 - Functionalities implemented:
@@ -105,17 +120,17 @@ npm expo start
 ### Member contribution
 
 - Kay:
-  implemented HomeScreen, LogScreen, AddPetScreen, ProfileScreen and related components, as well as navigation among these screens, read of log data, creation of pet data, and version control;
-- Iris: implemented AddLogScreen, EditLogScreen and related components, as well as CRUD of log data.
+  implemented HomeScreen, LogScreen, AddPetScreen, ProfileScreen and related components, as well as navigation among these screens, read of log data, creation of pet data, improvements to AddLogScreen and EditLogScreen, database structuring, camera use, and version control;
+- Iris: implemented AddLogScreen, EditLogScreen, SpotScreen and related components, as well as CRUD of log data, external API use and location use.
 
 ### Next Iteration
 
-The next iteration 2 will focus on:
+The next iteration 3 will focus on:
 
-- External API use
-- Camera use
-- Location use
-- Implement the pet selection in AddLogScreen so that each log will belong to the specific pet and only shown on that pet's PetScreen
+- Extend camera use on AddLogScreen
+- Add map with markers in the SpotScreen and stylings
+- Authentication
+- Notification
 
 ## User Guide
 
@@ -129,11 +144,15 @@ Users can add their pets in the AddPetScreen, due to a bug in the react-native-c
 ![android-date](./PetDiaryApp/assets/screenshots/android-date.png)
 ![android-invallid-alert](./PetDiaryApp/assets/screenshots/android-invalid-date.png)
 
+User can either take a new photo or upload an existing photo from the album to set as the head icon/avatar of the pet by pressing the icon and label, respecitvely.
+
+![add-pet](./PetDiaryApp/assets/screenshots/add_pet.PNG)
+
 Once a pet is added, users will be navigated to ProfileScreen where they can see a summary of their pets' profile. By pressing the add button below, users can start adding logs for their pets.
 
-![profile](./PetDiaryApp/assets/screenshots/profile.png)
+![profile](./PetDiaryApp/assets/screenshots/profile.PNG)
 
-In the AddLogScreen, users will select activity type, enter details, add photos and locations (currently in placeholder), and save the log by pressing "Save". Once added, the log will appear in the LogScreen. Users can add more logs by pressing the big add button in the middle of bottom tab.
+In the AddLogScreen, users will select pets, activity type, enter details, add photos (currently in placeholder), and save the log by pressing "Save". Once added, the log will appear in the LogScreen. Users can add more logs by pressing the big add button in the middle of bottom tab.
 
 ![add-log](./PetDiaryApp/assets/screenshots/add_log.PNG)
 ![log-screen](./PetDiaryApp/assets/screenshots/log.PNG)
@@ -144,6 +163,7 @@ By pressing a specific log in the LogScreen, users can edit or delete that log.
 ![delete-log](./PetDiaryApp/assets/screenshots/delete_log.PNG)
 
 Users can also add more pets by pressing the "Add Pet" on the top tab or swipe to the "Add Pet" tab.
+
 ![add-more-pets](./PetDiaryApp/assets/screenshots/add_more_pet.PNG)
 ![profile-with-two-pets](./PetDiaryApp/assets/screenshots/profile_2pets.PNG)
 
@@ -152,9 +172,14 @@ Users can also filter and search for activities of a certain type by selecting t
 ![search-all](./PetDiaryApp/assets/screenshots/all_logs.PNG)
 ![search-a-type](./PetDiaryApp/assets/screenshots/search_logs.PNG)
 
-Pressing the Spot icon in the bottom tab will navigate users to the SpotScreen which connects to external API and will be further implemented in Iteration 2.
+Pressing the Spot icon in the bottom tab will navigate users to the SpotScreen which will use user's current location and connects to external API.
 
 ![spot-screen](./PetDiaryApp/assets/screenshots/navigate_spot.PNG)
+
+User can press the "Explore Current Location" label and the app will first ask for permission and once permission granted get the current location and show nearby pet-related services providers from Yelp. The below two screenshots show different results based on different locations.
+
+![spot-results1](./PetDiaryApp/assets/screenshots/spot1.PNG)
+![spot-results2](./PetDiaryApp/assets/screenshots/spot2.PNG)
 
 ## Database Structure
 
