@@ -2,7 +2,6 @@ import { View, Text, Alert, KeyboardAvoidingView } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
-import DropdownMenu from "../components/DropdownMenu";
 import { colors, styles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { database } from "../firebase/firebaseSetup";
@@ -44,7 +43,15 @@ const EditLogScreen = ({ route, navigation }) => {
           text: "Yes",
           onPress: async () => {
             try {
-              const logRef = doc(database, "logs", logToEdit.id);
+              const logRef = doc(
+                database,
+                "PetDiary",
+                "testUser",
+                "pets",
+                logToEdit.petDoc,
+                "logs",
+                logToEdit.id
+              );
               await updateDoc(logRef, log);
               navigation.goBack();
             } catch (err) {
@@ -67,7 +74,15 @@ const EditLogScreen = ({ route, navigation }) => {
         onPress: async () => {
           try {
             // Perform the deletion action
-            const logRef = doc(database, "logs", logToEdit.id);
+            const logRef = doc(
+              database,
+              "PetDiary",
+              "testUser",
+              "pets",
+              logToEdit.petDoc,
+              "logs",
+              logToEdit.id
+            );
             await deleteDoc(logRef);
             navigation.goBack();
           } catch (err) {
@@ -128,8 +143,8 @@ const EditLogScreen = ({ route, navigation }) => {
         value={content}
         onChangeText={(text) => setContent(text)}
       />
-      <Text>Add photo</Text>
-      <Text>📍 Add location</Text>
+      <Text>Edit photo placeholder</Text>
+      {/* <Text>📍 Add location</Text> */}
       <View style={styles.buttonContainer}>
         <PressableButton
           pressedFunction={handleCancel}
