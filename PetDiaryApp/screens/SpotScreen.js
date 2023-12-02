@@ -31,9 +31,9 @@ const SpotScreen = ({ navigation }) => {
         const response = await fetch(
           `https://api.yelp.com/v3/businesses/search?term=${
             searchTerm || "pets"
-          }&latitude=${userLocation?.latitude || 49.28273}&longitude=${
-            userLocation?.longitude || -123.120735
-          }`,
+          }&latitude=${
+            userLocation ? userLocation.latitude : 49.28273
+          }&longitude=${userLocation ? userLocation.longitude : -123.120735}`,
           {
             headers: {
               Authorization: `Bearer ${yelpAPIKey}`,
@@ -76,8 +76,8 @@ const SpotScreen = ({ navigation }) => {
         latitude: locationObject.coords.latitude,
         longitude: locationObject.coords.longitude,
       });
-      console.log(userLocation.latitude);
-      console.log(userLocation.longitude);
+      // console.log(userLocation.latitude);
+      // console.log(userLocation.longitude);
     } catch (err) {
       console.log("locate user ", err);
     }
