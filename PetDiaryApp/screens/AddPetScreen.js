@@ -33,7 +33,7 @@ const AddPetScreen = ({ navigation }) => {
   // If user takes a photo or selects a photo from album, and does not cancel the action,
   // the Save button will be disabled until the photo is uploaded to Firebase and path is saved to petAvatar
   // Otherwise, if the user does not take a photo or select a photo from album, and the petAvatar is null,
-  // the Save button will not be disabled => logic in lines 314-319
+  // the Save button will not be disabled => logic in lines 316-320
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const [isSelectingFromAlbum, setIsSelectingFromAlbum] = useState(false);
 
@@ -314,10 +314,9 @@ const AddPetScreen = ({ navigation }) => {
           defaultStyle={styles.button}
           pressedStyle={styles.buttonPressed}
           disabled={
-            ((isTakingPhoto || isSelectingFromAlbum) && petAvatar) ||
-            (!isTakingPhoto && !isSelectingFromAlbum && !petAvatar)
-              ? false
-              : true
+            isTakingPhoto || isSelectingFromAlbum
+              ? petAvatar === null
+              : petAvatar !== null
           }
         >
           <Text style={styles.buttonText}>Save</Text>
