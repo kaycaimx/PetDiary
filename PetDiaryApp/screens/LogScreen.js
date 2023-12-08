@@ -2,8 +2,6 @@ import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
 
 import React, { useEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../firebase/firebaseSetup";
 
 import AddPetIcon from "../components/AddPetIcon";
 import AddPetScreen from "./AddPetScreen";
@@ -11,29 +9,12 @@ import PetScreen from "./PetScreen";
 import PetAvatar from "../components/PetAvatar";
 import PlaceHolder from "../components/PlaceHolder";
 import { colors, styles } from "../styles";
+import { usePets } from "../components/PetsContext";
 
 const TopTab = createMaterialTopTabNavigator();
 
 const LogScreen = () => {
-  const [myPets, setMyPets] = useState([]);
-
-  useEffect(() => {
-    // At Iteration 1, we are not using firebase authentication yet, so we are
-    // hardcoding the user to "testUser".
-    const q = collection(database, "PetDiary", "testUser", "pets");
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      if (!querySnapshot.empty) {
-        let pets = [];
-        querySnapshot.forEach((doc) => {
-          pets.push({ ...doc.data(), id: doc.id });
-        });
-        setMyPets(pets);
-      } else {
-        setMyPets([]);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+  const { myPets } = usePets();
 
   return (
     <TopTab.Navigator
