@@ -1,10 +1,10 @@
 import {
-  View,
-  Text,
-  KeyboardAvoidingView,
   Alert,
   Keyboard,
+  KeyboardAvoidingView,
+  Text,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
@@ -12,13 +12,16 @@ import CustomTextInput from "../components/TextInput";
 import NameCheckbox from "../components/NameCheckbox";
 import { writeLogToDB } from "../firebase/firebasehelper";
 import { styles } from "../styles";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../firebase/firebaseSetup";
 
 import { activitiesMenu } from "../constants";
+import { usePets } from "../components/PetsContext";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const AddLogScreen = ({ navigation }) => {
+  const { myPets } = usePets();
+
+  const [petsHaveLog, setPetsHaveLog] = useState(myPets);
+
   const returnForNoPets = () => {
     if (myPets.length === 0) {
       Alert.alert("You don't have any pet", "Please add a pet first.");
@@ -26,33 +29,12 @@ const AddLogScreen = ({ navigation }) => {
     }
   };
 
-  const [myPets, setMyPets] = useState([]);
-
   useEffect(() => {
-    // At Iteration 1, we are not using firebase authentication yet, so we are
-    // hardcoding the user to "testUser".
-    const q = collection(database, "PetDiary", "testUser", "pets");
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      if (!querySnapshot.empty) {
-        let pets = [];
-        querySnapshot.forEach((doc) => {
-          pets.push({ ...doc.data(), id: doc.id, isChecked: true });
-        });
-        setMyPets(pets);
-      } else {
-        setMyPets([]);
-        returnForNoPets();
-      }
+    const unsubscribe = navigation.addListener("focus", () => {
+      returnForNoPets();
     });
-    return () => unsubscribe();
-  }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener("focus", () => {
-  //     returnForNoPets();
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
+    return unsubscribe;
+  }, [navigation]);
 
   const [type, setType] = useState("");
   const [content, setContent] = useState("");
@@ -61,8 +43,12 @@ const AddLogScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(activitiesMenu);
 
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   const handleSaveLog = () => {
-    let pets = [...myPets];
+    let pets = [...petsHaveLog];
     if (pets.length === 0) {
       Alert.alert(
         "You haven't selected any pet",
@@ -96,75 +82,69 @@ const AddLogScreen = ({ navigation }) => {
     navigation.navigate("Log");
   };
 
-  const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
-
   const handleCheckbox = (id) => {
     let pets = [...myPets];
     let pet = pets.find((pet) => pet.id === id);
     pet.isChecked = !pet.isChecked;
-    setMyPets(pets);
+    setPetsHaveLog(pets);
   };
 
   return (
-    <KeyboardAvoidingView style={styles.view} behavior="padding">
-      <Text style={styles.addPetLabel}>Select pets: </Text>
-      {myPets &&
-        myPets.map((pet) => (
-          <NameCheckbox
-            key={pet.id}
-            petName={pet.petName}
-            petID={pet.id}
-            isChecked={pet.isChecked}
-            checkHandler={handleCheckbox}
-          />
-        ))}
-      <Text style={styles.alert}>* required</Text>
-      <DropDownPicker
-        containerStyle={styles.dropdownContainer}
-        textStyle={styles.dropdownText}
-        open={open}
-        items={items}
-        setOpen={setOpen}
-        value={type}
-        setValue={setType}
-        searchable={true}
-        placeholder="🔍 Select activity type"
-        placeholderStyle={styles.dropdownPlaceholder}
-        setItems={setItems}
-        multiple={false}
-      />
-
-      <CustomTextInput
-        placeholder="Add details ..."
-        value={content}
-        onChangeText={(text) => setContent(text)}
-      />
-
-      <Text>📷 Add photo placeholder</Text>
-      {/* <Text>📍 Add location</Text> */}
-      <View style={styles.buttonContainer}>
-        <PressableButton
-          pressedFunction={handleCancel}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </PressableButton>
-        <PressableButton
-          pressedFunction={handleSaveLog}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </PressableButton>
-      </View>
-    </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <KeyboardAvoidingView style={styles.view} behavior="padding">
+        <Text style={styles.addPetLabel}>Select pets *: </Text>
+        {myPets &&
+          myPets.map((pet) => (
+            <NameCheckbox
+              key={pet.id}
+              petName={pet.petName}
+              petID={pet.id}
+              isChecked={pet.isChecked}
+              checkHandler={handleCheckbox}
+            />
+          ))}
+        <Text style={styles.alert}>* required</Text>
+        <DropDownPicker
+          containerStyle={styles.dropdownContainer}
+          textStyle={styles.dropdownText}
+          open={open}
+          items={items}
+          setOpen={setOpen}
+          value={type}
+          setValue={setType}
+          searchable={true}
+          placeholder="🔍 Select activity type"
+          placeholderStyle={styles.dropdownPlaceholder}
+          setItems={setItems}
+          multiple={false}
+        />
+        <CustomTextInput
+          placeholder="Add details ..."
+          value={content}
+          onChangeText={(text) => setContent(text)}
+        />
+        <Text>📷 Add photo placeholder</Text>
+        {/* <Text>📍 Add location</Text> */}
+        <View style={styles.buttonContainer}>
+          <PressableButton
+            pressedFunction={handleCancel}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </PressableButton>
+          <PressableButton
+            pressedFunction={handleSaveLog}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </PressableButton>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

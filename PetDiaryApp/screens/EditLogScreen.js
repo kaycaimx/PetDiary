@@ -1,4 +1,11 @@
-import { View, Text, Alert, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
 import CustomTextInput from "../components/TextInput";
@@ -18,6 +25,10 @@ const EditLogScreen = ({ route, navigation }) => {
   const [location, setLocation] = useState();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(activitiesMenu);
+
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
 
   function selectTypeHanlder(type) {
     console.log(type);
@@ -118,52 +129,54 @@ const EditLogScreen = ({ route, navigation }) => {
   }, [navigation]);
 
   return (
-    <KeyboardAvoidingView style={styles.view}>
-      <Text style={styles.alert}>* required</Text>
-      {/* <DropdownMenu
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <KeyboardAvoidingView style={styles.view}>
+        <Text style={styles.alert}>* required</Text>
+        {/* <DropdownMenu
         pickerMenu={activitiesMenu}
         placeHolder={type}
         value={type}
         selectHandler={selectTypeHanlder}
       /> */}
-      <DropDownPicker
-        containerStyle={styles.dropdownContainer}
-        textStyle={styles.dropdownText}
-        open={open}
-        items={items}
-        setOpen={setOpen}
-        value={type}
-        setValue={setType}
-        searchable={true}
-        setItems={setItems}
-        multiple={false}
-      />
-      <CustomTextInput
-        placeholder="Add details ..."
-        value={content}
-        onChangeText={(text) => setContent(text)}
-      />
-      <Text>Edit photo placeholder</Text>
-      {/* <Text>📍 Add location</Text> */}
-      <View style={styles.buttonContainer}>
-        <PressableButton
-          pressedFunction={handleCancel}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </PressableButton>
-        <PressableButton
-          pressedFunction={handleUpdateLog}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </PressableButton>
-      </View>
-    </KeyboardAvoidingView>
+        <DropDownPicker
+          containerStyle={styles.dropdownContainer}
+          textStyle={styles.dropdownText}
+          open={open}
+          items={items}
+          setOpen={setOpen}
+          value={type}
+          setValue={setType}
+          searchable={true}
+          setItems={setItems}
+          multiple={false}
+        />
+        <CustomTextInput
+          placeholder="Add details ..."
+          value={content}
+          onChangeText={(text) => setContent(text)}
+        />
+        <Text>Edit photo placeholder</Text>
+        {/* <Text>📍 Add location</Text> */}
+        <View style={styles.buttonContainer}>
+          <PressableButton
+            pressedFunction={handleCancel}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </PressableButton>
+          <PressableButton
+            pressedFunction={handleUpdateLog}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </PressableButton>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
