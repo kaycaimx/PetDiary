@@ -32,6 +32,6 @@ function PetsContextProvider({ children }) {
 
   return <PetsContext.Provider value={value}>{children}</PetsContext.Provider>;
 }
-
+// either with no curly braces, or have "return" keyword and curly braces!!!!
 const usePets = () => useContext(PetsContext);
 export { PetsContextProvider, usePets };

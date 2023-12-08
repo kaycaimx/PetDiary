@@ -1,10 +1,10 @@
 import {
-  View,
-  Text,
-  KeyboardAvoidingView,
   Alert,
   Keyboard,
+  KeyboardAvoidingView,
+  Text,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
@@ -43,6 +43,10 @@ const AddLogScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(activitiesMenu);
 
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   const handleSaveLog = () => {
     let pets = [...petsHaveLog];
     if (pets.length === 0) {
@@ -78,12 +82,6 @@ const AddLogScreen = ({ navigation }) => {
     navigation.navigate("Log");
   };
 
-  const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {children}
-    </TouchableWithoutFeedback>
-  );
-
   const handleCheckbox = (id) => {
     let pets = [...myPets];
     let pet = pets.find((pet) => pet.id === id);
@@ -92,61 +90,61 @@ const AddLogScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.view} behavior="padding">
-      <Text style={styles.addPetLabel}>Select pets *: </Text>
-      {myPets &&
-        myPets.map((pet) => (
-          <NameCheckbox
-            key={pet.id}
-            petName={pet.petName}
-            petID={pet.id}
-            isChecked={pet.isChecked}
-            checkHandler={handleCheckbox}
-          />
-        ))}
-      <Text style={styles.alert}>* required</Text>
-      <DropDownPicker
-        containerStyle={styles.dropdownContainer}
-        textStyle={styles.dropdownText}
-        open={open}
-        items={items}
-        setOpen={setOpen}
-        value={type}
-        setValue={setType}
-        searchable={true}
-        placeholder="🔍 Select activity type"
-        placeholderStyle={styles.dropdownPlaceholder}
-        setItems={setItems}
-        multiple={false}
-      />
-
-      <CustomTextInput
-        placeholder="Add details ..."
-        value={content}
-        onChangeText={(text) => setContent(text)}
-      />
-
-      <Text>📷 Add photo placeholder</Text>
-      {/* <Text>📍 Add location</Text> */}
-      <View style={styles.buttonContainer}>
-        <PressableButton
-          pressedFunction={handleCancel}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </PressableButton>
-        <PressableButton
-          pressedFunction={handleSaveLog}
-          defaultStyle={styles.button}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
-        >
-          <Text style={styles.buttonText}>Save</Text>
-        </PressableButton>
-      </View>
-    </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <KeyboardAvoidingView style={styles.view} behavior="padding">
+        <Text style={styles.addPetLabel}>Select pets *: </Text>
+        {myPets &&
+          myPets.map((pet) => (
+            <NameCheckbox
+              key={pet.id}
+              petName={pet.petName}
+              petID={pet.id}
+              isChecked={pet.isChecked}
+              checkHandler={handleCheckbox}
+            />
+          ))}
+        <Text style={styles.alert}>* required</Text>
+        <DropDownPicker
+          containerStyle={styles.dropdownContainer}
+          textStyle={styles.dropdownText}
+          open={open}
+          items={items}
+          setOpen={setOpen}
+          value={type}
+          setValue={setType}
+          searchable={true}
+          placeholder="🔍 Select activity type"
+          placeholderStyle={styles.dropdownPlaceholder}
+          setItems={setItems}
+          multiple={false}
+        />
+        <CustomTextInput
+          placeholder="Add details ..."
+          value={content}
+          onChangeText={(text) => setContent(text)}
+        />
+        <Text>📷 Add photo placeholder</Text>
+        {/* <Text>📍 Add location</Text> */}
+        <View style={styles.buttonContainer}>
+          <PressableButton
+            pressedFunction={handleCancel}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </PressableButton>
+          <PressableButton
+            pressedFunction={handleSaveLog}
+            defaultStyle={styles.button}
+            pressedStyle={styles.buttonPressed}
+            disabled={false}
+          >
+            <Text style={styles.buttonText}>Save</Text>
+          </PressableButton>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

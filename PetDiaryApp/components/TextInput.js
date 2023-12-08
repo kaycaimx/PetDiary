@@ -5,7 +5,10 @@ import { colors, styles } from "../styles";
 const CustomTextInput = ({ placeholder, value, onChangeText }) => {
   return (
     <TextInput
-      style={[styles.textInput, { backgroundColor: colors.textInputBackgroundColor }]}
+      style={[
+        styles.textInput,
+        { backgroundColor: colors.textInputBackgroundColor },
+      ]}
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
