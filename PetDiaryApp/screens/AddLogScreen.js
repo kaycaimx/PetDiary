@@ -20,6 +20,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 const AddLogScreen = ({ navigation }) => {
   const { myPets } = usePets();
 
+  const [petsHaveLog, setPetsHaveLog] = useState(myPets);
+
   const returnForNoPets = () => {
     if (myPets.length === 0) {
       Alert.alert("You don't have any pet", "Please add a pet first.");
@@ -42,7 +44,7 @@ const AddLogScreen = ({ navigation }) => {
   const [items, setItems] = useState(activitiesMenu);
 
   const handleSaveLog = () => {
-    let pets = [...myPets];
+    let pets = [...petsHaveLog];
     if (pets.length === 0) {
       Alert.alert(
         "You haven't selected any pet",
@@ -86,12 +88,12 @@ const AddLogScreen = ({ navigation }) => {
     let pets = [...myPets];
     let pet = pets.find((pet) => pet.id === id);
     pet.isChecked = !pet.isChecked;
-    setMyPets(pets);
+    setPetsHaveLog(pets);
   };
 
   return (
     <KeyboardAvoidingView style={styles.view} behavior="padding">
-      <Text style={styles.addPetLabel}>Select pets: </Text>
+      <Text style={styles.addPetLabel}>Select pets *: </Text>
       {myPets &&
         myPets.map((pet) => (
           <NameCheckbox
