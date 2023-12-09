@@ -72,11 +72,13 @@ const styles = StyleSheet.create({
     // from https://github.com/react-navigation/react-navigation/issues/5126
     position: "absolute",
     bottom: -10, // space from bottombar
-    height: 100,
-    width: 100,
+    height: 90,
+    width: 90,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 4,
+    backgroundColor: colors.bottomTabBackground,
   },
   bottomTabBar: {
     backgroundColor: colors.bottomTabBackground,
