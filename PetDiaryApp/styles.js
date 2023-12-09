@@ -72,11 +72,13 @@ const styles = StyleSheet.create({
     // from https://github.com/react-navigation/react-navigation/issues/5126
     position: "absolute",
     bottom: -10, // space from bottombar
-    height: 100,
-    width: 100,
+    height: 90,
+    width: 90,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 4,
+    backgroundColor: colors.bottomTabBackground,
   },
   bottomTabBar: {
     backgroundColor: colors.bottomTabBackground,
@@ -234,6 +236,43 @@ const styles = StyleSheet.create({
   },
   profileToLogPressed: {
     opacity: 0.5,
+  },
+  setNotificationWrapper: {
+    marginTop: 20,
+    width: "90%",
+    marginBottom: 30,
+  },
+  setNotificationLabel: {
+    color: colors.headerFooter,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  setNotificationInput: {
+    height: 60,
+    borderColor: colors.textInputBorderColor,
+    backgroundColor: colors.textInputBackgroundColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  setNotificationAndroidTimeInput: {
+    width: "60%",
+    backgroundColor: colors.inputBoxBackground,
+    borderColor: colors.defaultTextColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 30,
+    paddingHorizontal: 2,
+    marginLeft: 10,
+  },
+  setNotificationButton: {
+    backgroundColor: colors.buttonBackground,
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    width: 150,
   },
   topTabBar: {
     backgroundColor: colors.backgroundColor,
