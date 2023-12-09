@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Notifications from "expo-notifications";
+import { AntDesign } from "@expo/vector-icons";
 
 import EditLogScreen from "./screens/EditLogScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -11,6 +12,7 @@ import { auth } from "./firebase/firebaseSetup";
 import HomeScreen from "./screens/HomeScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import PressableIcon from "./components/PressableIcon";
 import { colors } from "./styles";
 import { PetsContextProvider } from "./components/PetsContext";
 
@@ -31,6 +33,15 @@ const AuthStack = (
   </>
 );
 
+function logoutHandler() {
+  console.log("logout pressed");
+  try {
+    signOut(auth);
+  } catch (err) {
+    console.log("singout err", err);
+  }
+}
+
 const AppStack = (
   <>
     <Stack.Screen
@@ -44,20 +55,9 @@ const AppStack = (
       options={{
         headerRight: () => {
           return (
-            <PressableButton
-              pressedFunction={() => {
-                console.log("logout pressed");
-                try {
-                  signOut(auth);
-                } catch (err) {
-                  console.log("singout err", err);
-                }
-              }}
-              defaultStyle={{ backgroundColor: "#bbb", padding: 5 }}
-              pressedStyle={{ opacity: 0.6 }}
-            >
-              <Ionicons name="exit" size={24} color="black" />
-            </PressableButton>
+            <PressableIcon pressHandler={logoutHandler}>
+              <AntDesign name="logout" size={25} color={colors.iconDefault} />
+            </PressableIcon>
           );
         },
       }}
@@ -69,6 +69,10 @@ const AppStack = (
 
 export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  function test() {
+    console.log("test");
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -92,6 +96,7 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: colors.backgroundColor },
+            headerTintColor: colors.defaultTextColor,
           }}
           initialRouteName="Signup"
         >

@@ -1,7 +1,17 @@
-import { View, Text, Alert, TextInput, Button, Image } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  KeyboardAvoidingView,
+  TextInput,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
+
+import PressableButton from "../components/PressableButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseSetup";
+import { writeUserToDB } from "../firebase/firebasehelper";
 import { styles } from "../styles";
 
 export default function SignupScreen({ navigation }) {
@@ -15,11 +25,11 @@ export default function SignupScreen({ navigation }) {
 
   const signupHandler = async () => {
     if (!email || !password || !confirmPassword) {
-      Alert.alert("Please fill all the fields");
+      Alert.alert("Please fill all the fields.");
       return;
     }
     if (confirmPassword !== password) {
-      Alert.alert("password and confirmpassword should be equal");
+      Alert.alert("Password and confirm password should be the same.");
       return;
     }
     try {
@@ -28,35 +38,37 @@ export default function SignupScreen({ navigation }) {
         email,
         password
       );
-      console.log(userCred);
+      writeUserToDB(userCred.user.uid, email);
+      // console.log(userCred);
     } catch (err) {
       console.log("sign up error ", err.code);
       if (err.code === "auth/invalid-email") {
-        Alert.alert("email is invalid");
+        Alert.alert("Email is invalid");
       } else if (err.code === "auth/weak-password") {
-        Alert.alert("password should be minimum 6 characters");
+        Alert.alert("Password should be minimum 6 characters");
+      } else if (err.code === "auth/email-already-in-use") {
+        Alert.alert("Email already in use");
+      } else {
+        Alert.alert("Something went wrong");
       }
     }
   };
 
   return (
-    <View style={styles.LoginContainer}>
-      <Image
-        source={require("../assets/loginPic.jpg")}
-        style={styles.image}
-      />
-      <Text style={styles.label}>Email</Text>
+    <KeyboardAvoidingView style={styles.container}>
+      {/* <Image source={require("../assets/loginPic.jpg")} style={styles.image} /> */}
+      <Text style={styles.addPetLabel}>Email</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         placeholder="Email"
         value={email}
         onChangeText={(changedText) => {
           setEmail(changedText);
         }}
       />
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.addPetLabel}>Password</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         secureTextEntry={true}
         placeholder="Password"
         value={password}
@@ -64,9 +76,9 @@ export default function SignupScreen({ navigation }) {
           setPassword(changedText);
         }}
       />
-      <Text style={styles.label}>Confirm Password</Text>
+      <Text style={styles.addPetLabel}>Confirm Password</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         secureTextEntry={true}
         placeholder="Confirm Password"
         value={confirmPassword}
@@ -74,8 +86,22 @@ export default function SignupScreen({ navigation }) {
           setConfirmPassword(changedText);
         }}
       />
-      <Button title="Register" onPress={signupHandler} />
-      <Button title="Already Registered? Login" onPress={loginHandler} />
-    </View>
+      <PressableButton
+        pressedFunction={signupHandler}
+        defaultStyle={styles.loginButton}
+        pressedStyle={styles.buttonPressed}
+        disabled={false}
+      >
+        <Text style={styles.buttonText}>Register</Text>
+      </PressableButton>
+      <PressableButton
+        pressedFunction={loginHandler}
+        defaultStyle={styles.loginButton}
+        pressedStyle={styles.buttonPressed}
+        disabled={false}
+      >
+        <Text style={styles.buttonText}>Already registered? Login</Text>
+      </PressableButton>
+    </KeyboardAvoidingView>
   );
 }

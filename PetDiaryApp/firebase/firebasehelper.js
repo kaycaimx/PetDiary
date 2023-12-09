@@ -11,10 +11,10 @@ import { storage } from "./firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import { auth } from "./firebaseSetup";
 
-export async function saveUserInfo(info) {
+export async function writeUserToDB(uid, email) {
   try {
-    await setDoc(doc(database, "user", auth.currentUser.uid), info, {
-      merge: true,
+    await setDoc(doc(database, "PetDiary", uid), {
+      email: email,
     });
   } catch (err) {
     console.log("save user info", err);
@@ -26,7 +26,7 @@ export async function saveUserInfo(info) {
 export async function getUserInfo() {
   try {
     const docSnapshot = await getDoc(
-      doc(database, "users", auth.currentUser.uid)
+      doc(database, "PetDiary", auth.currentUser.uid)
     );
     if (docSnapshot.exists()) {
       return docSnapshot.data();
