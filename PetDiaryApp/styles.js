@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   petProfileScrollView: {
     width: "100%",
     alignContent: "center",
-    marginTop: 10,
+    marginTop: 5,
   },
   petProfileWrapper: {
     alignSelf: "center",
@@ -231,6 +231,13 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     padding: 40,
+  },
+  profileLabel: {
+    color: colors.defaultTextColor,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 5,
   },
   profileToLogPressable: {
     flexDirection: "row",

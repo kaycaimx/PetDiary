@@ -2,7 +2,7 @@ import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { database } from "../firebase/firebaseSetup";
 import {
-  doc,
+  auth,
   collection,
   onSnapshot,
   orderBy,
@@ -42,7 +42,7 @@ const PetScreen = ({ navigation, route }) => {
       setLogList(logs);
     });
     return () => unsubscribe();
-  }, [searchType]);
+  }, [searchType, auth]);
 
   function selectHanlder(search) {
     //console.log(search["label"]);

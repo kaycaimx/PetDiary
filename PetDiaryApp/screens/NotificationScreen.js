@@ -98,20 +98,19 @@ const NotificationScreen = ({ navigation }) => {
         {
           text: "Set another reminder",
           onPress: () => {
-            console.log("Set another reminder.");
             return;
           },
         },
         {
           text: "Go back to home",
           onPress: () => {
-            console.log("Go home.");
             navigation.navigate("Home");
           },
         },
       ]);
     } catch (err) {
       console.log("schedule notification error:", err);
+      Alert.alert("Something went wrong", "Please try again.");
     }
   }
 

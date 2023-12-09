@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { database } from "../firebase/firebaseSetup";
 import { collection, onSnapshot } from "firebase/firestore";
+import { auth } from "../firebase/firebaseSetup";
 
 const PetsContext = React.createContext();
 
@@ -8,8 +9,6 @@ function PetsContextProvider({ children }) {
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {
-    // At Iteration 1, we are not using firebase authentication yet, so we are
-    // hardcoding the user to "testUser".
     const q = collection(database, "PetDiary", "testUser", "pets");
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
@@ -23,7 +22,7 @@ function PetsContextProvider({ children }) {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   const value = {
     myPets,

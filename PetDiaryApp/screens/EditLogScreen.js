@@ -12,6 +12,7 @@ import CustomTextInput from "../components/TextInput";
 import { colors, styles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { database } from "../firebase/firebaseSetup";
+import { auth } from "../firebase/firebaseSetup";
 
 import { activitiesMenu } from "../constants";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
