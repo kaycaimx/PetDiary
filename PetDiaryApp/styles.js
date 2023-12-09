@@ -235,6 +235,36 @@ const styles = StyleSheet.create({
   profileToLogPressed: {
     opacity: 0.5,
   },
+  setNotificationWrapper: {
+    marginTop: 20,
+    width: "90%",
+    marginBottom: 30,
+  },
+  setNotificationLabel: {
+    color: colors.headerFooter,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  setNotificationInput: {
+    height: 60,
+    borderColor: colors.textInputBorderColor,
+    backgroundColor: colors.textInputBackgroundColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  setNotificationAndroidTimeInput: {
+    width: "60%",
+    backgroundColor: colors.inputBoxBackground,
+    borderColor: colors.defaultTextColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 30,
+    paddingHorizontal: 2,
+    marginLeft: 10,
+  },
   setNotificationButton: {
     backgroundColor: colors.buttonBackground,
     padding: 10,
