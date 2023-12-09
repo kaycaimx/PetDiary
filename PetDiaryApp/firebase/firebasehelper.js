@@ -1,7 +1,40 @@
-import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  addDoc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { database } from "./firebaseSetup";
 import { storage } from "./firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
+import { auth } from "./firebaseSetup";
+
+export async function saveUserInfo(info) {
+  try {
+    await setDoc(doc(database, "user", auth.currentUser.uid), info, {
+      merge: true,
+    });
+  } catch (err) {
+    console.log("save user info", err);
+  }
+}
+
+// add getUserInfo and use getDoc()
+// return data
+export async function getUserInfo() {
+  try {
+    const docSnapshot = await getDoc(
+      doc(database, "users", auth.currentUser.uid)
+    );
+    if (docSnapshot.exists()) {
+      return docSnapshot.data();
+    }
+  } catch (err) {
+    console.log("get user info ", err);
+  }
+}
 
 export async function writeLogToDB(petID, log) {
   try {
@@ -11,7 +44,7 @@ export async function writeLogToDB(petID, log) {
     const docRef = await addDoc(collection(petDocRef, "logs"), {
       ...log,
       createdAt: serverTimestamp(),
-      //user: auth.currentUser.uid,
+      user: auth.currentUser.uid,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
