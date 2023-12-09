@@ -72,13 +72,11 @@ const styles = StyleSheet.create({
     // from https://github.com/react-navigation/react-navigation/issues/5126
     position: "absolute",
     bottom: -10, // space from bottombar
-    height: 90,
-    width: 90,
+    height: 100,
+    width: 100,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    paddingLeft: 4,
-    backgroundColor: colors.bottomTabBackground,
   },
   bottomTabBar: {
     backgroundColor: colors.bottomTabBackground,
@@ -382,6 +380,33 @@ const styles = StyleSheet.create({
     height: 30,
     paddingHorizontal: 5,
     marginBottom: 10,
+  },
+  input: {
+    borderColor: colors.defaultTextColor,
+    borderWidth: 2,
+    width: "90%",
+    margin: 5,
+    padding: 5,
+  },
+  label: {
+    color: colors.EntryListTextColor,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  LoginContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.backgroundColor,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 50,
+  },
+  image: {
+    width: 350,
+    height: 200,
+    marginBottom: 30,
   },
 });
 
