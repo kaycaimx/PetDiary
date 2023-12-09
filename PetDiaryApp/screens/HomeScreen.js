@@ -19,7 +19,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   function navigateToNotification() {
-    console.log("navigate to notification");
+    navigation.navigate("Notification");
   }
 
   const headerWithIcons = {

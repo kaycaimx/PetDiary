@@ -235,6 +235,13 @@ const styles = StyleSheet.create({
   profileToLogPressed: {
     opacity: 0.5,
   },
+  setNotificationButton: {
+    backgroundColor: colors.buttonBackground,
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    width: 150,
+  },
   topTabBar: {
     backgroundColor: colors.backgroundColor,
   },
