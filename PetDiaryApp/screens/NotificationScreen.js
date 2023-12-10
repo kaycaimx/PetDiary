@@ -23,7 +23,6 @@ const NotificationScreen = ({ navigation }) => {
   const [androidNotificationTime, setAndroidNotificationTime] = useState("");
 
   const onChange = (event, selectedDate) => {
-    console.log("selectedDate:", selectedDate);
     const currentDate = selectedDate || notificationTime;
     if (currentDate.getTime() < new Date().getTime()) {
       Alert.alert("Invalid Date", "Please choose a future date and time.");

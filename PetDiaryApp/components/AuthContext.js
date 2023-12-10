@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user !== null) {
         // a valid user is logged in
         setUser(user.uid);
         setIsUserLoggedIn(true);
@@ -34,7 +34,6 @@ function AuthProvider({ children }) {
   const logIn = async (email, password) => {
     try {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
-      // console.log(userCred);
     } catch (err) {
       console.log(err);
       if (err.code === "auth/invalid-login-credentials") {
@@ -57,7 +56,6 @@ function AuthProvider({ children }) {
         password
       );
       writeUserToDB(userCred.user.uid, email);
-      // console.log(userCred);
     } catch (err) {
       console.log("sign up error ", err.code);
       if (err.code === "auth/invalid-email") {

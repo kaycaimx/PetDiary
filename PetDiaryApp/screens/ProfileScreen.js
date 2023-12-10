@@ -16,12 +16,18 @@ import PetProfile from "../components/PetProfile";
 import { colors, styles } from "../styles";
 
 const ProfileScreen = ({ navigation }) => {
-  const { user, isUserLoggedIn } = useAuth();
-  console.log("user", user);
-  console.log("isUserLoggedIn", isUserLoggedIn);
-  //const [user, setUser] = useState(null);
-
+  const { user } = useAuth();
+  console.log(user);
   const { myPets } = usePets();
+  const [userInfo, setUserInfo] = useState("");
+
+  useEffect(() => {
+    async function getUserInfoFromDB() {
+      const data = await getUserInfo(user);
+      setUserInfo(data.email);
+    }
+    getUserInfoFromDB();
+  }, []);
 
   function pressHandler() {
     navigation.navigate("Add Log");
@@ -32,7 +38,7 @@ const ProfileScreen = ({ navigation }) => {
       {user && (
         <>
           <Text style={styles.profileLabel}>My email: </Text>
-          <Text>{user.email}</Text>
+          <Text>{userInfo}</Text>
         </>
       )}
       {myPets.length === 0 ? (

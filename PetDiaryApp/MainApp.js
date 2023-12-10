@@ -5,7 +5,6 @@ import { useAuth } from "./components/AuthContext";
 
 const MainApp = () => {
   const { isUserLoggedIn } = useAuth();
-  console.log("isUserLoggedIn", isUserLoggedIn);
 
   return <>{isUserLoggedIn ? <AppStack /> : <AuthStack />}</>;
 };

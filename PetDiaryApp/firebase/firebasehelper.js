@@ -23,11 +23,9 @@ export async function writeUserToDB(uid, email) {
 
 // add getUserInfo and use getDoc()
 // return data
-export async function getUserInfo() {
+export async function getUserInfo(uid) {
   try {
-    const docSnapshot = await getDoc(
-      doc(database, "PetDiary", auth.currentUser.uid)
-    );
+    const docSnapshot = await getDoc(doc(database, "PetDiary", uid));
     if (docSnapshot.exists()) {
       return docSnapshot.data();
     }
@@ -36,11 +34,9 @@ export async function getUserInfo() {
   }
 }
 
-export async function writeLogToDB(petID, log) {
+export async function writeLogToDB(uid, petID, log) {
   try {
-    //console.log(auth.currentUser.uid);
-    // Add a new document with a generated id.
-    const petDocRef = doc(database, "PetDiary", "testUser", "pets", petID);
+    const petDocRef = doc(database, "PetDiary", uid, "pets", petID);
     const docRef = await addDoc(collection(petDocRef, "logs"), {
       ...log,
       createdAt: serverTimestamp(),
@@ -52,25 +48,9 @@ export async function writeLogToDB(petID, log) {
   }
 }
 
-export async function deleteLogFromDB(id) {
+export async function writePetToDB(uid, pet) {
   try {
-    await deleteDoc(doc(database, "logs", id));
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-export async function writePetToDB(pet) {
-  try {
-    // At Iteration 1, we are not using firebase authentication yet, so we are
-    // hardcoding the user to "testUser".  In Iteration 2, we will use firebase
-    // authentication to get the user id.
-    const petSubcollectionRef = collection(
-      database,
-      "PetDiary",
-      "testUser",
-      "pets"
-    );
+    const petSubcollectionRef = collection(database, "PetDiary", uid, "pets");
     const docRef = await addDoc(petSubcollectionRef, pet);
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {

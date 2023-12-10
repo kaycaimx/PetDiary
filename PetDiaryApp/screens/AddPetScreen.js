@@ -16,12 +16,14 @@ import * as ImagePicker from "expo-image-picker";
 import PressableButton from "../components/PressableButton";
 import PressableIcon from "../components/PressableIcon";
 import { colors, styles } from "../styles";
+import { useAuth } from "../components/AuthContext";
 
 import { storage } from "../firebase/firebaseSetup";
 import { uploadBytesResumable, ref } from "firebase/storage";
 import { writePetToDB } from "../firebase/firebasehelper";
 
 const AddPetScreen = ({ navigation }) => {
+  const { user } = useAuth();
   const [petName, setPetName] = useState("");
   const [petGender, setPetGender] = useState();
   const [petSpayed, setPetSpayed] = useState();
@@ -89,7 +91,6 @@ const AddPetScreen = ({ navigation }) => {
   };
 
   function handleAndroidBirthdateChange() {
-    //console.log(androidBirthdate);
     const birthdayRegex = /^\d{4}-\d{1,2}-\d{1,2}$/;
     if (!birthdayRegex.test(androidBirthdate)) {
       Alert.alert("Please enter a valid date in YYYY-MM-DD format");
@@ -211,7 +212,7 @@ const AddPetScreen = ({ navigation }) => {
       petSpayed: petSpayed === "yes" ? true : false,
       petAvatar: petAvatar,
     };
-    writePetToDB(newPet);
+    writePetToDB(user, newPet);
     clearAllInputs();
     navigation.navigate("Profile");
   }

@@ -26,10 +26,6 @@ const Stack = createNativeStackNavigator();
 const AppStack = () => {
   const { logOut } = useAuth();
 
-  // function logoutHandler() {
-  //   console.log("logout pressed");
-  // }
-
   return (
     <PetsContextProvider>
       <NavigationContainer>

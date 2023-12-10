@@ -14,10 +14,12 @@ import { writeLogToDB } from "../firebase/firebasehelper";
 import { styles } from "../styles";
 
 import { activitiesMenu } from "../constants";
+import { useAuth } from "../components/AuthContext";
 import { usePets } from "../components/PetsContext";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const AddLogScreen = ({ navigation }) => {
+  const { user } = useAuth();
   const { myPets } = usePets();
 
   const [petsHaveLog, setPetsHaveLog] = useState(myPets);
@@ -68,7 +70,7 @@ const AddLogScreen = ({ navigation }) => {
       while (pets.length > 0) {
         let pet = pets.pop();
         if (pet.isChecked) {
-          writeLogToDB(pet.id, log);
+          writeLogToDB(user, pet.id, log);
         }
       }
       handleCancel();
