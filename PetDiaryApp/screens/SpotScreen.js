@@ -54,7 +54,6 @@ const SpotScreen = ({ navigation }) => {
 
         const data = await response.json();
         setPetServices(data.businesses);
-        //console.log(petServices);
       } catch (error) {
         console.error("Error fetching nearby pet services:", error.message);
       }
@@ -113,6 +112,10 @@ const SpotScreen = ({ navigation }) => {
   };
 
   const openMap = () => {
+    if (petServices.length === 0) {
+      Alert.alert("No pet services to show");
+      return;
+    }
     setModalVisible(true);
   };
 
@@ -140,7 +143,7 @@ const SpotScreen = ({ navigation }) => {
       </PressableButton>
       <Button title="Map View" onPress={openMap} />
       <Modal visible={modalVisible} animationType="slide">
-        <Map closeMapHandler={closeMap} />
+        <Map businesses={petServices} closeMapHandler={closeMap} />
       </Modal>
       <TextInput
         style={styles.searchBar}
