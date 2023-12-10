@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { database } from "../firebase/firebaseSetup";
 import { collection, onSnapshot } from "firebase/firestore";
-import { auth } from "../firebase/firebaseSetup";
 
 const PetsContext = React.createContext();
 
@@ -22,7 +21,7 @@ function PetsContextProvider({ children }) {
       }
     });
     return () => unsubscribe();
-  }, [auth]);
+  }, []);
 
   const value = {
     myPets,

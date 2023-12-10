@@ -9,12 +9,11 @@ import {
 import React, { useState } from "react";
 
 import PressableButton from "../components/PressableButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseSetup";
-import { writeUserToDB } from "../firebase/firebasehelper";
 import { styles } from "../styles";
+import { useAuth } from "../components/AuthContext";
 
 export default function SignupScreen({ navigation }) {
+  const { signUp } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,26 +31,7 @@ export default function SignupScreen({ navigation }) {
       Alert.alert("Password and confirm password should be the same.");
       return;
     }
-    try {
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      writeUserToDB(userCred.user.uid, email);
-      // console.log(userCred);
-    } catch (err) {
-      console.log("sign up error ", err.code);
-      if (err.code === "auth/invalid-email") {
-        Alert.alert("Email is invalid");
-      } else if (err.code === "auth/weak-password") {
-        Alert.alert("Password should be minimum 6 characters");
-      } else if (err.code === "auth/email-already-in-use") {
-        Alert.alert("Email already in use");
-      } else {
-        Alert.alert("Something went wrong");
-      }
-    }
+    await signUp(email, password);
   };
 
   return (

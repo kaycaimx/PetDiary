@@ -9,32 +9,22 @@ import {
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import { colors, styles } from "../styles";
 import { usePets } from "../components/PetsContext";
+import { useAuth } from "../components/AuthContext";
 import { getUserInfo } from "../firebase/firebasehelper";
 import PetProfile from "../components/PetProfile";
+import { colors, styles } from "../styles";
 
 const ProfileScreen = ({ navigation }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function getUser() {
-      const userInfo = await getUserInfo();
-      setUser(userInfo);
-    }
-    getUser();
-  }, []);
+  const { user, isUserLoggedIn } = useAuth();
+  console.log("user", user);
+  console.log("isUserLoggedIn", isUserLoggedIn);
+  //const [user, setUser] = useState(null);
 
   const { myPets } = usePets();
 
   function pressHandler() {
     navigation.navigate("Add Log");
-  }
-
-  async function testGetUser() {
-    console.log("test get user");
-    const user = await getUserInfo();
-    console.log(user);
   }
 
   return (

@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   TextInput,
   KeyboardAvoidingView,
@@ -9,11 +8,11 @@ import {
 import React, { useState } from "react";
 
 import PressableButton from "../components/PressableButton";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseSetup";
 import { styles } from "../styles";
+import { useAuth } from "../components/AuthContext";
 
 export default function LoginScreen({ navigation }) {
+  const { logIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const signupHandler = () => {
@@ -25,21 +24,7 @@ export default function LoginScreen({ navigation }) {
       Alert.alert("Fields should not be empty.");
       return;
     }
-    try {
-      const userCred = await signInWithEmailAndPassword(auth, email, password);
-      // console.log(userCred);
-    } catch (err) {
-      console.log(err);
-      if (err.code === "auth/invalid-login-credentials") {
-        Alert.alert("Invalid credentials");
-      } else if (err.code === "auth/user-not-found") {
-        Alert.alert("User not found");
-      } else if (err.code === "auth/wrong-password") {
-        Alert.alert("Wrong password");
-      } else {
-        Alert.alert("Something went wrong");
-      }
-    }
+    await logIn(email, password);
   };
 
   return (
