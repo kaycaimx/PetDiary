@@ -1,16 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import { database } from "../firebase/firebaseSetup";
 import { collection, onSnapshot } from "firebase/firestore";
+import { useAuth } from "./AuthContext";
 
 const PetsContext = React.createContext();
 
 function PetsContextProvider({ children }) {
+  const { user } = useAuth();
   const [myPets, setMyPets] = useState([]);
 
   useEffect(() => {
-    // At Iteration 1, we are not using firebase authentication yet, so we are
-    // hardcoding the user to "testUser".
-    const q = collection(database, "PetDiary", "testUser", "pets");
+    const q = collection(database, "PetDiary", user, "pets");
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
         let pets = [];

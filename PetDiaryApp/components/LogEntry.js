@@ -4,7 +4,6 @@ import React from "react";
 import { colors, styles } from "../styles";
 
 const LogEntry = ({ navigation, entry }) => {
-  //console.log(entry);
   const { id, content, createdAt, type } = entry;
 
   function convertTimestamp(timestamp) {

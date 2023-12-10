@@ -1,10 +1,18 @@
-import { View, Text, Alert, TextInput, Button, Image } from "react-native";
+import {
+  Text,
+  Alert,
+  KeyboardAvoidingView,
+  TextInput,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebaseSetup";
+
+import PressableButton from "../components/PressableButton";
 import { styles } from "../styles";
+import { useAuth } from "../components/AuthContext";
 
 export default function SignupScreen({ navigation }) {
+  const { signUp } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -15,48 +23,31 @@ export default function SignupScreen({ navigation }) {
 
   const signupHandler = async () => {
     if (!email || !password || !confirmPassword) {
-      Alert.alert("Please fill all the fields");
+      Alert.alert("Please fill all the fields.");
       return;
     }
     if (confirmPassword !== password) {
-      Alert.alert("password and confirmpassword should be equal");
+      Alert.alert("Password and confirm password should be the same.");
       return;
     }
-    try {
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(userCred);
-    } catch (err) {
-      console.log("sign up error ", err.code);
-      if (err.code === "auth/invalid-email") {
-        Alert.alert("email is invalid");
-      } else if (err.code === "auth/weak-password") {
-        Alert.alert("password should be minimum 6 characters");
-      }
-    }
+    await signUp(email, password);
   };
 
   return (
-    <View style={styles.LoginContainer}>
-      <Image
-        source={require("../assets/loginPic.jpg")}
-        style={styles.image}
-      />
-      <Text style={styles.label}>Email</Text>
+    <KeyboardAvoidingView style={styles.container}>
+      {/* <Image source={require("../assets/loginPic.jpg")} style={styles.image} /> */}
+      <Text style={styles.addPetLabel}>Email</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         placeholder="Email"
         value={email}
         onChangeText={(changedText) => {
           setEmail(changedText);
         }}
       />
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.addPetLabel}>Password</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         secureTextEntry={true}
         placeholder="Password"
         value={password}
@@ -64,9 +55,9 @@ export default function SignupScreen({ navigation }) {
           setPassword(changedText);
         }}
       />
-      <Text style={styles.label}>Confirm Password</Text>
+      <Text style={styles.addPetLabel}>Confirm Password</Text>
       <TextInput
-        style={styles.input}
+        style={styles.searchBar}
         secureTextEntry={true}
         placeholder="Confirm Password"
         value={confirmPassword}
@@ -74,8 +65,22 @@ export default function SignupScreen({ navigation }) {
           setConfirmPassword(changedText);
         }}
       />
-      <Button title="Register" onPress={signupHandler} />
-      <Button title="Already Registered? Login" onPress={loginHandler} />
-    </View>
+      <PressableButton
+        pressedFunction={signupHandler}
+        defaultStyle={styles.loginButton}
+        pressedStyle={styles.buttonPressed}
+        disabled={false}
+      >
+        <Text style={styles.buttonText}>Register</Text>
+      </PressableButton>
+      <PressableButton
+        pressedFunction={loginHandler}
+        defaultStyle={styles.loginButton}
+        pressedStyle={styles.buttonPressed}
+        disabled={false}
+      >
+        <Text style={styles.buttonText}>Already registered? Login</Text>
+      </PressableButton>
+    </KeyboardAvoidingView>
   );
 }

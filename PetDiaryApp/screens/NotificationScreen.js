@@ -15,7 +15,7 @@ import PressableButton from "../components/PressableButton";
 import { activitiesMenu } from "../constants";
 import { styles } from "../styles";
 
-const NotificationScreen = () => {
+const NotificationScreen = ({ navigation }) => {
   const [open, setOpen] = useState(false);
   const [notificationType, setNotificationType] = useState("");
   const [notificationContent, setNotificationContent] = useState("");
@@ -23,7 +23,6 @@ const NotificationScreen = () => {
   const [androidNotificationTime, setAndroidNotificationTime] = useState("");
 
   const onChange = (event, selectedDate) => {
-    console.log("selectedDate:", selectedDate);
     const currentDate = selectedDate || notificationTime;
     if (currentDate.getTime() < new Date().getTime()) {
       Alert.alert("Invalid Date", "Please choose a future date and time.");
@@ -94,8 +93,23 @@ const NotificationScreen = () => {
       setNotificationType("");
       setNotificationContent("");
       setAndroidNotificationTime("");
+      Alert.alert("Notification is set!", "Please choose what to do next.", [
+        {
+          text: "Set another reminder",
+          onPress: () => {
+            return;
+          },
+        },
+        {
+          text: "Go back to home",
+          onPress: () => {
+            navigation.navigate("Home");
+          },
+        },
+      ]);
     } catch (err) {
       console.log("schedule notification error:", err);
+      Alert.alert("Something went wrong", "Please try again.");
     }
   }
 

@@ -1,13 +1,32 @@
-import { FlatList, Pressable, View, Text, SafeAreaView } from "react-native";
+import {
+  Button,
+  FlatList,
+  Pressable,
+  View,
+  Text,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import { colors, styles } from "../styles";
 import { usePets } from "../components/PetsContext";
+import { useAuth } from "../components/AuthContext";
+import { getUserInfo } from "../firebase/firebasehelper";
 import PetProfile from "../components/PetProfile";
+import { colors, styles } from "../styles";
 
 const ProfileScreen = ({ navigation }) => {
+  const { user } = useAuth();
   const { myPets } = usePets();
+  const [userInfo, setUserInfo] = useState("");
+
+  useEffect(() => {
+    async function getUserInfoFromDB() {
+      const data = await getUserInfo(user);
+      setUserInfo(data.email);
+    }
+    getUserInfoFromDB();
+  }, []);
 
   function pressHandler() {
     navigation.navigate("Add Log");
@@ -15,11 +34,17 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {user && (
+        <>
+          <Text style={styles.profileLabel}>My email: </Text>
+          <Text>{userInfo}</Text>
+        </>
+      )}
       {myPets.length === 0 ? (
         <Text>You don't have any pet yet.</Text>
       ) : (
         <>
-          <Text>My Pets: </Text>
+          <Text style={styles.profileLabel}>My Pets: </Text>
           <View style={styles.petProfileScrollView}>
             <FlatList
               data={myPets}

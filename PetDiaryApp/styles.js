@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addPetLabel: {
-    color: colors.headerFooter,
+    color: colors.defaultTextColor,
     fontSize: 16,
     fontWeight: "bold",
     marginTop: 10,
@@ -72,11 +72,13 @@ const styles = StyleSheet.create({
     // from https://github.com/react-navigation/react-navigation/issues/5126
     position: "absolute",
     bottom: -10, // space from bottombar
-    height: 100,
-    width: 100,
+    height: 90,
+    width: 90,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 4,
+    backgroundColor: colors.bottomTabBackground,
   },
   bottomTabBar: {
     backgroundColor: colors.bottomTabBackground,
@@ -162,6 +164,14 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: colors.defaultTextColor,
   },
+  loginButton: {
+    backgroundColor: colors.buttonBackground,
+    padding: 10,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    width: 150,
+    marginTop: 20,
+  },
   logListWrapper: {
     width: "90%",
     marginTop: 20,
@@ -187,7 +197,7 @@ const styles = StyleSheet.create({
   petProfileScrollView: {
     width: "100%",
     alignContent: "center",
-    marginTop: 10,
+    marginTop: 5,
   },
   petProfileWrapper: {
     alignSelf: "center",
@@ -222,6 +232,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 40,
   },
+  profileLabel: {
+    color: colors.defaultTextColor,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 5,
+  },
   profileToLogPressable: {
     flexDirection: "row",
     alignItems: "center",
@@ -234,6 +251,16 @@ const styles = StyleSheet.create({
   },
   profileToLogPressed: {
     opacity: 0.5,
+  },
+  searchBar: {
+    width: "80%",
+    backgroundColor: colors.inputBoxBackground,
+    borderColor: colors.defaultTextColor,
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 30,
+    paddingHorizontal: 5,
+    marginBottom: 10,
   },
   setNotificationWrapper: {
     marginTop: 20,
@@ -370,38 +397,6 @@ const styles = StyleSheet.create({
     color: "blue",
     textDecorationLine: "underline",
     fontSize: 16,
-  },
-  searchBar: {
-    width: "80%",
-    backgroundColor: colors.inputBoxBackground,
-    borderColor: colors.defaultTextColor,
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 30,
-    paddingHorizontal: 5,
-    marginBottom: 10,
-  },
-  input: {
-    borderColor: colors.defaultTextColor,
-    borderWidth: 2,
-    width: "90%",
-    margin: 5,
-    padding: 5,
-  },
-  label: {
-    color: colors.EntryListTextColor,
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 5,
-  },
-  LoginContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.backgroundColor,
-    marginLeft: 15,
-    marginRight: 15,
-    marginTop: 50,
   },
   image: {
     width: 350,

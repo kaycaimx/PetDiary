@@ -2,7 +2,7 @@ import { FlatList, SafeAreaView, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { database } from "../firebase/firebaseSetup";
 import {
-  doc,
+  auth,
   collection,
   onSnapshot,
   orderBy,
@@ -11,11 +11,13 @@ import {
 } from "firebase/firestore";
 import DropdownMenu from "../components/DropdownMenu";
 import LogEntry from "../components/LogEntry";
+import { useAuth } from "../components/AuthContext";
 
 import { activitiesMenu } from "../constants";
 import { styles } from "../styles";
 
 const PetScreen = ({ navigation, route }) => {
+  const { user } = useAuth();
   const petDoc = route.name;
   const [logList, setLogList] = useState([]);
   const [searchType, setSearchType] = useState("");
@@ -24,12 +26,12 @@ const PetScreen = ({ navigation, route }) => {
     let q;
     if (!searchType || searchType === "All") {
       q = query(
-        collection(database, "PetDiary", "testUser", "pets", petDoc, "logs"),
+        collection(database, "PetDiary", user, "pets", petDoc, "logs"),
         orderBy("createdAt", "desc")
       );
     } else {
       q = query(
-        collection(database, "PetDiary", "testUser", "pets", petDoc, "logs"),
+        collection(database, "PetDiary", user, "pets", petDoc, "logs"),
         where("type", "==", searchType),
         orderBy("createdAt", "desc")
       );
@@ -42,10 +44,9 @@ const PetScreen = ({ navigation, route }) => {
       setLogList(logs);
     });
     return () => unsubscribe();
-  }, [searchType]);
+  }, [searchType, auth]);
 
   function selectHanlder(search) {
-    //console.log(search["label"]);
     setSearchType(search["label"]);
   }
 

@@ -12,12 +12,14 @@ import CustomTextInput from "../components/TextInput";
 import { colors, styles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { database } from "../firebase/firebaseSetup";
+import { useAuth } from "../components/AuthContext";
 
 import { activitiesMenu } from "../constants";
 import { deleteDoc, updateDoc, doc } from "firebase/firestore";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const EditLogScreen = ({ route, navigation }) => {
+  const { user } = useAuth();
   const { logToEdit } = route.params;
   const [type, setType] = useState(logToEdit.type);
   const [content, setContent] = useState(logToEdit.content);
@@ -29,11 +31,6 @@ const EditLogScreen = ({ route, navigation }) => {
   const handleDismissKeyboard = () => {
     Keyboard.dismiss();
   };
-
-  function selectTypeHanlder(type) {
-    console.log(type);
-    setType(type);
-  }
 
   const handleUpdateLog = async () => {
     if (!type || !content) {
@@ -57,7 +54,7 @@ const EditLogScreen = ({ route, navigation }) => {
               const logRef = doc(
                 database,
                 "PetDiary",
-                "testUser",
+                user,
                 "pets",
                 logToEdit.petDoc,
                 "logs",
@@ -88,7 +85,7 @@ const EditLogScreen = ({ route, navigation }) => {
             const logRef = doc(
               database,
               "PetDiary",
-              "testUser",
+              user,
               "pets",
               logToEdit.petDoc,
               "logs",
@@ -132,12 +129,6 @@ const EditLogScreen = ({ route, navigation }) => {
     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
       <KeyboardAvoidingView style={styles.view}>
         <Text style={styles.alert}>* required</Text>
-        {/* <DropdownMenu
-        pickerMenu={activitiesMenu}
-        placeHolder={type}
-        value={type}
-        selectHandler={selectTypeHanlder}
-      /> */}
         <DropDownPicker
           containerStyle={styles.dropdownContainer}
           textStyle={styles.dropdownText}
