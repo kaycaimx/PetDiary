@@ -178,6 +178,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
   },
+  mapButtonWrapper: {
+    backgroundColor: colors.backgroundColor,
+    height: 80,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
   petAvatar: {
     height: 40,
     width: 40,
