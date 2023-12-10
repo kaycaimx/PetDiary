@@ -74,6 +74,8 @@ function AuthProvider({ children }) {
     console.log("logout pressed");
     try {
       signOut(auth);
+      setUser(null);
+      setIsUserLoggedIn(false);
     } catch (err) {
       console.log("singout err", err);
     }

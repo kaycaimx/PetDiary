@@ -4,9 +4,9 @@ import AuthStack from "./AuthStack";
 import { useAuth } from "./components/AuthContext";
 
 const MainApp = () => {
-  const { isUserLoggedIn } = useAuth();
+  const { user, isUserLoggedIn } = useAuth();
 
-  return <>{isUserLoggedIn ? <AppStack /> : <AuthStack />}</>;
+  return <>{user && isUserLoggedIn ? <AppStack /> : <AuthStack />}</>;
 };
 
 export default MainApp;

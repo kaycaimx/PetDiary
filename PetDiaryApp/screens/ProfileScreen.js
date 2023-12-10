@@ -17,7 +17,6 @@ import { colors, styles } from "../styles";
 
 const ProfileScreen = ({ navigation }) => {
   const { user } = useAuth();
-  console.log(user);
   const { myPets } = usePets();
   const [userInfo, setUserInfo] = useState("");
 
