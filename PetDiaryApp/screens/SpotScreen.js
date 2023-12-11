@@ -2,7 +2,6 @@ import {
   Alert,
   FlatList,
   Modal,
-  Pressable,
   SafeAreaView,
   Text,
   TextInput,
@@ -38,7 +37,7 @@ const SpotScreen = ({ navigation }) => {
             userLocation ? userLocation.latitude : 49.28273
           }&longitude=${
             userLocation ? userLocation.longitude : -123.120735
-          }&sort_by=distance&limit=10`,
+          }&sort_by=distance&limit=20`,
           {
             headers: {
               Authorization: `Bearer ${yelpAPIKey}`,
