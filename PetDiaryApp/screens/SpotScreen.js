@@ -1,10 +1,10 @@
 import {
   Alert,
-  Button,
   FlatList,
   Image,
   Linking,
   Modal,
+  Pressable,
   SafeAreaView,
   Text,
   TextInput,
@@ -14,11 +14,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { yelpAPIKey } from "@env";
 import * as Location from "expo-location";
-import { EvilIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { styles, colors } from "../styles";
+import BusinessInfo from "../components/BusinessInfo";
 import Map from "../components/Map";
-import PressableButton from "../components/PressableButton";
 
 const SpotScreen = ({ navigation }) => {
   const [petServices, setPetServices] = useState([]);
@@ -83,8 +83,6 @@ const SpotScreen = ({ navigation }) => {
         latitude: locationObject.coords.latitude,
         longitude: locationObject.coords.longitude,
       });
-      // console.log(userLocation.latitude);
-      // console.log(userLocation.longitude);
     } catch (err) {
       console.log("locate user ", err);
     }
@@ -99,7 +97,7 @@ const SpotScreen = ({ navigation }) => {
       {item.image_url && (
         <Image
           source={{ uri: item.image_url }}
-          style={{ width: 200, height: 200 }}
+          style={{ width: 100, height: 100 }}
         />
       )}
     </View>
@@ -123,25 +121,71 @@ const SpotScreen = ({ navigation }) => {
     setModalVisible(false);
   };
 
+  const mockItem = {
+    alias: "noelles-pet-love-vancouver",
+    categories: [[Object], [Object]],
+    coordinates: { latitude: 49.2602977, longitude: -123.1538651 },
+    display_phone: "+1 604-442-5022",
+    distance: 665.373894721793,
+    id: "rB4PlbEWYLpZMy8bo-Dlow",
+    image_url:
+      "https://s3-media4.fl.yelpcdn.com/bphoto/L9G0vs2TFdTEO6P_Wwo08g/o.jpg",
+    is_closed: false,
+    location: {
+      address1: "2167 W 13th Avenue",
+      address2: null,
+      address3: "",
+      city: "Vancouver",
+      country: "CA",
+      display_address: [Array],
+      state: "BC",
+      zip_code: "V6K 2S2",
+    },
+    name: "Noelle's Pet Love",
+    phone: "+16044425022",
+    rating: 5,
+    review_count: 4,
+    transactions: [],
+    url: "https://www.yelp.com/biz/noelles-pet-love-vancouver?adjust_creative=Md9JV7g2VmW74fGD0bUVKg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=Md9JV7g2VmW74fGD0bUVKg",
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.Title}>Nearby Pet Services</Text>
-      <PressableButton
-        pressedFunction={locateUserHandler}
-        defaultStyle={styles.iconButton}
-        pressedStyle={styles.buttonPressed}
-        disabled={false}
-      >
-        <View style={[styles.buttonContainer, { marginTop: 0 }]}>
-          <EvilIcons
-            name="location"
-            size={26}
+      <View style={styles.addPetCameraWrapper}>
+        <Pressable
+          onPress={locateUserHandler}
+          style={({ pressed }) => {
+            return [
+              styles.profileToLogPressable,
+              pressed && styles.profileToLogPressed,
+            ];
+          }}
+        >
+          <FontAwesome5
+            name="map-marker-alt"
+            size={18}
             color={colors.defaultTextColor}
           />
-          <Text>Explore Current Location</Text>
-        </View>
-      </PressableButton>
-      <Button title="Map View" onPress={openMap} />
+          <Text style={styles.profileToLogPressableText}>Locate Me</Text>
+        </Pressable>
+        <Pressable
+          onPress={openMap}
+          style={({ pressed }) => {
+            return [
+              styles.profileToLogPressable,
+              pressed && styles.profileToLogPressed,
+            ];
+          }}
+        >
+          <FontAwesome5
+            name="map-marked-alt"
+            size={18}
+            color={colors.defaultTextColor}
+          />
+          <Text style={styles.profileToLogPressableText}>Map View</Text>
+        </Pressable>
+      </View>
       <Modal visible={modalVisible} animationType="slide">
         <Map businesses={petServices} closeMapHandler={closeMap} />
       </Modal>
@@ -152,11 +196,26 @@ const SpotScreen = ({ navigation }) => {
         onChangeText={(text) => setSearchTerm(text)}
       />
       {userLocation && (
-        <FlatList
-          data={petServices}
-          keyExtractor={(item) => item.id}
-          renderItem={renderPetServiceItem}
-        />
+        <View style={styles.businessInfoContainer}>
+          <FlatList
+            data={petServices}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <BusinessInfo
+                image_url={item.image_url}
+                name={item.name}
+                rating={item.rating}
+                url={item.url}
+              />
+            )}
+            horizontal={false}
+            numColumns={2}
+            columnWrapperStyle={styles.businessInfoColumnWrapper}
+          />
+        </View>
+      )}
+      {!userLocation && (
+        <Text style={styles.profileToLogPressableText}>Loading...</Text>
       )}
     </SafeAreaView>
   );

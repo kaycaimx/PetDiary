@@ -6,8 +6,9 @@ import { styles } from "../styles";
 const PlaceHolder = () => {
   return (
     <View style={styles.container}>
+      <Text style={styles.placeholderText}>Welcome to Pet Diary App!</Text>
       <Text style={styles.placeholderText}>
-        You don't have any pet in record, please add a pet first 😃{" "}
+        You don't have any pet in record, please add a pet first.
       </Text>
     </View>
   );

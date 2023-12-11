@@ -89,6 +89,54 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "bold",
   },
+  businessInfoColumnWrapper: {
+    paddingHorizontal: 0,
+    justifyContent: "space-evenly",
+  },
+  businessInfoContainer: {
+    flex: 1,
+    width: "100%",
+    marginBottom: 40,
+  },
+  businessInfoRatingText: {
+    fontSize: 13,
+    color: colors.defaultTextColor,
+    fontStyle: "italic",
+    marginBottom: 3,
+  },
+  businessInfoTitleText: {
+    color: colors.defaultTextColor,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  businessInfoWrapper: {
+    flexBasis: "45%",
+    borderWidth: 1,
+    borderColor: colors.backgroundColor,
+    borderRadius: 10,
+    paddingVertical: 8,
+    margin: 4,
+    alignItems: "center",
+    backgroundColor: colors.backgroundColor,
+    shadowColor: colors.logShadow,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+      },
+      android: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        elevation: 2,
+      },
+    }),
+  },
   container: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
@@ -185,6 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
+    paddingBottom: 20,
   },
   petAvatar: {
     height: 40,
@@ -255,6 +304,7 @@ const styles = StyleSheet.create({
     color: colors.defaultTextColor,
     fontSize: 16,
     fontStyle: "italic",
+    fontWeight: "bold",
     paddingLeft: 5,
   },
   profileToLogPressed: {
@@ -276,7 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   setNotificationLabel: {
-    color: colors.headerFooter,
+    color: colors.defaultTextColor,
     fontSize: 14,
     fontWeight: "bold",
   },
@@ -391,10 +441,9 @@ const styles = StyleSheet.create({
   },
   Title: {
     fontWeight: "bold",
-    fontSize: 22,
-    marginTop: 10,
-    marginBottom: 10,
-    color: "#323b70",
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.defaultTextColor,
   },
   yelpItem: {
     margin: 5,
@@ -402,9 +451,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   yelpItemLabel: {
-    color: "blue",
+    color: colors.defaultTextColor,
     textDecorationLine: "underline",
-    fontSize: 16,
+    fontSize: 15,
   },
   image: {
     width: 350,

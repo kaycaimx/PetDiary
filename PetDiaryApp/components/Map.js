@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import React from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import PressableButton from "./PressableButton";
 
-import { styles } from "../styles";
+import { styles, colors } from "../styles";
 
 const Map = ({ businesses, closeMapHandler }) => {
   const firstBusinessCords = businesses[0].coordinates;
@@ -49,14 +50,20 @@ const Map = ({ businesses, closeMapHandler }) => {
         })}
       </MapView>
       <View style={styles.mapButtonWrapper}>
-        <PressableButton
-          pressedFunction={closeMapHandler}
-          defaultStyle={styles.setNotificationButton}
-          pressedStyle={styles.buttonPressed}
-          disabled={false}
+        <Pressable
+          onPress={closeMapHandler}
+          style={({ pressed }) => {
+            return [
+              styles.profileToLogPressable,
+              pressed && styles.profileToLogPressed,
+            ];
+          }}
         >
-          <Text style={styles.buttonText}>Back to List View</Text>
-        </PressableButton>
+          <FontAwesome5 name="list" size={18} color={colors.defaultTextColor} />
+          <Text style={styles.profileToLogPressableText}>
+            Back to List View
+          </Text>
+        </Pressable>
       </View>
       {/* <Text>Map</Text>
       <Button title="List View" onPress={closeMapHandler} /> */}
