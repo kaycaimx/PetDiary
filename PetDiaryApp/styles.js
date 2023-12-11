@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   buttonContainer: {
     flexDirection: "row",

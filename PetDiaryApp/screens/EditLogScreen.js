@@ -1,10 +1,14 @@
 import {
-  View,
-  Text,
   Alert,
+  FlatList,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
+  Text,
   TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import PressableButton from "../components/PressableButton";
@@ -125,49 +129,66 @@ const EditLogScreen = ({ route, navigation }) => {
     });
   }, [navigation]);
 
+  const mockData = [
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png",
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png",
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png",
+  ];
+
   return (
-    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
-      <KeyboardAvoidingView style={styles.view}>
-        <Text style={styles.alert}>* required</Text>
-        <DropDownPicker
-          containerStyle={styles.dropdownContainer}
-          textStyle={styles.dropdownText}
-          open={open}
-          items={items}
-          setOpen={setOpen}
-          value={type}
-          setValue={setType}
-          searchable={true}
-          setItems={setItems}
-          multiple={false}
-        />
-        <CustomTextInput
-          placeholder="Add details ..."
-          value={content}
-          onChangeText={(text) => setContent(text)}
-        />
-        <Text>Edit photo placeholder</Text>
-        {/* <Text>📍 Add location</Text> */}
-        <View style={styles.buttonContainer}>
-          <PressableButton
-            pressedFunction={handleCancel}
-            defaultStyle={styles.button}
-            pressedStyle={styles.buttonPressed}
-            disabled={false}
-          >
-            <Text style={styles.buttonText}>Cancel</Text>
-          </PressableButton>
-          <PressableButton
-            pressedFunction={handleUpdateLog}
-            defaultStyle={styles.button}
-            pressedStyle={styles.buttonPressed}
-            disabled={false}
-          >
-            <Text style={styles.buttonText}>Save</Text>
-          </PressableButton>
+    <SafeAreaView style={styles.view}>
+      <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+        <View>
+          <Text style={styles.alert}>* required</Text>
+          <DropDownPicker
+            containerStyle={styles.dropdownContainer}
+            textStyle={styles.dropdownText}
+            open={open}
+            items={items}
+            setOpen={setOpen}
+            value={type}
+            setValue={setType}
+            searchable={true}
+            setItems={setItems}
+            multiple={false}
+          />
+          <CustomTextInput
+            placeholder="Add details ..."
+            value={content}
+            onChangeText={(text) => setContent(text)}
+          />
         </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+      <FlatList
+        data={mockData}
+        renderItem={({ item }) => (
+          <Image
+            source={{ uri: item }}
+            style={{ width: 200, height: 200, marginHorizontal: 5 }}
+          />
+        )}
+        horizontal={true}
+        contentContainerStyle={{ flexGrow: 1 }}
+      />
+      <View style={styles.buttonContainer}>
+        <PressableButton
+          pressedFunction={handleCancel}
+          defaultStyle={styles.button}
+          pressedStyle={styles.buttonPressed}
+          disabled={false}
+        >
+          <Text style={styles.buttonText}>Cancel</Text>
+        </PressableButton>
+        <PressableButton
+          pressedFunction={handleUpdateLog}
+          defaultStyle={styles.button}
+          pressedStyle={styles.buttonPressed}
+          disabled={false}
+        >
+          <Text style={styles.buttonText}>Save</Text>
+        </PressableButton>
+      </View>
+    </SafeAreaView>
   );
 };
 
