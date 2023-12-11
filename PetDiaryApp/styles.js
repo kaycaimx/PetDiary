@@ -89,6 +89,55 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "bold",
   },
+  businessInfoColumnWrapper: {
+    paddingHorizontal: 0,
+    justifyContent: "space-evenly",
+    marginBottom: 15,
+  },
+  businessInfoContainer: {
+    flex: 1,
+    width: "100%",
+    marginBottom: 40,
+  },
+  businessInfoRatingText: {
+    fontSize: 13,
+    color: colors.defaultTextColor,
+    fontStyle: "italic",
+    marginBottom: 3,
+  },
+  businessInfoTitleText: {
+    color: colors.defaultTextColor,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  businessInfoWrapper: {
+    flexBasis: "45%",
+    borderWidth: 1,
+    borderColor: colors.backgroundColor,
+    borderRadius: 10,
+    paddingVertical: 8,
+    margin: 4,
+    alignItems: "center",
+    backgroundColor: colors.backgroundColor,
+    shadowColor: colors.logShadow,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+      },
+      android: {
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        elevation: 2,
+      },
+    }),
+  },
   container: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
@@ -126,6 +175,20 @@ const styles = StyleSheet.create({
   },
   iconPressed: {
     backgroundColor: colors.iconPressed,
+    opacity: 0.5,
+  },
+  iconWithTextPressable: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconWithTextPressableText: {
+    color: colors.defaultTextColor,
+    fontSize: 16,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    paddingLeft: 5,
+  },
+  iconWithTextPressed: {
     opacity: 0.5,
   },
   logEntryWrapperDefault: {
@@ -177,6 +240,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignContent: "center",
     justifyContent: "center",
+  },
+  mapButtonWrapper: {
+    backgroundColor: colors.backgroundColor,
+    height: 80,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    paddingBottom: 20,
   },
   petAvatar: {
     height: 40,
@@ -239,19 +311,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 5,
   },
-  profileToLogPressable: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  profileToLogPressableText: {
-    color: colors.defaultTextColor,
-    fontSize: 16,
-    fontStyle: "italic",
-    paddingLeft: 5,
-  },
-  profileToLogPressed: {
-    opacity: 0.5,
-  },
   searchBar: {
     width: "80%",
     backgroundColor: colors.inputBoxBackground,
@@ -268,7 +327,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   setNotificationLabel: {
-    color: colors.headerFooter,
+    color: colors.defaultTextColor,
     fontSize: 14,
     fontWeight: "bold",
   },
@@ -383,20 +442,9 @@ const styles = StyleSheet.create({
   },
   Title: {
     fontWeight: "bold",
-    fontSize: 22,
-    marginTop: 10,
-    marginBottom: 10,
-    color: "#323b70",
-  },
-  yelpItem: {
-    margin: 5,
-    backgroundColor: colors.backgroundColor,
-    alignItems: "center",
-  },
-  yelpItemLabel: {
-    color: "blue",
-    textDecorationLine: "underline",
-    fontSize: 16,
+    fontSize: 20,
+    marginBottom: 20,
+    color: colors.defaultTextColor,
   },
   image: {
     width: 350,

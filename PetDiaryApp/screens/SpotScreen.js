@@ -1,21 +1,22 @@
 import {
-  FlatList,
-  View,
-  Text,
-  Image,
-  TextInput,
-  SafeAreaView,
-  Linking,
-  TouchableOpacity,
   Alert,
+  FlatList,
+  Modal,
+  Pressable,
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { yelpAPIKey } from "@env";
 import * as Location from "expo-location";
-import { EvilIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { styles, colors } from "../styles";
-import PressableButton from "../components/PressableButton";
+import BusinessInfo from "../components/BusinessInfo";
+import Map from "../components/Map";
+import PressableIconWithText from "../components/PressableIconWithText";
 
 const SpotScreen = ({ navigation }) => {
   const [petServices, setPetServices] = useState([]);
@@ -23,6 +24,8 @@ const SpotScreen = ({ navigation }) => {
 
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [userLocation, setUserLocation] = useState(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     // Function to fetch nearby pet services using the Yelp API
@@ -33,7 +36,9 @@ const SpotScreen = ({ navigation }) => {
             searchTerm || "pets"
           }&latitude=${
             userLocation ? userLocation.latitude : 49.28273
-          }&longitude=${userLocation ? userLocation.longitude : -123.120735}`,
+          }&longitude=${
+            userLocation ? userLocation.longitude : -123.120735
+          }&sort_by=distance&limit=10`,
           {
             headers: {
               Authorization: `Bearer ${yelpAPIKey}`,
@@ -76,64 +81,74 @@ const SpotScreen = ({ navigation }) => {
         latitude: locationObject.coords.latitude,
         longitude: locationObject.coords.longitude,
       });
-      // console.log(userLocation.latitude);
-      // console.log(userLocation.longitude);
     } catch (err) {
       console.log("locate user ", err);
     }
   }
 
-  const renderPetServiceItem = ({ item }) => (
-    <View style={styles.yelpItem}>
-      <TouchableOpacity onPress={() => openWebsite(item.url)}>
-        <Text style={styles.yelpItemLabel}>{item.name}</Text>
-      </TouchableOpacity>
-      <Text>Rating: {item.rating}</Text>
-      {item.image_url && (
-        <Image
-          source={{ uri: item.image_url }}
-          style={{ width: 200, height: 200 }}
-        />
-      )}
-    </View>
-  );
+  const openMap = () => {
+    if (petServices.length === 0) {
+      Alert.alert("No pet services to show");
+      return;
+    }
+    setModalVisible(true);
+  };
 
-  const openWebsite = (url) => {
-    Linking.openURL(url).catch((err) =>
-      console.error("Error opening website:", err)
-    );
+  const closeMap = () => {
+    setModalVisible(false);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.Title}>Nearby Pet Services</Text>
-      <PressableButton
-        pressedFunction={locateUserHandler}
-        defaultStyle={styles.iconButton}
-        pressedStyle={styles.buttonPressed}
-        disabled={false}
-      >
-        <View style={[styles.buttonContainer, { marginTop: 0 }]}>
-          <EvilIcons
-            name="location"
-            size={26}
+      <View style={styles.addPetCameraWrapper}>
+        <PressableIconWithText pressHandler={locateUserHandler}>
+          <FontAwesome5
+            name="map-marker-alt"
+            size={18}
             color={colors.defaultTextColor}
           />
-          <Text>Explore Current Location</Text>
-        </View>
-      </PressableButton>
+          <Text style={styles.iconWithTextPressableText}>Locate Me</Text>
+        </PressableIconWithText>
+        <PressableIconWithText pressHandler={openMap}>
+          <FontAwesome5
+            name="map-marked-alt"
+            size={18}
+            color={colors.defaultTextColor}
+          />
+          <Text style={styles.iconWithTextPressableText}>Map View</Text>
+        </PressableIconWithText>
+      </View>
+      <Modal visible={modalVisible} animationType="slide">
+        <Map businesses={petServices} closeMapHandler={closeMap} />
+      </Modal>
       <TextInput
         style={styles.searchBar}
-        placeholder="🔍 Search for Pet Services"
+        placeholder="🔍 Search for ..."
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />
+      {!userLocation && (
+        <Text style={styles.iconWithTextPressableText}>Loading...</Text>
+      )}
       {userLocation && (
-        <FlatList
-          data={petServices}
-          keyExtractor={(item) => item.id}
-          renderItem={renderPetServiceItem}
-        />
+        <View style={styles.businessInfoContainer}>
+          <FlatList
+            data={petServices}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <BusinessInfo
+                image_url={item.image_url}
+                name={item.name}
+                rating={item.rating}
+                url={item.url}
+              />
+            )}
+            horizontal={false}
+            numColumns={2}
+            columnWrapperStyle={styles.businessInfoColumnWrapper}
+          />
+        </View>
       )}
     </SafeAreaView>
   );

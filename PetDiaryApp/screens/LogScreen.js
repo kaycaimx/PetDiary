@@ -1,6 +1,6 @@
-import { Button, Dimensions, Image, Text, SafeAreaView } from "react-native";
+import { Dimensions, Text } from "react-native";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import AddPetIcon from "../components/AddPetIcon";

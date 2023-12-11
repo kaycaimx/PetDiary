@@ -11,12 +11,16 @@ const PetAvatar = ({ focused, avatarURI }) => {
 
   useEffect(() => {
     async function downloadAvatar() {
-      if (avatarURI) {
-        const response = await getAvatarFromDB(avatarURI);
-        setAvatar(response);
-      } else {
-        // if petAvatar is null, use the default avatar pikachu
-        setAvatar(pikachuAvatar);
+      try {
+        if (avatarURI) {
+          const response = await getAvatarFromDB(avatarURI);
+          setAvatar(response);
+        } else {
+          // if petAvatar is null, use the default avatar pikachu
+          setAvatar(pikachuAvatar);
+        }
+      } catch (err) {
+        console.log("Error downloading the pet avatar image: ", err);
       }
     }
     downloadAvatar();
