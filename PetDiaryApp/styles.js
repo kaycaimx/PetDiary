@@ -235,6 +235,26 @@ const styles = StyleSheet.create({
     width: 150,
     marginTop: 20,
   },
+  loginImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 5,
+    borderRadius: 75,
+  },
+  loginLabel: {
+    fontSize: 15,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: colors.defaultTextColor,
+    marginBottom: 20,
+  },
+  loginTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: colors.defaultTextColor,
+    marginBottom: 5,
+  },
   logListWrapper: {
     width: "90%",
     marginTop: 20,
@@ -445,11 +465,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     color: colors.defaultTextColor,
-  },
-  image: {
-    width: 350,
-    height: 200,
-    marginBottom: 30,
   },
 });
 
