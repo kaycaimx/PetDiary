@@ -16,7 +16,7 @@ const BusinessInfo = ({ image_url, name, rating, url }) => {
       style={({ pressed }) => {
         return [
           styles.businessInfoWrapper,
-          pressed && styles.profileToLogPressed,
+          pressed && styles.iconWithTextPressed,
         ];
       }}
     >

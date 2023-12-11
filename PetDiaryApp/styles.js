@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   businessInfoColumnWrapper: {
     paddingHorizontal: 0,
     justifyContent: "space-evenly",
+    marginBottom: 15,
   },
   businessInfoContainer: {
     flex: 1,
@@ -174,6 +175,20 @@ const styles = StyleSheet.create({
   },
   iconPressed: {
     backgroundColor: colors.iconPressed,
+    opacity: 0.5,
+  },
+  iconWithTextPressable: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconWithTextPressableText: {
+    color: colors.defaultTextColor,
+    fontSize: 16,
+    fontStyle: "italic",
+    fontWeight: "bold",
+    paddingLeft: 5,
+  },
+  iconWithTextPressed: {
     opacity: 0.5,
   },
   logEntryWrapperDefault: {
@@ -295,20 +310,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 5,
-  },
-  profileToLogPressable: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  profileToLogPressableText: {
-    color: colors.defaultTextColor,
-    fontSize: 16,
-    fontStyle: "italic",
-    fontWeight: "bold",
-    paddingLeft: 5,
-  },
-  profileToLogPressed: {
-    opacity: 0.5,
   },
   searchBar: {
     width: "80%",
@@ -444,16 +445,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     color: colors.defaultTextColor,
-  },
-  yelpItem: {
-    margin: 5,
-    backgroundColor: colors.backgroundColor,
-    alignItems: "center",
-  },
-  yelpItemLabel: {
-    color: colors.defaultTextColor,
-    textDecorationLine: "underline",
-    fontSize: 15,
   },
   image: {
     width: 350,

@@ -1,17 +1,11 @@
-import {
-  Button,
-  FlatList,
-  Pressable,
-  View,
-  Text,
-  SafeAreaView,
-} from "react-native";
+import { FlatList, View, Text, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 import { usePets } from "../components/PetsContext";
 import { useAuth } from "../components/AuthContext";
 import { getUserInfo } from "../firebase/firebasehelper";
+import PressableIconWithText from "../components/PressableIconWithText";
 import PetProfile from "../components/PetProfile";
 import { colors, styles } from "../styles";
 
@@ -64,24 +58,16 @@ const ProfileScreen = ({ navigation }) => {
               keyExtractor={(item) => item.id}
             />
           </View>
-          <Pressable
-            onPress={pressHandler}
-            style={({ pressed }) => {
-              return [
-                styles.profileToLogPressable,
-                pressed && styles.profileToLogPressed,
-              ];
-            }}
-          >
+          <PressableIconWithText pressHandler={pressHandler}>
             <AntDesign
               name="pluscircle"
               size={30}
               color={colors.defaultTextColor}
             />
-            <Text style={styles.profileToLogPressableText}>
+            <Text style={styles.iconWithTextPressableText}>
               Let's start adding log for your pets!
             </Text>
-          </Pressable>
+          </PressableIconWithText>
         </>
       )}
     </SafeAreaView>
