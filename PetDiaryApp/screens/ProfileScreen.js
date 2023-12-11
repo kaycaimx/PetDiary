@@ -22,8 +22,12 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     async function getUserInfoFromDB() {
-      const data = await getUserInfo(user);
-      setUserInfo(data.email);
+      try {
+        const data = await getUserInfo(user);
+        setUserInfo(data.email);
+      } catch (err) {
+        console.log("Get user email error:", err);
+      }
     }
     getUserInfoFromDB();
   }, []);

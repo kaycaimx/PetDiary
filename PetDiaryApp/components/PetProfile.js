@@ -13,12 +13,16 @@ const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
 
   useEffect(() => {
     async function downloadAvatar() {
-      if (avatarUri) {
-        const response = await getAvatarFromDB(avatarUri);
-        setAvatar(response);
-      } else {
-        // if petAvatar is null, use the default avatar pikachu
-        setAvatar(pikachuAvatar);
+      try {
+        if (avatarUri) {
+          const response = await getAvatarFromDB(avatarUri);
+          setAvatar(response);
+        } else {
+          // if petAvatar is null, use the default avatar pikachu
+          setAvatar(pikachuAvatar);
+        }
+      } catch (err) {
+        console.log("Error downloading the pet avatar image: ", err);
       }
     }
     downloadAvatar();
