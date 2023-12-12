@@ -2,7 +2,7 @@ import { Image, View, Text } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { colors, styles } from "../styles";
-import { getAvatarFromDB } from "../firebase/firebasehelper";
+import { getImageFromDB } from "../firebase/firebasehelper";
 
 const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
   const spayedText = spayed === true ? "Spayed" : "Not Spayed";
@@ -15,7 +15,7 @@ const PetProfile = ({ avatarUri, name, birthday, gender, spayed }) => {
     async function downloadAvatar() {
       try {
         if (avatarUri) {
-          const response = await getAvatarFromDB(avatarUri);
+          const response = await getImageFromDB(avatarUri);
           setAvatar(response);
         } else {
           // if petAvatar is null, use the default avatar pikachu

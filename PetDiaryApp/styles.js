@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   addLogCheckboxWrapper: {
+    flexBasis: "45%",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
@@ -191,6 +192,12 @@ const styles = StyleSheet.create({
   iconWithTextPressed: {
     opacity: 0.5,
   },
+  imageLabel: {
+    fontSize: 15,
+    color: colors.defaultTextColor,
+    marginTop: 20,
+    marginBottom: 10,
+  },
   logEntryWrapperDefault: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -274,6 +281,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     paddingBottom: 20,
+  },
+  nameCheckboxWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   petAvatar: {
     height: 40,
@@ -397,7 +408,6 @@ const styles = StyleSheet.create({
   },
   view: {
     paddingHorizontal: 15,
-    height: "auto",
     backgroundColor: colors.backgroundColor,
   },
   alert: {

@@ -190,17 +190,19 @@ const AddLogScreen = ({ navigation }) => {
       <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
         <View>
           <Text style={styles.addPetLabel}>Select pets *: </Text>
-          {myPets &&
-            myPets.map((pet) => (
-              <NameCheckbox
-                key={pet.id}
-                petName={pet.petName}
-                petID={pet.id}
-                isChecked={pet.isChecked}
-                checkHandler={handleCheckbox}
-              />
-            ))}
-          <Text style={styles.alert}>* required</Text>
+          {myPets && (
+            <View style={styles.nameCheckboxWrapper}>
+              {myPets.map((pet) => (
+                <NameCheckbox
+                  key={pet.id}
+                  petName={pet.petName}
+                  petID={pet.id}
+                  isChecked={pet.isChecked}
+                  checkHandler={handleCheckbox}
+                />
+              ))}
+            </View>
+          )}
           <DropDownPicker
             containerStyle={styles.dropdownContainer}
             textStyle={styles.dropdownText}
@@ -210,16 +212,17 @@ const AddLogScreen = ({ navigation }) => {
             value={type}
             setValue={setType}
             searchable={true}
-            placeholder="🔍 Select activity type"
+            placeholder="🔍 Select activity type *"
             placeholderStyle={styles.dropdownPlaceholder}
             setItems={setItems}
             multiple={false}
           />
           <CustomTextInput
-            placeholder="Add details ..."
+            placeholder="Add details ... *"
             value={content}
             onChangeText={(text) => setContent(text)}
           />
+
           <Text style={styles.addPetLabel}>Add photos: </Text>
           <View style={styles.addPetCameraWrapper}>
             <View>

@@ -66,3 +66,13 @@ export async function getAvatarFromDB(avatarURI) {
     console.log("Error downloading the pet avatar image: ", err);
   }
 }
+
+export async function getImageFromDB(imageURI) {
+  try {
+    const imageRef = ref(storage, imageURI);
+    const imageURL = await getDownloadURL(imageRef);
+    return imageURL;
+  } catch (err) {
+    console.log("Error downloading the image: ", err);
+  }
+}
