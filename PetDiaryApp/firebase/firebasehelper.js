@@ -40,7 +40,6 @@ export async function writeLogToDB(uid, petID, log) {
     const docRef = await addDoc(collection(petDocRef, "logs"), {
       ...log,
       createdAt: serverTimestamp(),
-      user: auth.currentUser.uid,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {

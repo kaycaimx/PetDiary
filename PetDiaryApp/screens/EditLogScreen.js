@@ -25,10 +25,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 const EditLogScreen = ({ route, navigation }) => {
   const { user } = useAuth();
   const { logToEdit } = route.params;
+  console.log(logToEdit);
   const [type, setType] = useState(logToEdit.type);
   const [content, setContent] = useState(logToEdit.content);
-  const [photo, setPhoto] = useState();
-  const [location, setLocation] = useState();
+  const [images, setImages] = useState([]);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(activitiesMenu);
 
@@ -136,7 +136,7 @@ const EditLogScreen = ({ route, navigation }) => {
   ];
 
   return (
-    <SafeAreaView style={styles.view}>
+    <KeyboardAvoidingView style={styles.view}>
       <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
         <View>
           <Text style={styles.alert}>* required</Text>
@@ -162,15 +162,12 @@ const EditLogScreen = ({ route, navigation }) => {
       <FlatList
         data={mockData}
         renderItem={({ item }) => (
-          <Image
-            source={{ uri: item }}
-            style={{ width: 200, height: 200, marginHorizontal: 5 }}
-          />
+          <Image source={{ uri: item }} style={styles.logEntryImage} />
         )}
         horizontal={true}
         contentContainerStyle={{ flexGrow: 1 }}
       />
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, { marginTop: 0 }]}>
         <PressableButton
           pressedFunction={handleCancel}
           defaultStyle={styles.button}
@@ -188,7 +185,7 @@ const EditLogScreen = ({ route, navigation }) => {
           <Text style={styles.buttonText}>Save</Text>
         </PressableButton>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

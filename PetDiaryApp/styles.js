@@ -227,6 +227,11 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: colors.defaultTextColor,
   },
+  logEntryImage: {
+    width: 200,
+    height: 200,
+    marginHorizontal: 5,
+  },
   loginButton: {
     backgroundColor: colors.buttonBackground,
     padding: 10,
@@ -391,8 +396,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.defaultTextColor,
   },
   view: {
-    margin: 15,
-    marginTop: 30,
+    paddingHorizontal: 15,
+    height: "auto",
+    backgroundColor: colors.backgroundColor,
   },
   alert: {
     color: colors.alertColor,
@@ -403,7 +409,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: "row",
