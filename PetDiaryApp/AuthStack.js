@@ -15,6 +15,7 @@ const AuthStack = () => {
         screenOptions={{
           headerStyle: { backgroundColor: colors.backgroundColor },
           headerTintColor: colors.defaultTextColor,
+          headerShadowVisible: false,
         }}
         initialRouteName="Signup"
       >

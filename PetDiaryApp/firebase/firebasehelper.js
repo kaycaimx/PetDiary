@@ -40,7 +40,6 @@ export async function writeLogToDB(uid, petID, log) {
     const docRef = await addDoc(collection(petDocRef, "logs"), {
       ...log,
       createdAt: serverTimestamp(),
-      user: auth.currentUser.uid,
     });
     console.log("Document written with ID: ", docRef.id);
   } catch (err) {
@@ -65,5 +64,15 @@ export async function getAvatarFromDB(avatarURI) {
     return avatarURL;
   } catch (err) {
     console.log("Error downloading the pet avatar image: ", err);
+  }
+}
+
+export async function getImageFromDB(imageURI) {
+  try {
+    const imageRef = ref(storage, imageURI);
+    const imageURL = await getDownloadURL(imageRef);
+    return imageURL;
+  } catch (err) {
+    console.log("Error downloading the image: ", err);
   }
 }

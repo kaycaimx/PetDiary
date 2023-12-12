@@ -2,7 +2,7 @@ import { Image } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { styles } from "../styles";
-import { getAvatarFromDB } from "../firebase/firebasehelper";
+import { getImageFromDB } from "../firebase/firebasehelper";
 
 const PetAvatar = ({ focused, avatarURI }) => {
   const pikachuAvatar =
@@ -13,7 +13,7 @@ const PetAvatar = ({ focused, avatarURI }) => {
     async function downloadAvatar() {
       try {
         if (avatarURI) {
-          const response = await getAvatarFromDB(avatarURI);
+          const response = await getImageFromDB(avatarURI);
           setAvatar(response);
         } else {
           // if petAvatar is null, use the default avatar pikachu

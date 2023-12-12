@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   addLogCheckboxWrapper: {
+    flexBasis: "45%",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
@@ -191,6 +192,12 @@ const styles = StyleSheet.create({
   iconWithTextPressed: {
     opacity: 0.5,
   },
+  imageLabel: {
+    fontSize: 15,
+    color: colors.defaultTextColor,
+    marginTop: 20,
+    marginBottom: 10,
+  },
   logEntryWrapperDefault: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -227,6 +234,11 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: colors.defaultTextColor,
   },
+  logEntryImage: {
+    width: 200,
+    height: 200,
+    marginHorizontal: 5,
+  },
   loginButton: {
     backgroundColor: colors.buttonBackground,
     padding: 10,
@@ -234,6 +246,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: 150,
     marginTop: 20,
+  },
+  loginImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 5,
+    borderRadius: 75,
+  },
+  loginLabel: {
+    fontSize: 15,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: colors.defaultTextColor,
+    marginBottom: 20,
+  },
+  loginTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: colors.defaultTextColor,
+    marginBottom: 5,
   },
   logListWrapper: {
     width: "90%",
@@ -249,6 +281,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     paddingBottom: 20,
+  },
+  nameCheckboxWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   petAvatar: {
     height: 40,
@@ -371,8 +407,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.defaultTextColor,
   },
   view: {
-    margin: 15,
-    marginTop: 30,
+    paddingHorizontal: 15,
+    backgroundColor: colors.backgroundColor,
   },
   alert: {
     color: colors.alertColor,
@@ -445,11 +481,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     color: colors.defaultTextColor,
-  },
-  image: {
-    width: 350,
-    height: 200,
-    marginBottom: 30,
   },
 });
 

@@ -67,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
           let iconName;
           if (route.name === "Log") {
             iconName = "log";
-          } else if (route.name === "Spot") {
+          } else if (route.name === "Place") {
             iconName = "location";
           } else {
             return (
@@ -93,7 +93,7 @@ const HomeScreen = ({ navigation }) => {
       </Tab.Screen> */}
       <Tab.Screen name="Add Log" component={AddLog} options={headerWithBack} />
       <Tab.Screen
-        name="Spot"
+        name="Place"
         component={SpotScreen}
         options={headerWithIcons}
       />

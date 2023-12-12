@@ -35,7 +35,14 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      {/* <Image source={require("../assets/loginPic.jpg")} style={styles.image} /> */}
+      <Image
+        source={require("../assets/cat-diary.jpg")}
+        style={styles.loginImage}
+      />
+      <Text style={styles.loginTitle}>Pet Diary</Text>
+      <Text style={styles.loginLabel}>
+        - Track every day of your furry friend -
+      </Text>
       <Text style={styles.addPetLabel}>Email</Text>
       <TextInput
         style={styles.searchBar}
