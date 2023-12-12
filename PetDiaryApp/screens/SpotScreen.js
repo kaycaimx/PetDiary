@@ -20,10 +20,8 @@ import PressableIconWithText from "../components/PressableIconWithText";
 const SpotScreen = ({ navigation }) => {
   const [petServices, setPetServices] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [status, requestPermission] = Location.useForegroundPermissions();
   const [userLocation, setUserLocation] = useState(null);
-
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const SpotScreen = ({ navigation }) => {
 
     // Call the function to fetch nearby pet services when the component mounts
     fetchNearbyPetServices();
-  }, [searchTerm]); // Include searchTerm in the dependency array
+  }, [userLocation, searchTerm]); // Include searchTerm in the dependency array
 
   const verifyPermission = async () => {
     if (status.granted) {
@@ -86,8 +84,12 @@ const SpotScreen = ({ navigation }) => {
   }
 
   const openMap = () => {
+    if (!userLocation) {
+      Alert.alert("Please locate yourself first.");
+      return;
+    }
     if (petServices.length === 0) {
-      Alert.alert("No pet services to show");
+      Alert.alert("No pet services to show.");
       return;
     }
     setModalVisible(true);
@@ -128,9 +130,14 @@ const SpotScreen = ({ navigation }) => {
         onChangeText={(text) => setSearchTerm(text)}
       />
       {!userLocation && (
+        <Text style={styles.iconWithTextPressableText}>
+          Please locate yourself first
+        </Text>
+      )}
+      {userLocation && petServices.length === 0 && (
         <Text style={styles.iconWithTextPressableText}>Loading...</Text>
       )}
-      {userLocation && (
+      {userLocation && petServices.length !== 0 && (
         <View style={styles.businessInfoContainer}>
           <FlatList
             data={petServices}
