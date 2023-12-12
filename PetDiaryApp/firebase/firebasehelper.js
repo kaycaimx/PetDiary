@@ -9,7 +9,6 @@ import {
 import { database } from "./firebaseSetup";
 import { storage } from "./firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
-import { auth } from "./firebaseSetup";
 
 export async function writeUserToDB(uid, email) {
   try {
