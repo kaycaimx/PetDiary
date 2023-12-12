@@ -37,8 +37,8 @@ const EditLogScreen = ({ route, navigation }) => {
   };
 
   const handleUpdateLog = async () => {
-    if (!type || !content) {
-      Alert.alert("Invalid input", "Please enter your input.");
+    if (!type) {
+      Alert.alert("Invalid input", "You must select an activity type.");
     } else {
       const log = {
         type: type,
@@ -166,7 +166,7 @@ const EditLogScreen = ({ route, navigation }) => {
     <KeyboardAvoidingView style={styles.view}>
       <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
         <View>
-          <Text style={styles.alert}>* required</Text>
+          <Text style={styles.alert}>*activity type is required</Text>
           <DropDownPicker
             containerStyle={styles.dropdownContainer}
             textStyle={styles.dropdownText}
@@ -180,7 +180,7 @@ const EditLogScreen = ({ route, navigation }) => {
             multiple={false}
           />
           <CustomTextInput
-            placeholder="Add details ... *"
+            placeholder="Add details..."
             value={content}
             onChangeText={(text) => setContent(text)}
           />

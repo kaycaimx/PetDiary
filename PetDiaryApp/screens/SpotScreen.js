@@ -56,7 +56,7 @@ const SpotScreen = ({ navigation }) => {
 
     // Call the function to fetch nearby pet services when the component mounts
     fetchNearbyPetServices();
-  }, [userLocation, searchTerm]); // Include searchTerm in the dependency array
+  }, [userLocation, searchTerm]); // Include userLocation, searchTerm in the dependency array
 
   const verifyPermission = async () => {
     if (status.granted) {
