@@ -31,14 +31,6 @@ const AddLogScreen = ({ navigation }) => {
   const { myPets } = usePets();
 
   const [petsHaveLog, setPetsHaveLog] = useState(myPets);
-  //console.log("myPest", myPets);
-
-  const returnForNoPets = () => {
-    if (myPets.length === 0) {
-      Alert.alert("You don't have any pet", "Please add a pet first.");
-      navigation.navigate("Add pet");
-    }
-  };
 
   useEffect(() => {
     if (myPets.length === 0) {
@@ -46,13 +38,6 @@ const AddLogScreen = ({ navigation }) => {
       navigation.navigate("Add pet");
     }
   }, []);
-
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener("focus", () => {
-  //     returnForNoPets();
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
 
   const [type, setType] = useState("");
   const [content, setContent] = useState("");

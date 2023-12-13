@@ -20,7 +20,7 @@ Welcome to use Pet Diary! This is a user-friendly mobile app designed for adults
   - [Iteration 1](#iteration-1-as-of-nov-19-2023)
   - [Member Contribution](#member-contribution)
   - [Next Iteration](#next-iteration)
-- [User Guide](#user-guide)
+- [User Guide (Youtube Video)](#user-guide-youtube-video)
 - [Database Structure](#database-structure)
 
 ## Getting Started
@@ -132,54 +132,9 @@ The next iteration 3 will focus on:
 - Authentication
 - Notification
 
-## User Guide
+## User Guide (Youtube video)
 
-When users first enter the app, they will see a welcome screen like below. Press the "Add Pet" icon or swipe to the "Add Pet" tab will navigate users to the AddPetScreen.
-
-![welcome screen](./PetDiaryApp/assets/screenshots/welcome.png)
-
-Users can add their pets in the AddPetScreen, due to a bug in the react-native-community datetimepicker package, currently users can select the pet's birth date by pressing the calender icon in iOS version, but can only manually enter the birth date in Android version. The screenshots below from left to right are iOS, Android, and alert of invalid format in Android, respectively.
-
-![ios-date](./PetDiaryApp/assets/screenshots/ios-date.PNG)
-![android-date](./PetDiaryApp/assets/screenshots/android-date.png)
-![android-invallid-alert](./PetDiaryApp/assets/screenshots/android-invalid-date.png)
-
-User can either take a new photo or upload an existing photo from the album to set as the head icon/avatar of the pet by pressing the icon and label, respecitvely.
-
-![add-pet](./PetDiaryApp/assets/screenshots/add_pet.PNG)
-
-Once a pet is added, users will be navigated to ProfileScreen where they can see a summary of their pets' profile. By pressing the add button below, users can start adding logs for their pets.
-
-![profile](./PetDiaryApp/assets/screenshots/profile.PNG)
-
-In the AddLogScreen, users will select pets, activity type, enter details, add photos (currently in placeholder), and save the log by pressing "Save". Once added, the log will appear in the LogScreen. Users can add more logs by pressing the big add button in the middle of bottom tab.
-
-![add-log](./PetDiaryApp/assets/screenshots/add_log.PNG)
-![log-screen](./PetDiaryApp/assets/screenshots/log.PNG)
-
-By pressing a specific log in the LogScreen, users can edit or delete that log.
-
-![edit-log](./PetDiaryApp/assets/screenshots/edit_log.PNG)
-![delete-log](./PetDiaryApp/assets/screenshots/delete_log.PNG)
-
-Users can also add more pets by pressing the "Add Pet" on the top tab or swipe to the "Add Pet" tab.
-
-![add-more-pets](./PetDiaryApp/assets/screenshots/add_more_pet.PNG)
-![profile-with-two-pets](./PetDiaryApp/assets/screenshots/profile_2pets.PNG)
-
-Users can also filter and search for activities of a certain type by selecting the type in the search bar of the LogScreen.
-
-![search-all](./PetDiaryApp/assets/screenshots/all_logs.PNG)
-![search-a-type](./PetDiaryApp/assets/screenshots/search_logs.PNG)
-
-Pressing the Spot icon in the bottom tab will navigate users to the SpotScreen which will use user's current location and connects to external API.
-
-![spot-screen](./PetDiaryApp/assets/screenshots/navigate_spot.PNG)
-
-User can press the "Explore Current Location" label and the app will first ask for permission and once permission granted get the current location and show nearby pet-related services providers from Yelp. The below two screenshots show different results based on different locations.
-
-![spot-results1](./PetDiaryApp/assets/screenshots/spot1.PNG)
-![spot-results2](./PetDiaryApp/assets/screenshots/spot2.PNG)
+Please see the video at https://www.youtube.com/watch?v=-3Ko4rG3P9U which guides you to use the app.
 
 ## Database Structure
 
@@ -190,5 +145,4 @@ The below diagram illustrates the hierarchical data model for this app (the fole
 - the app use a collection called "PetDiaryApp", within this collection are the user documents;
 - each user document has certain fields like user name and a "pets" subcollection, within the "pets" subcollection are the pet documents;
 - each pet document has certain fields like pet name, birthday, etc. and a "logs" subcollection, within the "logs" subcollections are the log documents;
-- each log document has certain fields about the details of such logged activity as shown by the example above;
-- in the next iteration, we plan to add one more subcollection "favorites" under each user document to store the pet-related businesses saved by a user, within the "favorites" subcollection are the business documents.
+- each log document has certain fields about the details of such logged activity as shown by the example above.
