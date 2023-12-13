@@ -71,7 +71,6 @@ function AuthProvider({ children }) {
   };
 
   const logOut = async () => {
-    console.log("logout pressed");
     try {
       signOut(auth);
       setUser(null);

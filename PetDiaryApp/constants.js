@@ -14,6 +14,7 @@ const activitiesMenu = [
   { label: "Sleep", value: "Sleep" },
   { label: "Pee", value: "Pee" },
   { label: "Poop", value: "Poop" },
+  { label: "Weight", value: "Weight" },
   { label: "Vomit", value: "Vomit" },
   { label: "Other", value: "Other" },
 ];

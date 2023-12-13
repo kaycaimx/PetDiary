@@ -114,7 +114,6 @@ const AddLogScreen = ({ navigation }) => {
         setIsSelectingFromAlbum(true);
         setPreview([...preview, result.assets[0].uri]);
         uploadImageToFirebase(result.assets[0].uri);
-        console.log("selectfunction", result.assets[0].uri);
       }
     } catch (error) {
       console.log("Select from album error:", error);
@@ -170,6 +169,7 @@ const AddLogScreen = ({ navigation }) => {
     setImageCount(0);
     setImages([]);
     setPreview([]);
+    setPetsHaveLog(myPets);
     setIsSelectingFromAlbum(false);
     setIsTakingPhoto(false);
     navigation.navigate("Log");
