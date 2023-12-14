@@ -9,8 +9,10 @@ import {
 import { database } from "./firebaseSetup";
 import { storage } from "./firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
-import { auth } from "./firebaseSetup";
 
+// write user info to database when user first registers
+// every user has a unique document under PetDiary collection with uid as the document id
+// so that each user's data is separated
 export async function writeUserToDB(uid, email) {
   try {
     await setDoc(doc(database, "PetDiary", uid), {
@@ -22,7 +24,7 @@ export async function writeUserToDB(uid, email) {
 }
 
 // add getUserInfo and use getDoc()
-// return data
+// return data, mainly email to show in ProfileScreen
 export async function getUserInfo(uid) {
   try {
     const docSnapshot = await getDoc(doc(database, "PetDiary", uid));
@@ -34,6 +36,8 @@ export async function getUserInfo(uid) {
   }
 }
 
+// write log to database using the uid and petID
+// so that each user's each pet's logs are separated
 export async function writeLogToDB(uid, petID, log) {
   try {
     const petDocRef = doc(database, "PetDiary", uid, "pets", petID);
@@ -47,6 +51,8 @@ export async function writeLogToDB(uid, petID, log) {
   }
 }
 
+// write pet to database using the uid
+// so that each user's pets are separated
 export async function writePetToDB(uid, pet) {
   try {
     const petSubcollectionRef = collection(database, "PetDiary", uid, "pets");
@@ -57,16 +63,7 @@ export async function writePetToDB(uid, pet) {
   }
 }
 
-export async function getAvatarFromDB(avatarURI) {
-  try {
-    const avatarRef = ref(storage, avatarURI);
-    const avatarURL = await getDownloadURL(avatarRef);
-    return avatarURL;
-  } catch (err) {
-    console.log("Error downloading the pet avatar image: ", err);
-  }
-}
-
+// get image download URL from Firebase Storage
 export async function getImageFromDB(imageURI) {
   try {
     const imageRef = ref(storage, imageURI);

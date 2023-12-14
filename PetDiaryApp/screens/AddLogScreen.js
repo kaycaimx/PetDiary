@@ -32,27 +32,22 @@ const AddLogScreen = ({ navigation }) => {
 
   const [petsHaveLog, setPetsHaveLog] = useState(myPets);
 
-  const returnForNoPets = () => {
+  useEffect(() => {
     if (myPets.length === 0) {
       Alert.alert("You don't have any pet", "Please add a pet first.");
       navigation.navigate("Add pet");
     }
-  };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      returnForNoPets();
-    });
-    return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   const [type, setType] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [preview, setPreview] = useState([]);
-  //const [preview, setPreview] = useState(null);
+  // same approach as in AddPetScreen, using two states to fix the latency issue
+  // but here we need to keep track of the number of images uploaded
   const [isTakingPhoto, setIsTakingPhoto] = useState(false);
   const [isSelectingFromAlbum, setIsSelectingFromAlbum] = useState(false);
+  const [imageCount, setImageCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(activitiesMenu);
 
@@ -95,7 +90,6 @@ const AddLogScreen = ({ navigation }) => {
       });
       if (!result.canceled) {
         setIsTakingPhoto(true);
-        //setPreview(result.assets[0].uri);
         setPreview([...preview, result.assets[0].uri]);
         uploadImageToFirebase(result.assets[0].uri);
       }
@@ -120,7 +114,6 @@ const AddLogScreen = ({ navigation }) => {
         setIsSelectingFromAlbum(true);
         setPreview([...preview, result.assets[0].uri]);
         uploadImageToFirebase(result.assets[0].uri);
-        console.log("selectfunction", result.assets[0].uri);
       }
     } catch (error) {
       console.log("Select from album error:", error);
@@ -134,6 +127,8 @@ const AddLogScreen = ({ navigation }) => {
       const imageName = imageURI.substring(imageURI.lastIndexOf("/") + 1);
       const storageRef = await ref(storage, `images/${imageName}`);
       const uploadTask = await uploadBytesResumable(storageRef, blob);
+      setImageCount((prevCount) => prevCount + 1);
+
       setImages([...images, uploadTask.metadata.fullPath]);
     } catch (error) {
       console.log("Upload photo to Firebase error:", error);
@@ -142,6 +137,7 @@ const AddLogScreen = ({ navigation }) => {
 
   const handleSaveLog = () => {
     let pets = [...petsHaveLog];
+    pets = pets.filter((pet) => pet.isChecked);
     if (pets.length === 0) {
       Alert.alert(
         "You haven't selected any pet",
@@ -149,8 +145,8 @@ const AddLogScreen = ({ navigation }) => {
       );
       return;
     }
-    if (!type || !content) {
-      Alert.alert("Invalid input", "Please enter your input.");
+    if (!type) {
+      Alert.alert("Invalid input", "You must select an activity type.");
     } else {
       const log = {
         type: type,
@@ -168,11 +164,12 @@ const AddLogScreen = ({ navigation }) => {
   };
 
   const handleCancel = () => {
-    // Use navigation.goBack() to return to the previous screen
     setType("");
     setContent("");
+    setImageCount(0);
     setImages([]);
     setPreview([]);
+    setPetsHaveLog(myPets);
     setIsSelectingFromAlbum(false);
     setIsTakingPhoto(false);
     navigation.navigate("Log");
@@ -203,6 +200,7 @@ const AddLogScreen = ({ navigation }) => {
               ))}
             </View>
           )}
+          <Text style={styles.alert}>*activity type is required</Text>
           <DropDownPicker
             containerStyle={styles.dropdownContainer}
             textStyle={styles.dropdownText}
@@ -212,13 +210,13 @@ const AddLogScreen = ({ navigation }) => {
             value={type}
             setValue={setType}
             searchable={true}
-            placeholder="🔍 Select activity type *"
+            placeholder="🔍 Select activity type"
             placeholderStyle={styles.dropdownPlaceholder}
             setItems={setItems}
             multiple={false}
           />
           <CustomTextInput
-            placeholder="Add details ... *"
+            placeholder="Add details..."
             value={content}
             onChangeText={(text) => setContent(text)}
           />
@@ -273,7 +271,7 @@ const AddLogScreen = ({ navigation }) => {
           pressedStyle={styles.buttonPressed}
           disabled={
             isTakingPhoto || isSelectingFromAlbum
-              ? images.length === 0
+              ? images.length !== imageCount
               : images.length !== 0
           }
         >

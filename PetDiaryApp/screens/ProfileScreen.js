@@ -39,7 +39,7 @@ const ProfileScreen = ({ navigation }) => {
         </>
       )}
       {myPets.length === 0 ? (
-        <Text>You don't have any pet yet.</Text>
+        <Text style={styles.profileLabel}>You don't have any pet yet.</Text>
       ) : (
         <>
           <Text style={styles.profileLabel}>My Pets: </Text>

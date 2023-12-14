@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
   const headerWithBack = {
     tabBarLabel: () => <Text></Text>,
     headerTitle: () => (
-      <Text style={styles.homeScreenHeaderTitle}>Add an activity</Text>
+      <Text style={styles.homeScreenHeaderTitle}>Add Log</Text>
     ),
     headerLeft: () => (
       <PressableIcon pressHandler={() => navigation.goBack()}>
