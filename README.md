@@ -47,7 +47,7 @@ Copy the configuration object.
 
 ### Create a .env file
 
-Create a new file named `.env` in the root folder and paste the following, replacing the placeholder values with your Firebase credentials. You will also need a Yelp API key to connect with Yelp API.
+Create a new file named `.env` in the root folder and paste the following, replacing the placeholder values with your Firebase credentials. You will also need a Yelp API key to connect with Yelp Fusion API.
 
 ```javascript
 // PetDiaryApp/.env
@@ -93,10 +93,14 @@ npm expo start
 
 ### Iteration 3 (Dec 12, 2023)
 
-- Extend camera use on AddLogScreen
-- Add map with markers in the SpotScreen and stylings
 - Authentication
+  - User needs to signup or login to access data in the app
 - Notification
+  - User can set local notification for future events
+- Extend camera use on AddLogScreen
+  - User can take new photos or upload existing photos when adding a new log
+- Add interactive map in the SpotScreen and fix stylings
+  - User can now choose to view search results in an interactive map with markers
 
 ### Iteration 2 (Dec 1, 2023)
 
@@ -108,8 +112,6 @@ npm expo start
   - The abovementioned functionality uses user's current location
 - Other updates:
   - User now can select which pet to add logs, and each pet's screen will only that pet's own logs
-- Issues:
-  - Currently in the first render of SpotScreen a type error will appear because userLocation is null and cannot read latitude or longtitute of null, we will fix this in the next iteration
 
 ### Iteration 1 (Nov 19, 2023)
 
@@ -144,7 +146,7 @@ Future work will consider the following functionalities:
 
 ## User Guide (Youtube video)
 
-Please see the video at https://www.youtube.com/watch?v=-3Ko4rG3P9U which guides you to use the app.
+Please check the video at https://www.youtube.com/watch?v=-3Ko4rG3P9U which provides an overview and usage guide about the app.
 
 The app's home screen displays pets in different tabs that users can swipe to view. All logs are shown in reverse chronological order. User can user the top search bar to searh for logs of a certain type.
 
@@ -170,7 +172,7 @@ By pressing the place icon on the bottom right of the home screen, user can sear
 
 ![Place screen](./PetDiaryApp/assets/screenshots/place.png)
 
-User can also view the search results in an interactive map, the below screenshots show how the map looks like in Android and iOS, respectively.
+User can also view the search results in an interactive map, the below screenshots show how the map looks like in Android and iOS platforms, respectively.
 
 ![Map in android](./PetDiaryApp/assets/screenshots/map_android.png)
 ![Map in ios](./PetDiaryApp/assets/screenshots/map_ios.png)
